@@ -36,11 +36,13 @@ class SplashScreen extends StatelessWidget {
             ]
           )
         ),
-        child: const Column(
+        child: Column(
           children: [
-            Text("Hello", style: GoogleFonts.),
+            Text("Hello", style: GoogleFonts.poppins(
+              
+            )),
 
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
