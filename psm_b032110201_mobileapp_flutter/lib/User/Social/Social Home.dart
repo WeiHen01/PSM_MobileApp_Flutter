@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/User/Social/Other%20User%20Profile.dart';
+import 'package:psm_b032110201_mobileapp_flutter/User/Social/Social%20Chat.dart';
+
+import 'Other User Profile.dart';
 
 // Social Homepage
 
@@ -34,7 +36,11 @@ class _SocialHomeState extends State<SocialHome> {
 
           // Chat button
           IconButton(
-            onPressed: (){}, 
+            onPressed: () => Navigator.push(
+              context, MaterialPageRoute(
+                builder: (context) => SocialChat()
+              )
+            ), 
             icon: const Icon(Icons.chat_rounded)
           ),
         ],
@@ -63,7 +69,7 @@ class _SocialHomeState extends State<SocialHome> {
                     ),
 
                     Text("Username", style: GoogleFonts.poppins(
-                      fontSize: 16.0
+                      fontSize: 14.0
                     ),),
                   ],
                 ),
@@ -82,10 +88,12 @@ class _SocialHomeState extends State<SocialHome> {
                     ),
 
                     Text("Username", style: GoogleFonts.poppins(
-                      fontSize: 16.0
+                      fontSize: 14.0
                     ),),
                   ],
                 ),
+
+                const SizedBox(width: 5.0),
 
                 Column(
                   children: [
@@ -99,7 +107,7 @@ class _SocialHomeState extends State<SocialHome> {
                     ),
 
                     Text("Username", style: GoogleFonts.poppins(
-                      fontSize: 16.0
+                      fontSize: 14.0
                     ),),
                   ],
                 ),
@@ -124,7 +132,6 @@ class _SocialHomeState extends State<SocialHome> {
                       /**
                        * User Profile Image
                        */
-                  
                       Container(
                         width: 50,
                         height: 50,
@@ -134,7 +141,7 @@ class _SocialHomeState extends State<SocialHome> {
                         ),
                       ),
                   
-                      const SizedBox(width: 5.0),
+                      const SizedBox(width: 8.0),
                   
                       /**
                        * Username with post upload timestamp
@@ -174,8 +181,8 @@ class _SocialHomeState extends State<SocialHome> {
                   /**
                    * User Post Description
                    */
-                  Text("25 minutes ago", style: GoogleFonts.poppins(
-                      fontSize: 20.0,
+                  Text("Post Description", style: GoogleFonts.poppins(
+                      fontSize: 18.0,
                       color: Colors.black
                     ), textAlign: TextAlign.justify,
                   ),
@@ -279,7 +286,7 @@ class _SocialHomeState extends State<SocialHome> {
                    */
                   Container(
                     color: Color(0xFFB9D5FF),
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(10.0),
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

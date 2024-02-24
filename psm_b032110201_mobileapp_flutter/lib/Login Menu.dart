@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/User/Home.dart';
-import 'package:psm_b032110201_mobileapp_flutter/main.dart';
+
+import 'User/Home.dart';
+import 'main.dart';
 
 class LoginMenu extends StatelessWidget {
   const LoginMenu({super.key});
