@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/User/Social%20Chat/Other%20User%20Profile.dart';
+import 'package:psm_b032110201_mobileapp_flutter/User/Social/Other%20User%20Profile.dart';
 
 // Social Homepage
 
@@ -111,7 +111,7 @@ class _SocialHomeState extends State<SocialHome> {
             const Divider(),
 
             /**
-             * USER POST
+             * SINGLE USER POST
              */
             Container(
               padding: const EdgeInsets.all(5.0),
@@ -202,6 +202,7 @@ class _SocialHomeState extends State<SocialHome> {
                    */
                   Container(
                     padding: const EdgeInsets.all(5.0),
+                    height: 40.0,
                     color: Color.fromARGB(255, 233, 233, 233),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -216,7 +217,7 @@ class _SocialHomeState extends State<SocialHome> {
                               const SizedBox(width: 5.0),
                     
                               Text("Like", style: GoogleFonts.poppins(
-                                  fontSize: 20.0,
+                                  fontSize: 16.0,
                                   color: Colors.black,
                                 ), textAlign: TextAlign.justify,
                               ),
@@ -238,7 +239,7 @@ class _SocialHomeState extends State<SocialHome> {
                               const SizedBox(width: 5.0),
                     
                               Text("Comment", style: GoogleFonts.poppins(
-                                  fontSize: 20.0,
+                                  fontSize: 16.0,
                                   color: Colors.black,
                                 ), textAlign: TextAlign.justify,
                               ),
@@ -260,7 +261,7 @@ class _SocialHomeState extends State<SocialHome> {
                               const SizedBox(width: 5.0),
                     
                               Text("Share", style: GoogleFonts.poppins(
-                                  fontSize: 20.0,
+                                  fontSize: 16.0,
                                   color: Colors.black,
                                 ), textAlign: TextAlign.justify,
                               ),
@@ -273,10 +274,32 @@ class _SocialHomeState extends State<SocialHome> {
                   ),
                   // Like, Comment and Share Button Ends
 
+                  /**
+                   * Show popular comments
+                   */
+                  Container(
+                    color: Color(0xFFB9D5FF),
+                    padding: const EdgeInsets.all(5.0),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Popular Comments", style: GoogleFonts.poppins(
+                            fontSize: 16.0, fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ), textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    )
+                  )
+
+                  // Show popular comments ends
 
                 ],
               ),
             )
+
+            // SINGLE USER POST Ends
 
 
           ],

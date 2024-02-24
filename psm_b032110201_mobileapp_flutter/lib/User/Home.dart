@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/User/Social%20Chat/Social%20Home.dart';
+import 'package:psm_b032110201_mobileapp_flutter/User/Social/Social%20Home.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
