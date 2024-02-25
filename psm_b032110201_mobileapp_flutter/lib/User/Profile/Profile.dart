@@ -6,6 +6,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 
 import 'About Me.dart';
 import 'Change Password.dart';
+import 'Edit Profile.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
@@ -116,6 +117,12 @@ class UserProfile extends StatelessWidget {
                                 ),
                                               
                                 InkWell(
+                                  onTap: ()=>Navigator.push(
+                                    context, 
+                                    MaterialPageRoute(
+                                      builder: (context)=>UserEditProfile()
+                                    )
+                                  ),
                                   child: Card(
                                     child: Container(
                                       padding: const EdgeInsets.all(10),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class _UserEditProfielStateds StatefulWidget {
-  const _UserEditProfielState({super.key});
+class UserEditProfile extends StatefulWidget {
+  const UserEditProfile({super.key});
 
   @override
-  State<_UserEditProfielState> createState() => __UserEditProfielStateState();
+  State<UserEditProfile> createState() => _UserEditProfileState();
 }
 
-class __UserEditProfielStateState extends State<_UserEditProfielState> {
+class _UserEditProfileState extends State<UserEditProfile> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold();
   }
 }
