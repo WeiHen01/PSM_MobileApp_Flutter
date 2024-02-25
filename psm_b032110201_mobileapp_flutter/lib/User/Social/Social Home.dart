@@ -20,6 +20,8 @@ class _SocialHomeState extends State<SocialHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        
         
         title: Text("Social", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, 

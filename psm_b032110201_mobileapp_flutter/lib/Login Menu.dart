@@ -18,8 +18,8 @@ class LoginMenu extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.red, Colors.indigo.shade400
-            ]
+              Color(0xFF301847), Color(0xFFC10214)
+            ],
           )
         ),
         child: Center(
