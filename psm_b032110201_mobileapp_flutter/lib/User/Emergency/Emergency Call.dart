@@ -13,7 +13,25 @@ class _EmergencyCallState extends State<EmergencyCall> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF301847), Color(0xFFC10214)
+                ],
+              )
+          ),
+        ),
 
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: ()=>Navigator.pop(context),
+        ),
+
+        title: Text("Emergency Call", style: GoogleFonts.poppins(
+          fontWeight: FontWeight.bold, color: Colors.white,
+          fontSize: 20.0
+        ),),
       ),
       body: Stack(
         children: [
@@ -48,11 +66,22 @@ class _EmergencyCallState extends State<EmergencyCall> {
       
           // Top most layer
           Positioned(
-            bottom: 50,
-            left: 0,
+            bottom: MediaQuery.of(context).size.height * 0.04,
+            left: MediaQuery.of(context).size.width * 0.02,
+            right: MediaQuery.of(context).size.width * 0.02,
             child: Card(
               elevation: 5,
               child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF301847), Color(0xFFC10214)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  )
+                ),
                 padding: EdgeInsets.all(8.0),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.1,
@@ -78,13 +107,13 @@ class _EmergencyCallState extends State<EmergencyCall> {
                       children: [
                         
                         Text("Your current address", style: GoogleFonts.poppins(
-                            color: Colors.black, fontWeight: FontWeight.bold,
+                            color: Colors.white, fontWeight: FontWeight.bold,
                             fontSize: 15.0, 
                           )
                         ),
 
                         Text("Location name", style: GoogleFonts.poppins(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 15.0, 
                           )
                         ),

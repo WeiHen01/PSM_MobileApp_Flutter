@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/gradient_borders.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'About Me.dart';
 import 'Change Password.dart';
@@ -17,6 +18,11 @@ class UserProfile extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        title: Text("Your Profile", style: GoogleFonts.poppins(
+            fontSize: 20.0, color: Colors.white,
+            fontWeight: FontWeight.bold
+          )
+        ),
         leading: BackButton(
           onPressed: ()=>Navigator.pop(context),
           color: Colors.white,
@@ -64,10 +70,16 @@ class UserProfile extends StatelessWidget {
                               children: [
                                               
                                 const SizedBox(height: 25.0),
-                                              
-                                Text("Username", style: GoogleFonts.poppins(
-                                    fontSize: 25.0, fontWeight: FontWeight.bold,
-                                  )
+                                
+
+                                GradientText(
+                                    'Username',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 25.0, fontWeight: FontWeight.bold
+                                    ),
+                                    colors: [
+                                        Color(0xFF301847), Color(0xFFC10214)
+                                    ],
                                 ),
                                               
                                 Text("Email", style: GoogleFonts.poppins(
@@ -144,6 +156,10 @@ class UserProfile extends StatelessWidget {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
+                                          Icon(Icons.edit),
+
+                                          const SizedBox(width: 5.0),
+
                                           Text("Edit This Profile", style: GoogleFonts.poppins(
                                               fontSize: 16.0, color: Colors.black,
                                               fontWeight: FontWeight.bold

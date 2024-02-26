@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gradient_borders/gradient_borders.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../Doctor/Home.dart';
+import '../Widget/User/Social Nav Bar.dart';
 import '../main.dart';
 import 'Emergency/Emergency Call.dart';
 import 'Profile/Profile.dart';
-import 'Social/Social Home.dart';
+import 'Social/Social Chat.dart';
 
 
 class UserHomePage extends StatefulWidget {
@@ -143,7 +146,11 @@ class _UserHomePageState extends State<UserHomePage> {
               const SizedBox(height: 15,),
 
               InkWell(
-                onTap:(){},
+                onTap:() => Navigator.push(
+                  context, MaterialPageRoute(
+                    builder: (context) => SocialChat()
+                  )
+                ),
                 child: SizedBox(
                   height: 40,
                   child: Row(
@@ -203,6 +210,41 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 15,),
+
+              
+
+              const Divider(
+                thickness: 1.0,
+                color: Colors.white,
+                endIndent: 10,
+              ),
+
+              const SizedBox(height: 10),
+
+              InkWell(
+                onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) => SplashScreen()
+                  )
+                ),
+                child: SizedBox(
+                  height: 40,
+                  child: Row(
+                    children: [
+
+                      const Icon(Icons.logout, size: 30, color: Colors.white,),
+
+                      const SizedBox(width: 20,),
+                      
+                      Text("Log out", style: GoogleFonts.poppins(
+                        fontSize: 16, color: Colors.white),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
             ],
           )
 
@@ -229,12 +271,12 @@ class _UserHomePageState extends State<UserHomePage> {
         title: Row(
           children: [
             Text("Epi", style: GoogleFonts.arbutus(
-              color: Color.fromARGB(255, 255, 255, 255),    
+              color: Color(0xFFFFFFFF)
              )
             ),
 
             Text("Health", style: GoogleFonts.arbutus(
-              color: Color(0xff1000FF),    
+              color: Color(0xFFFF7F50),    
              )
             ),
           ],
@@ -269,43 +311,70 @@ class _UserHomePageState extends State<UserHomePage> {
         child: Column(
           children: [
 
-            Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // 50% of the screen
-                      width: MediaQuery.of(context).size.width * 0.12,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        shape: BoxShape.circle,
+            InkWell(
+              onTap: () => Navigator.push(
+                context, MaterialPageRoute(
+                  builder: (context) => UserProfile(),
+                )
+              ),
+              child: Card(
+                elevation: 5,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    border: GradientBoxBorder(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF301847), Color(0xFFC10214)
+                        ]
                       ),
+                      width: 4,
                     ),
-                
-                    const SizedBox(width: 10.0,),
-                
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Welcome back!", style: GoogleFonts.poppins(
-                            fontSize: 15.0,
-                          )
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    )
+                  ),
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        // 50% of the screen
+                        width: MediaQuery.of(context).size.width * 0.14,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        decoration: const BoxDecoration(
+                          color: Colors.amber,
+                          shape: BoxShape.circle,
+                          
                         ),
-                
-                
-                        Text("NG WEI HEN", style: GoogleFonts.poppins(
-                            fontSize: 25.0, fontWeight: FontWeight.bold
-                          )
-                        ),
-                      ],
-                    ),
-                
-                  ],
+                      ),
+                  
+                      const SizedBox(width: 10.0,),
+                  
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Welcome back!", style: GoogleFonts.poppins(
+                              fontSize: 15.0,
+                            )
+                          ),
+              
+                          GradientText(
+                              'NG WEI HEN',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 25.0, fontWeight: FontWeight.bold
+                              ),
+                              colors: [
+                                  Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                          ),
+                  
+                  
+                        ],
+                      ),
+                  
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -336,7 +405,7 @@ class _UserHomePageState extends State<UserHomePage> {
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context, MaterialPageRoute(
-                        builder: (context) => SocialHome()
+                        builder: (context) => UserSocialNav(tabIndexes: 0,),
                       )
                     ),
                     child: Container(

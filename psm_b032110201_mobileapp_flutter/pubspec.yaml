@@ -43,7 +43,7 @@ dependencies:
   cool_alert: ^2.0.1
 
   # navigation bar
-  navbar_router: ^0.7.3
+  circle_nav_bar: ^2.0.1+1
   
   # for making API request call (Future)
   http: ^1.2.1
@@ -51,6 +51,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0
 
   gradient_borders: ^1.0.0
+
+  simple_gradient_text: ^1.3.0
   
 
 dev_dependencies:

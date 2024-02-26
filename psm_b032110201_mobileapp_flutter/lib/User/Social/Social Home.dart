@@ -21,11 +21,24 @@ class _SocialHomeState extends State<SocialHome> {
     return Scaffold(
       appBar: AppBar(
 
-        
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF301847), Color(0xFFC10214)
+                ],
+              )
+          ),
+        ),
+
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: ()=>Navigator.pop(context),
+        ),
         
         title: Text("Social", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, 
-          fontSize: 20.0
+          fontSize: 20.0, color: Colors.white
         ),),
 
         actions: [
@@ -33,7 +46,7 @@ class _SocialHomeState extends State<SocialHome> {
           // Notifications
           IconButton(
             onPressed: (){}, 
-            icon: const Icon(Icons.notifications)
+            icon: const Icon(Icons.notifications, color: Colors.white)
           ),
 
           // Chat button
@@ -43,7 +56,7 @@ class _SocialHomeState extends State<SocialHome> {
                 builder: (context) => SocialChat()
               )
             ), 
-            icon: const Icon(Icons.chat_rounded)
+            icon: const Icon(Icons.chat_rounded, color: Colors.white)
           ),
         ],
 

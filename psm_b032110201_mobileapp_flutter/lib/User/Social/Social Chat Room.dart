@@ -12,8 +12,9 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.transparent,
         title: Row(
           children: [
             
@@ -47,11 +48,20 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
 
       body: Container(
         padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF301847), Color(0xFFC10214)
+              ],
+            )
+        ),
         child: Column(
           children: [
             const Spacer(),
 
-            const Divider(),
+            const Divider(
+              color: Colors.white,
+            ),
 
             Container(
               child: Row(
@@ -62,17 +72,23 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
                       controller: SearchController(),
                       decoration: InputDecoration(
                         hintText: 'Message',
-                        hintStyle: GoogleFonts.poppins(),
-                        prefixIcon: Icon(Icons.message),
-                        filled: true,
-                        fillColor: Color(0xFFF0F0F0),
+                        hintStyle: GoogleFonts.poppins(
+                          color: Colors.white,
+                        ),
+                        prefixIcon: Icon(Icons.message, color: Colors.white,),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                          borderRadius: BorderRadius.circular(100),
+                        )
                       ),
                     ),
                   ),
 
                   IconButton(
                     onPressed: (){},
-                    icon: Icon(Icons.send)
+                    icon: Icon(Icons.send, color: Colors.white,)
                   )
                 ],
               ),
