@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserAboutMe extends StatelessWidget {
   const UserAboutMe({super.key});
@@ -8,10 +9,33 @@ class UserAboutMe extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text("About Me", style: GoogleFonts.poppins(
+            fontSize: 20.0, color: Colors.white,
+            fontWeight: FontWeight.bold
+          )
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: ()=>Navigator.pop(context),
         ),
+      ),
+      body: Container(
+        child: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage("https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+                    alignment: Alignment.topCenter,
+                    fit: BoxFit.cover,
+                  )
+              ),
+            ),
+          ],
+        )
       ),
     );
   }

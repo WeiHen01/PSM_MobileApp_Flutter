@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../User/Home.dart';
 
@@ -203,7 +205,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
          * Application Logo
          */
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Color(0xFF301847), Color(0xFFC10214)
@@ -212,18 +214,10 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
           ),
         ),
 
-        title: Row(
-          children: [
-            Text("Epi", style: GoogleFonts.arbutus(
-              color: Color.fromARGB(255, 255, 255, 255),    
-             )
-            ),
-
-            Text("Health", style: GoogleFonts.arbutus(
-              color: Color(0xff1000FF),    
-             )
-            ),
-          ],
+        title: Image.asset(
+          "images/logo.png", 
+          height: 50, width: 150,
+          color: Colors.white
         ),
 
 
@@ -251,9 +245,74 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
       ),
 
       body: Container(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            InkWell(
+              onTap: null,
+              child: Card(
+                elevation: 5,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    border: GradientBoxBorder(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF301847), Color(0xFFC10214)
+                        ]
+                      ),
+                      width: 4,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    )
+                  ),
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        // 50% of the screen
+                        width: MediaQuery.of(context).size.width * 0.14,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        decoration: const BoxDecoration(
+                          color: Colors.amber,
+                          shape: BoxShape.circle,
+                          
+                        ),
+                      ),
+                  
+                      const SizedBox(width: 10.0,),
+                  
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Welcome back!", style: GoogleFonts.poppins(
+                              fontSize: 15.0,
+                            )
+                          ),
+              
+                          GradientText(
+                              'NG WEI HEN',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 25.0, fontWeight: FontWeight.bold
+                              ),
+                              colors: [
+                                  Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                          ),
+                        ],
+                      ),
+
+                      const Spacer(),
+
+                  
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             InkWell(
               onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
                   builder: (context) => UserHomePage()

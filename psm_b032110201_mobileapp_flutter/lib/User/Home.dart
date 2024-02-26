@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:gradient_icon/gradient_icon.dart';
 
 import '../Doctor/Home.dart';
 import '../Widget/User/Social Nav Bar.dart';
@@ -245,6 +246,15 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
                 ),
               ),
+
+              Spacer(),
+
+              Image.asset(
+                "images/logo.png", 
+                height: 80, 
+                width: MediaQuery.of(context).size.width * 0.4,
+                color: Colors.white
+              ),
             ],
           )
 
@@ -268,18 +278,10 @@ class _UserHomePageState extends State<UserHomePage> {
 
 
 
-        title: Row(
-          children: [
-            Text("Epi", style: GoogleFonts.arbutus(
-              color: Color(0xFFFFFFFF)
-             )
-            ),
-
-            Text("Health", style: GoogleFonts.arbutus(
-              color: Color(0xFFFF7F50),    
-             )
-            ),
-          ],
+        title: Image.asset(
+          "images/logo.png", 
+          height: 50, width: 150,
+          color: Colors.white
         ),
 
 
@@ -309,6 +311,7 @@ class _UserHomePageState extends State<UserHomePage> {
       body: Container(
         padding: EdgeInsets.all(15.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
             InkWell(
@@ -372,6 +375,18 @@ class _UserHomePageState extends State<UserHomePage> {
                   
                         ],
                       ),
+
+                      const Spacer(),
+
+                      const GradientIcon(
+                        icon:Icons.person,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF301847), Color(0xFFC10214)
+                          ],
+                        ),
+                        size: 50,
+                      )
                   
                     ],
                   ),
@@ -396,8 +411,18 @@ class _UserHomePageState extends State<UserHomePage> {
                   InkWell(
                     onTap: (){},
                     child: Container(
+                      decoration: BoxDecoration(
+                        border: GradientBoxBorder(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF301847), Color(0xFFC10214)
+                            ]
+                          ),
+                          width: 4,
+                        ),
+                        color: Colors.teal[100],
+                      ),
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
                       child: const Text("Body Status"),
                     ),
                   ),

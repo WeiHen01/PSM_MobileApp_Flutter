@@ -23,9 +23,9 @@ class UserProfile extends StatelessWidget {
             fontWeight: FontWeight.bold
           )
         ),
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: ()=>Navigator.pop(context),
-          color: Colors.white,
         ),
       ),
       body: Container(
@@ -97,36 +97,9 @@ class UserProfile extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                              
-                                InkWell(
-                                  child: Card(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: const BoxDecoration(
-                                        
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xFF301847), Color(0xFFC10214)
-                                          ],
-                                        ),
-                                    
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)
-                                        )
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Follow", style: GoogleFonts.poppins(
-                                              fontSize: 16.0, color: Colors.white,
-                                              fontWeight: FontWeight.bold
-                                            )
-                                          ),
-                                        ],
-                                      )
-                                    ),
-                                  )
-                                ),
+
+                                const SizedBox(height: 20.0),
+                                          
                                               
                                 InkWell(
                                   onTap: ()=>Navigator.push(

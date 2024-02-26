@@ -32,7 +32,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         ),
       ),
 
-      body:  Container(
+      body: Container(
         child: Stack(
           children: [
             Container(
