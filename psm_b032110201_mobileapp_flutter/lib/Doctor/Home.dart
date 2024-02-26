@@ -193,6 +193,16 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                   ),
                 ),
               ),
+
+              Spacer(),
+
+              Image.asset(
+                "images/logo.png", 
+                height: 80, 
+                width: MediaQuery.of(context).size.width * 0.4,
+                color: Colors.white
+              ),
+              
             ],
           )
 
