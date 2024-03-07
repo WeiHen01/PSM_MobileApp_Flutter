@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'User/Home.dart';
-import 'main.dart';
+import '../main.dart';
 
 class LoginMenu extends StatelessWidget {
   const LoginMenu({super.key});

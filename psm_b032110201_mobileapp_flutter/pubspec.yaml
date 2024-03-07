@@ -57,6 +57,9 @@ dependencies:
   gradient_icon: ^2.0.9
 
   advanced_icon: ^0.1.2
+
+  #MongoDB Connection Atlas
+  mongo_dart: ^0.10.0
   
 
 dev_dependencies:

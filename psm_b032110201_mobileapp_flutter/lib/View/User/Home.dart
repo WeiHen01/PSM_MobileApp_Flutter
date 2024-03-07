@@ -9,7 +9,7 @@ import 'package:gradient_icon/gradient_icon.dart';
 
 import '../Doctor/Home.dart';
 import '../Widget/User/Social Nav Bar.dart';
-import '../main.dart';
+import '../../main.dart';
 import 'ChatGPT bot/Chat Page.dart';
 import 'Emergency/Emergency Call.dart';
 import 'Profile/Profile.dart';

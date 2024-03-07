@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/User/Social/Social%20Chat.dart';
+import 'package:psm_b032110201_mobileapp_flutter/View/User/Social/Social%20Chat.dart';
 
 import 'Other User Profile.dart';
 

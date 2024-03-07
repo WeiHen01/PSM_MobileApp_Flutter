@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/Login%20Menu.dart';
+import 'View/Login%20Menu.dart';
 
 void main() {
   runApp(const MyApp());
