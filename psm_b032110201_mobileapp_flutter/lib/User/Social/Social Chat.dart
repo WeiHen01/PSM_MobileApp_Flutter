@@ -29,21 +29,12 @@ class _SocialChatState extends State<SocialChat> {
           ),
         ),
 
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: ()=>Navigator.pop(context),
-        ),
 
         title: Text("Chat", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, color: Colors.white,
           fontSize: 20.0
         ),),
 
-        actions:[
-          IconButton(
-            onPressed: (){}, icon: Icon(Icons.more_vert, color: Colors.white)
-          )
-        ]
 
       ),
 

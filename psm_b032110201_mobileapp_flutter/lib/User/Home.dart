@@ -10,6 +10,7 @@ import 'package:gradient_icon/gradient_icon.dart';
 import '../Doctor/Home.dart';
 import '../Widget/User/Social Nav Bar.dart';
 import '../main.dart';
+import 'ChatGPT bot/Chat Page.dart';
 import 'Emergency/Emergency Call.dart';
 import 'Profile/Profile.dart';
 import 'Social/Social Chat.dart';
@@ -441,7 +442,11 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
 
                   GestureDetector(
-                    onTap: (){},
+                    onTap: () => Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) => AIChatPage()
+                      )
+                    ),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       color: Colors.teal[300],
