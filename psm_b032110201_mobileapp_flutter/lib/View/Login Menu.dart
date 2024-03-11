@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'User/Home.dart';
 import '../main.dart';
+import 'User/Login.dart';
 
 class LoginMenu extends StatelessWidget {
   const LoginMenu({super.key});
@@ -50,6 +51,20 @@ class LoginMenu extends StatelessWidget {
                         child: const Text("Go to Home Page"),
                       ),
                     ),
+
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context, MaterialPageRoute(
+                          builder: (context) => UserLogin()
+                        )
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.teal[200],
+                        child: const Text('Login as User'),
+                      ),
+                    ),
+
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context, MaterialPageRoute(
