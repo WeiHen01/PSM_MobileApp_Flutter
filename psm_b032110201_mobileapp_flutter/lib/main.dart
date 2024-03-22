@@ -59,6 +59,7 @@ class SplashScreen extends StatelessWidget {
             ),
 
             
+            
           ],
         ),
       ),

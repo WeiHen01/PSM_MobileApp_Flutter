@@ -58,7 +58,7 @@ class _UserLoginState extends State<UserLogin> {
           child: Column(
             children: [
             
-              Image.asset("images/Login_2.png"),
+              Image.asset("images/Login_2.png", height: MediaQuery.of(context).size.height * 0.5,),
           
               Text("Welcome back, user!", style: GoogleFonts.poppins(
                     color: Colors.white, fontWeight: FontWeight.bold,
@@ -99,6 +99,9 @@ class _UserLoginState extends State<UserLogin> {
                           return null;
                         },
                         controller: emailCtrl,
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                        ),
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: GoogleFonts.poppins( color: Colors.white,),
@@ -107,6 +110,9 @@ class _UserLoginState extends State<UserLogin> {
                           fillColor: Colors.transparent,
                           border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
+                          ),
+                          errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                            color: Colors.red,
                           ),
                         ),
                         
@@ -144,7 +150,13 @@ class _UserLoginState extends State<UserLogin> {
                         },
                         controller: passwordCtrl,
                         obscureText: !_password,
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                        ),
                         decoration: InputDecoration(
+                          labelStyle: GoogleFonts.poppins(
+                            color: Colors.white,
+                          ),
                           hintText: 'Password',
                           hintStyle: GoogleFonts.poppins(
                             color: Colors.white,
@@ -163,6 +175,9 @@ class _UserLoginState extends State<UserLogin> {
                           fillColor: Colors.transparent,
                           border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
+                          ),
+                          errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                            color: Colors.red,
                           ),
                         ),
                       ),
