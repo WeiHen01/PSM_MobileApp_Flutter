@@ -33,12 +33,11 @@ class SplashScreen extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(15.0),
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF301847), Color(0xFFC10214)
-            ],
-          )
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/Splash_screen_1.png'),
+            fit: BoxFit.cover, // Adjust this based on your needs
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +57,7 @@ class SplashScreen extends StatelessWidget {
               )
             ),
 
-            
+
             
           ],
         ),
