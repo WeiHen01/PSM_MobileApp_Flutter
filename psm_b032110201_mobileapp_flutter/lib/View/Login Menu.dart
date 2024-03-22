@@ -26,61 +26,73 @@ class LoginMenu extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Are you a?", style: GoogleFonts.poppins(
+            Text("Login as?", style: GoogleFonts.poppins(
               color: Colors.white, fontSize: 25
             )),
         
             const SizedBox(height: 15.0),
         
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: [
-                  
-        
-                  GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context, MaterialPageRoute(
-                        builder: (context) => UserLogin()
-                      )
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
-                      child: const Text('Login as User'),
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pushReplacement(
+                    context, MaterialPageRoute(
+                      builder: (context) => UserLogin()
+                    )
                   ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.width / 2.3,
+                    padding: EdgeInsets.all(15),
+                    color: Colors.teal[200],
+                    child: const Text('Login as User'),
+                  ),
+                ),
 
-                  GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context, MaterialPageRoute(
-                        builder: (context) => DoctorLogin()
-                      )
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("Login as Doctor"),
-                    ),
+                GestureDetector(
+                  onTap: () => Navigator.pushReplacement(
+                    context, MaterialPageRoute(
+                      builder: (context) => DoctorLogin()
+                    )
                   ),
-        
-                  GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context, MaterialPageRoute(
-                        builder: (context) => SplashScreen()
-                      )
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
-                      child: const Text('Back'),
-                    ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.width / 2.3,
+                    padding: EdgeInsets.all(15),
+                    color: Colors.teal[200],
+                    child: const Text('Login as Doctor'),
                   ),
-                ]
+                )
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
+            GestureDetector(
+              onTap: null,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                padding: EdgeInsets.all(15),
+                color: Colors.teal[200],
+                child: const Text('Go to Register'),
               ),
-            )
+            ),
+
+            const SizedBox(height: 30),
+
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                padding: EdgeInsets.all(15),
+                color: Colors.teal[200],
+                child: const Text('Back'),
+              ),
+            ),
+
         
           ],
         )

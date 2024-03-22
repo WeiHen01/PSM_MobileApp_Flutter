@@ -118,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration:   BoxDecoration(
             borderRadius: BorderRadius.circular(100),
-            color: currentIndex == index? Colors.orange : Colors.grey,
+            color: currentIndex == index? Color(0xFFFF7F50) : Colors.white,
           ),
           height: 15,
           width: currentIndex == index? 65 : 15,
@@ -134,7 +134,7 @@ class _SplashScreenState extends State<SplashScreen> {
       height: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.orange
+        color: Color(0xFFFF7F50)
       ),
 
       child: TextButton(
