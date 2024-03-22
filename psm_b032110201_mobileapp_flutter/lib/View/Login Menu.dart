@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'User/Home.dart';
 import '../main.dart';
+import 'Doctor/Login.dart';
 import 'User/Login.dart';
 
 class LoginMenu extends StatelessWidget {
@@ -23,66 +23,66 @@ class LoginMenu extends StatelessWidget {
             ],
           )
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Are you a?", style: GoogleFonts.poppins(
-                color: Colors.white, fontSize: 25
-              )),
-          
-              const SizedBox(height: 15.0),
-          
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                          builder: (context) => UserHomePage()
-                        )
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[100],
-                        child: const Text("Go to Home Page"),
-                      ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Are you a?", style: GoogleFonts.poppins(
+              color: Colors.white, fontSize: 25
+            )),
+        
+            const SizedBox(height: 15.0),
+        
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                children: [
+                  
+        
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacement(
+                      context, MaterialPageRoute(
+                        builder: (context) => UserLogin()
+                      )
                     ),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.teal[200],
+                      child: const Text('Login as User'),
+                    ),
+                  ),
 
-                    GestureDetector(
-                      onTap: () => Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                          builder: (context) => UserLogin()
-                        )
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[200],
-                        child: const Text('Login as User'),
-                      ),
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacement(
+                      context, MaterialPageRoute(
+                        builder: (context) => DoctorLogin()
+                      )
                     ),
-
-                    GestureDetector(
-                      onTap: () => Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                          builder: (context) => SplashScreen()
-                        )
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[200],
-                        child: const Text('Back'),
-                      ),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.teal[100],
+                      child: const Text("Login as Doctor"),
                     ),
-                  ]
-                ),
-              )
-          
-            ],
-          ),
+                  ),
+        
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacement(
+                      context, MaterialPageRoute(
+                        builder: (context) => SplashScreen()
+                      )
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.teal[200],
+                      child: const Text('Back'),
+                    ),
+                  ),
+                ]
+              ),
+            )
+        
+          ],
         )
       )
     );

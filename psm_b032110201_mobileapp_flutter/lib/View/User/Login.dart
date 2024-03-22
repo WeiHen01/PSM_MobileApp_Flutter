@@ -237,7 +237,7 @@ class _UserLoginState extends State<UserLogin> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Save", style: GoogleFonts.poppins(
+                              Text("Login", style: GoogleFonts.poppins(
                                   fontSize: 20.0, color: Colors.black,
                                   fontWeight: FontWeight.bold
                                 )
