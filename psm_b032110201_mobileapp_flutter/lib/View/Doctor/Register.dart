@@ -10,6 +10,6 @@ class DoctorRegister extends StatefulWidget {
 class _DoctorRegisterState extends State<DoctorRegister> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold();
   }
 }

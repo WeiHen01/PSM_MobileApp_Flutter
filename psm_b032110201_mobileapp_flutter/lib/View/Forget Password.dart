@@ -11,8 +11,25 @@ class ForgetPassword extends StatefulWidget {
 class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF301847), Color(0xFFC10214)
+            ],
+          )
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              
+            ],
+          ),
+        )
+      )
     );
   }
 }

@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:psm_b032110201_mobileapp_flutter/View/Doctor/Register.dart';
+import 'package:psm_b032110201_mobileapp_flutter/View/User/Register.dart';
 
-import '../main.dart';
-import 'Doctor/Login.dart';
-import 'Register Menu.dart';
-import 'User/Login.dart';
+import 'Login Menu.dart';
 
-class LoginMenu extends StatelessWidget {
-  const LoginMenu({super.key});
+class RegisterMenu extends StatelessWidget {
+  const RegisterMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class LoginMenu extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Login as?", style: GoogleFonts.poppins(
+            Text("Register as?", style: GoogleFonts.poppins(
               color: Colors.white, fontSize: 25
             )),
         
@@ -39,7 +38,7 @@ class LoginMenu extends StatelessWidget {
                 GestureDetector(
                   onTap: () => Navigator.pushReplacement(
                     context, MaterialPageRoute(
-                      builder: (context) => UserLogin()
+                      builder: (context) => UserRegister()
                     )
                   ),
                   child: Container(
@@ -47,14 +46,14 @@ class LoginMenu extends StatelessWidget {
                     height: MediaQuery.of(context).size.width / 2.3,
                     padding: EdgeInsets.all(15),
                     color: Colors.teal[200],
-                    child: const Text('Login as User'),
+                    child: const Text('Sign Up as User'),
                   ),
                 ),
 
                 GestureDetector(
                   onTap: () => Navigator.pushReplacement(
                     context, MaterialPageRoute(
-                      builder: (context) => DoctorLogin()
+                      builder: (context) => DoctorRegister()
                     )
                   ),
                   child: Container(
@@ -62,7 +61,7 @@ class LoginMenu extends StatelessWidget {
                     height: MediaQuery.of(context).size.width / 2.3,
                     padding: EdgeInsets.all(15),
                     color: Colors.teal[200],
-                    child: const Text('Login as Doctor'),
+                    child: const Text('Sign Up as Doctor'),
                   ),
                 )
               ],
@@ -73,7 +72,7 @@ class LoginMenu extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pushReplacement(
                 context, MaterialPageRoute(
-                  builder: (context) => RegisterMenu()
+                  builder: (context) => LoginMenu()
                 )
               ),
               child: Container(
@@ -81,7 +80,7 @@ class LoginMenu extends StatelessWidget {
                 height: 50,
                 padding: EdgeInsets.all(15),
                 color: Colors.teal[200],
-                child: const Text('Go to Register'),
+                child: const Text('Go to Login'),
               ),
             ),
 

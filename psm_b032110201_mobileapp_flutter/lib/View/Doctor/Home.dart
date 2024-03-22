@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../main.dart';
 import '../User/Home.dart';
 
 class DoctorHomePage extends StatefulWidget {
@@ -186,6 +187,37 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                       const SizedBox(width: 20,),
                       
                       Text("Chat with Doctor", style: GoogleFonts.poppins(
+                        fontSize: 16, color: Colors.white),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+
+              const Divider(
+                thickness: 1.0,
+                color: Colors.white,
+                endIndent: 10,
+              ),
+
+              const SizedBox(height: 10),
+
+              InkWell(
+                onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) => SplashScreen()
+                  )
+                ),
+                child: SizedBox(
+                  height: 40,
+                  child: Row(
+                    children: [
+
+                      const Icon(Icons.logout, size: 30, color: Colors.white,),
+
+                      const SizedBox(width: 20,),
+                      
+                      Text("Log out", style: GoogleFonts.poppins(
                         fontSize: 16, color: Colors.white),
                       ),
 
