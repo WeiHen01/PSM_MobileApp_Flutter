@@ -60,6 +60,8 @@ dependencies:
 
   #MongoDB Connection Atlas
   mongo_dart: ^0.10.0
+  
+  art_sweetalert: ^0.0.5
 
 dev_dependencies:
   flutter_test:

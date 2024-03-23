@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:art_sweetalert/art_sweetalert.dart';
 
+import '../../Controller/Request Controller.dart';
 import '../Forget Password.dart';
 import '../Login Menu.dart';
 import '../Register Menu.dart';
+import 'Home.dart';
 
 class DoctorLogin extends StatefulWidget {
   const DoctorLogin({super.key});
@@ -29,6 +32,44 @@ class _DoctorLoginState extends State<DoctorLogin> {
     setState(() {
       _password = !_password;
     });
+  }
+
+  /**
+   * User login web service function
+   */
+  Future login() async{
+    
+    WebRequestController req = WebRequestController(
+      server: "http://10.0.2.2:8080/api/", path: "doctor/login",
+    );
+
+    req.setBody(
+      {
+        'email': emailCtrl.text,
+        'password':  passwordCtrl.text,
+      }
+    );
+
+    await req.post();
+    print(req.result());
+
+    if (req.status() == 200) {
+      ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            type: ArtSweetAlertType.success,
+            title: "LOGIN SUCCESSFUL",
+            text: "You may proceed to go to home page!",
+            onConfirm: (){
+              Navigator.push(context, 
+                MaterialPageRoute(builder: (context)=> DoctorHomePage())
+              );
+            }
+          ),
+          
+      );
+    }
+
   }
 
   @override

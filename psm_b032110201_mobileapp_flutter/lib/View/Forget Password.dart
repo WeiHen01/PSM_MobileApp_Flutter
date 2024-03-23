@@ -12,6 +12,9 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +57,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   )
               ),
 
+              SizedBox(height: 20),
+
+
+
               Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     Text("Please enter the email address when you joined and "
@@ -64,7 +72,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ), textAlign: TextAlign.justify,
                     ),
 
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
 
                     Container(
                       decoration: BoxDecoration(
@@ -107,9 +115,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             labelStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                             ),
+                            errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                              color: Colors.red,
+                            ),
+                          
                         ),
                         style: GoogleFonts.poppins(
-                            fontSize: 15
+                            fontSize: 15, color: Colors.white
                         ),
                       ),
                     ),
@@ -121,7 +133,16 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     * The register button
                     */
                     GestureDetector(
-                      onTap: null,
+                      onTap: (){
+                        // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                          }
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 60,
