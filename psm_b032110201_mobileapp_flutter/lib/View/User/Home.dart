@@ -16,14 +16,14 @@ import 'Profile/Profile.dart';
 import 'Social/Social Chat.dart';
 
 
-class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+class PatientHomePage extends StatefulWidget {
+  const PatientHomePage({super.key});
 
   @override
-  State<UserHomePage> createState() => _UserHomePageState();
+  State<PatientHomePage> createState() => _PatientHomePageState();
 }
 
-class _UserHomePageState extends State<UserHomePage> {
+class _PatientHomePageState extends State<PatientHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

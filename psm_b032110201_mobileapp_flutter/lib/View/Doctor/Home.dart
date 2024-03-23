@@ -357,7 +357,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
 
             InkWell(
               onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => UserHomePage()
+                  builder: (context) => PatientHomePage()
                 )
               ),
               child: Container(

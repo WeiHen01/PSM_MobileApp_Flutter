@@ -271,6 +271,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Processing Data')),
                             );
+
+                            login();
                           }
                         },
                         child: Card(

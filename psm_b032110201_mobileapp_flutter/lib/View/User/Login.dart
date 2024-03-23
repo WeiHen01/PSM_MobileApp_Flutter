@@ -1,7 +1,9 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../Controller/Request Controller.dart';
 import '../Forget Password.dart';
 import '../Login Menu.dart';
 import '../Register Menu.dart';
@@ -32,6 +34,41 @@ class _UserLoginState extends State<UserLogin> {
     setState(() {
       _password = !_password;
     });
+  }
+
+  Future login() async{
+    
+    WebRequestController req = WebRequestController(
+      server: "http://10.0.2.2:8080/api/", path: "patient/login",
+    );
+
+    req.setBody(
+      {
+        'email': emailCtrl.text,
+        'password':  passwordCtrl.text,
+      }
+    );
+
+    await req.post();
+    print(req.result());
+
+    if (req.status() == 200) {
+      ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            type: ArtSweetAlertType.success,
+            title: "LOGIN SUCCESSFUL",
+            text: "You may proceed to go to home page!",
+            onConfirm: (){
+              Navigator.push(context, 
+                MaterialPageRoute(builder: (context)=> PatientHomePage())
+              );
+            }
+          ),
+          
+      );
+    }
+
   }
 
   
@@ -229,10 +266,15 @@ class _UserLoginState extends State<UserLogin> {
                       InkWell(
                         onTap: (){
                           // Validate returns true if the form is valid, or false otherwise.
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => UserHomePage()),
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+
+                            login();
+                          }
                         },
                         child: Card(
                           child: Container(
