@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Forget Password.dart';
 import '../Login Menu.dart';
+import '../Register Menu.dart';
 
 class DoctorLogin extends StatefulWidget {
   const DoctorLogin({super.key});
@@ -194,7 +196,12 @@ class _DoctorLoginState extends State<DoctorLogin> {
                           ),
             
                           TextButton(
-                            onPressed: null,
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ForgetPassword()),
+                              );
+                            },
                             child: Text("Reset here", style: GoogleFonts.poppins(
                                 fontSize: 15.0, color: Colors.white,
                                 fontWeight: FontWeight.bold
@@ -257,7 +264,9 @@ class _DoctorLoginState extends State<DoctorLogin> {
                           ),
             
                           TextButton(
-                            onPressed: null,
+                            onPressed: () => Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => RegisterMenu())
+                            ),
                             child: Text("Sign Up here", style: GoogleFonts.poppins(
                                 fontSize: 16.0, color: Colors.white,
                                 fontWeight: FontWeight.bold

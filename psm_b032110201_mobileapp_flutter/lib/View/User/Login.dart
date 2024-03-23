@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_b032110201_mobileapp_flutter/View/Login%20Menu.dart';
-import 'package:psm_b032110201_mobileapp_flutter/View/User/Home.dart';
+
+import '../Forget Password.dart';
+import '../Login Menu.dart';
+import '../Register Menu.dart';
+import 'Home.dart';
 
 class UserLogin extends StatefulWidget {
   const UserLogin({super.key});
@@ -60,9 +63,9 @@ class _UserLoginState extends State<UserLogin> {
             child: Column(
               children: [
               
-                Image.asset("images/Login_2.png", height: MediaQuery.of(context).size.height * 0.5,),
+                Image.asset("images/Login.png", height: MediaQuery.of(context).size.height * 0.5,),
             
-                Text("Welcome back, user!", style: GoogleFonts.poppins(
+                Text("Welcome back, patient!", style: GoogleFonts.poppins(
                       color: Colors.white, fontWeight: FontWeight.bold,
                       fontSize: 28
                 )),
@@ -196,7 +199,12 @@ class _UserLoginState extends State<UserLogin> {
                           ),
             
                           TextButton(
-                            onPressed: null,
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ForgetPassword()),
+                              );
+                            },
                             child: Text("Reset here", style: GoogleFonts.poppins(
                                 fontSize: 15.0, color: Colors.white,
                                 fontWeight: FontWeight.bold
@@ -226,6 +234,15 @@ class _UserLoginState extends State<UserLogin> {
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(10.0)
                               ),
+
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xFF1f1f1f), // Shadow color
+                                  offset: Offset(0, 2), // Offset of the shadow
+                                  blurRadius: 4, // Spread of the shadow
+                                  spreadRadius: 0, // Spread radius of the shadow
+                                ),
+                              ],
             
                               border: Border.all(
                                 width: 2,
@@ -256,7 +273,9 @@ class _UserLoginState extends State<UserLogin> {
                           ),
             
                           TextButton(
-                            onPressed: null,
+                            onPressed: () => Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => RegisterMenu())
+                            ),
                             child: Text("Sign Up here", style: GoogleFonts.poppins(
                                 fontSize: 16.0, color: Colors.white,
                                 fontWeight: FontWeight.bold
