@@ -171,7 +171,7 @@ class _UserRegisterState extends State<UserRegister> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
                               message: _password ? 'Hide Password' : 'Show Password',
                               child: IconButton(
@@ -222,7 +222,7 @@ class _UserRegisterState extends State<UserRegister> {
                             }
                             return null;
                           },
-                          obscureText: !_password,
+                          obscureText: !_confirmPass,
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
@@ -234,11 +234,11 @@ class _UserRegisterState extends State<UserRegister> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
-                              message: _password ? 'Hide Password' : 'Show Password',
+                              message: _confirmPass ? 'Hide Password' : 'Show Password',
                               child: IconButton(
-                                onPressed: togglePassword,
+                                onPressed: toggleconfirmPassword,
                                 icon: Icon(_password
                                     ? Icons.visibility_off
                                     : Icons.visibility, color: Colors.white,),
@@ -278,8 +278,9 @@ class _UserRegisterState extends State<UserRegister> {
                           ),
                         ],
                       ),
-                
-                
+
+                      const SizedBox(height: 20),
+
                       /**
                        * The register button
                        */

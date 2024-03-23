@@ -171,7 +171,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
                               message: _password ? 'Hide Password' : 'Show Password',
                               child: IconButton(
@@ -234,7 +234,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
                               message: _confirmPass ? 'Hide Password' : 'Show Password',
                               child: IconButton(
@@ -281,6 +281,8 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                           ),
                         ],
                       ),
+
+                      const SizedBox(height: 20),
                 
                 
                       /**

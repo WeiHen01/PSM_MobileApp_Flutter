@@ -60,7 +60,6 @@ dependencies:
 
   #MongoDB Connection Atlas
   mongo_dart: ^0.10.0
-  
 
 dev_dependencies:
   flutter_test:

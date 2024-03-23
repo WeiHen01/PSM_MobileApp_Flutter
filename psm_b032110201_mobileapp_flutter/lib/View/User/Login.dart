@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../Forget Password.dart';
 import '../Login Menu.dart';
@@ -33,6 +34,8 @@ class _UserLoginState extends State<UserLogin> {
     });
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,13 +65,20 @@ class _UserLoginState extends State<UserLogin> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+
+                const SizedBox(height: 50),
               
-                Image.asset("images/Login.png", height: MediaQuery.of(context).size.height * 0.5,),
+                Image.asset("images/Login.png", height: MediaQuery.of(context).size.height * 0.35,),
             
                 Text("Welcome back, patient!", style: GoogleFonts.poppins(
                       color: Colors.white, fontWeight: FontWeight.bold,
                       fontSize: 28
                 )),
+
+                Text("Please enter email and password to login.", style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 16
+                ),),
             
                 const SizedBox(height: 15.0),
             
@@ -166,7 +176,7 @@ class _UserLoginState extends State<UserLogin> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
                               message: _password ? 'Hide Password' : 'Show Password',
                               child: IconButton(
@@ -214,7 +224,7 @@ class _UserLoginState extends State<UserLogin> {
                         ],
                       ),
             
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
             
                       InkWell(
                         onTap: (){
@@ -267,7 +277,7 @@ class _UserLoginState extends State<UserLogin> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Already have an account?", style: GoogleFonts.poppins(
+                          Text("Don't have an account?", style: GoogleFonts.poppins(
                               fontSize: 16.0, color: Colors.white,
                             )
                           ),
@@ -283,12 +293,26 @@ class _UserLoginState extends State<UserLogin> {
                             ),
                           ),
                         ],
+                      ),
+
+                      Text("OR", style: GoogleFonts.poppins(
+                          fontSize: 16.0, color: Colors.white,
+                        )
+                      ),
+
+                      IconButton(
+                        onPressed: null,
+                        icon: FaIcon(FontAwesomeIcons.google, size: 28, color: Colors.white,)
                       )
+
+
                                     
                       
                     ],
                   ),
                 ),
+
+                
             
             
               ],

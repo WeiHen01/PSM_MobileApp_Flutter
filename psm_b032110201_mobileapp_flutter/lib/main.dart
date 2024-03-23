@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:psm_b032110201_mobileapp_flutter/View/Widget/Onboarding%20Screen/Onboarding.dart';
 import 'View/Login%20Menu.dart';
 
-void main() {
+void main(){
   runApp(const MyApp());
 }
 
@@ -37,6 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
   final controller = OnboardingData();
   final pageController = PageController();
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
  
   @override
   Widget build(BuildContext context) {

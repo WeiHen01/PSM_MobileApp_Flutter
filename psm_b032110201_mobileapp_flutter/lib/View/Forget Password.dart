@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 
 class ForgetPassword extends StatefulWidget {
@@ -118,25 +120,28 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     /**
                     * The register button
                     */
-                    InkWell(
-                      onTap: ()
-                      {
-                        /**
-                        * Navigate to register() function
-                        * for web service request
-                        */
-                        
-
-                      },
+                    GestureDetector(
+                      onTap: null,
                       child: Container(
-                        width: double.infinity,
-                        height: 40,
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [ Color.fromRGBO(249, 151, 119, 1),
-                                Color.fromRGBO(98, 58, 162, 1),]
+                          color: Colors.white,
+                                  
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
                           ),
-                          borderRadius: BorderRadius.circular(10),
+
+                          border: GradientBoxBorder(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ]
+                            ),
+                            width: 4,
+                          ),
+
                           boxShadow: [
                             BoxShadow(
                               color: Color(0xFF1f1f1f), // Shadow color
@@ -147,17 +152,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ],
                         ),
                         child: Center(
-                          child: Text(
-                              "Request Reset Password",
+                          child: GradientText(
+                              'Request reset password',
                               style: GoogleFonts.poppins(
-                                  fontSize: 20, color: Colors.white,
-                                  fontWeight: FontWeight.w600
-                              )),
+                                  fontSize: 20.0, fontWeight: FontWeight.bold
+                              ),
+                              colors: [
+                                  Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                          ),
                         ),
                       ),
                     ),
+
                   ],
                 ),
+
               )
             ],
           ),

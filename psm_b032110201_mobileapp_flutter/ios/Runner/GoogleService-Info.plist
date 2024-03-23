@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>971522465724-mms84nmaatkv8lsvvf9kkpjc532mefi4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.971522465724-mms84nmaatkv8lsvvf9kkpjc532mefi4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCZqAZe0t3Ps5r-ZKBzHLBJEOa5yNbvsuM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>971522465724</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.psmB032110201MobileappFlutter</string>
+	<key>PROJECT_ID</key>
+	<string>epihealth-62413</string>
+	<key>STORAGE_BUCKET</key>
+	<string>epihealth-62413.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:971522465724:ios:98cca354e39c1a5d7115b9</string>
+</dict>
+</plist>

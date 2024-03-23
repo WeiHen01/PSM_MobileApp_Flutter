@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Forget Password.dart';
@@ -59,13 +60,20 @@ class _DoctorLoginState extends State<DoctorLogin> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+
+                const SizedBox(height: 50),
               
-                Image.asset("images/Login_2.png", height: MediaQuery.of(context).size.height * 0.5,),
+                Image.asset("images/Login_2.png", height: 300,),
             
                 Text("Welcome back, doctor!", style: GoogleFonts.poppins(
                       color: Colors.white, fontWeight: FontWeight.bold,
                       fontSize: 28
                 )),
+
+                Text("Please enter email and password to login.", style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 16
+                ),),
             
                 const SizedBox(height: 15.0),
             
@@ -163,7 +171,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                             hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            prefixIcon: const Icon(Icons.person, color: Colors.white),
+                            prefixIcon: const Icon(Icons.lock, color: Colors.white),
                             suffixIcon: Tooltip(
                               message: _password ? 'Hide Password' : 'Show Password',
                               child: IconButton(
@@ -258,7 +266,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Already have an account?", style: GoogleFonts.poppins(
+                          Text("Don't have an account?", style: GoogleFonts.poppins(
                               fontSize: 16.0, color: Colors.white,
                             )
                           ),
@@ -274,7 +282,15 @@ class _DoctorLoginState extends State<DoctorLogin> {
                             ),
                           ),
                         ],
-                      )
+                      ),
+
+                      Text("OR", style: GoogleFonts.poppins(
+                          fontSize: 16.0, color: Colors.white,
+                        )
+                      ),
+
+                      IconButton(onPressed: null, icon: FaIcon(FontAwesomeIcons.google, size: 28, color: Colors.white,),)
+
                                     
                       
                     ],
