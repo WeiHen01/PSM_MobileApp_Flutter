@@ -40,7 +40,7 @@ class LoginMenu extends StatelessWidget {
                 GestureDetector(
                   onTap: () => Navigator.pushReplacement(
                     context, MaterialPageRoute(
-                      builder: (context) => UserLogin()
+                      builder: (context) => PatientLogin()
                     )
                   ),
                   child: Container(

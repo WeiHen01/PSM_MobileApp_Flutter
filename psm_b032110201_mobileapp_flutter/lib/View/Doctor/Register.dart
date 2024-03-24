@@ -1,8 +1,11 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Controller/Request Controller.dart';
 import '../Login Menu.dart';
 import '../Register Menu.dart';
+import 'Login.dart';
 
 class DoctorRegister extends StatefulWidget {
   const DoctorRegister({super.key});
@@ -15,6 +18,10 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  TextEditingController conPasswordCtrl = TextEditingController();
   
   bool _password = false;
   bool _confirmPass = false;
@@ -31,6 +38,54 @@ class _DoctorRegisterState extends State<DoctorRegister> {
     setState(() {
       _confirmPass = !_confirmPass;
     });
+  }
+
+  /**
+   * Patient registration web service function
+   */
+  Future register() async{
+
+    if(passwordCtrl.text != conPasswordCtrl.text){
+
+    }
+    else {
+      /**
+       * save the data registered to database
+       */
+      WebRequestController req = WebRequestController
+        (server: "http://10.0.2.2:8080/api/", path: "doctor/register");
+
+      req.setBody(
+        {
+          "DoctorName": 'new-doctor',
+          "DoctorEmail" : emailCtrl.text,
+          "DoctorPassword": passwordCtrl.text,
+        }
+      );
+
+      await req.post();
+
+      print(req.result());
+
+      if (req.result() != null) {
+        ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            type: ArtSweetAlertType.success,
+            title: "SIGN UP SUCCESSFUL",
+            text: "You may proceed to go to Login page now!",
+            onConfirm: (){
+              Navigator.push(context, 
+                MaterialPageRoute(builder: (context)=> DoctorLogin())
+              );
+            }
+          ),
+        );
+      }
+
+          
+    }
+    
   }
 
   @override
@@ -110,6 +165,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                             }
                             return null;
                           },
+                          controller: emailCtrl,
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
@@ -163,6 +219,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
+                          controller: passwordCtrl,
                           decoration: InputDecoration(
                             labelStyle: GoogleFonts.poppins(
                               color: Colors.white,
@@ -226,6 +283,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
+                          controller: conPasswordCtrl,
                           decoration: InputDecoration(
                             labelStyle: GoogleFonts.poppins(
                               color: Colors.white,

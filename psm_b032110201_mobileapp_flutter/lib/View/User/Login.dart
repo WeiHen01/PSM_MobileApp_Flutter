@@ -9,14 +9,14 @@ import '../Login Menu.dart';
 import '../Register Menu.dart';
 import 'Home.dart';
 
-class UserLogin extends StatefulWidget {
-  const UserLogin({super.key});
+class PatientLogin extends StatefulWidget {
+  const PatientLogin({super.key});
 
   @override
-  State<UserLogin> createState() => _UserLoginState();
+  State<PatientLogin> createState() => _PatientLoginState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _PatientLoginState extends State<PatientLogin> {
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -52,7 +52,14 @@ class _UserLoginState extends State<UserLogin> {
     await req.post();
     print(req.result());
 
-    if (req.status() == 200) {
+    final patientData = req.result();
+
+    if (req.status() == 200 && patientData.containsKey('msg') && patientData.containsKey('patient')) {
+      // Successful login
+      final patient = patientData['patient'];
+      var patient_id = patient["PatientID"];
+      var patient_name = patient["PatientName"];
+
       ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -61,7 +68,7 @@ class _UserLoginState extends State<UserLogin> {
             text: "You may proceed to go to home page!",
             onConfirm: (){
               Navigator.push(context, 
-                MaterialPageRoute(builder: (context)=> PatientHomePage())
+                MaterialPageRoute(builder: (context)=> PatientHomePage(id: patient_id, name: patient_name))
               );
             }
           ),

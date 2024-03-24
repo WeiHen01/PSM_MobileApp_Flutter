@@ -8,7 +8,11 @@ import '../../main.dart';
 import '../User/Home.dart';
 
 class DoctorHomePage extends StatefulWidget {
-  const DoctorHomePage({super.key});
+
+  final int? id;
+  final String? name;
+
+  DoctorHomePage({Key? key, this.id, this.name});
 
   @override
   State<DoctorHomePage> createState() => _DoctorHomePageState();

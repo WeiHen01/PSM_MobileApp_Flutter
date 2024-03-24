@@ -53,7 +53,14 @@ class _DoctorLoginState extends State<DoctorLogin> {
     await req.post();
     print(req.result());
 
+    final doctorData = req.result();
+
     if (req.status() == 200) {
+
+      final doctor = doctorData['doctor'];
+      var doctor_id = doctor["DoctorID"];
+      var doctor_name = doctor["DoctorName"];
+
       ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -62,7 +69,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
             text: "You may proceed to go to home page!",
             onConfirm: (){
               Navigator.push(context, 
-                MaterialPageRoute(builder: (context)=> DoctorHomePage())
+                MaterialPageRoute(builder: (context)=> DoctorHomePage(id: doctor_id, name: doctor_name,))
               );
             }
           ),

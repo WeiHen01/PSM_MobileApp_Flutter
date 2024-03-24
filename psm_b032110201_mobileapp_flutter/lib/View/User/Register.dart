@@ -1,6 +1,9 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import './Login.dart';
 
+import '../../Controller/Request Controller.dart';
 import '../Register Menu.dart';
 
 class UserRegister extends StatefulWidget {
@@ -15,7 +18,11 @@ class _UserRegisterState extends State<UserRegister> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  
+
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  TextEditingController conPasswordCtrl = TextEditingController();
+
   bool _password = false;
   bool _confirmPass = false;
 
@@ -31,6 +38,54 @@ class _UserRegisterState extends State<UserRegister> {
     setState(() {
       _confirmPass = !_confirmPass;
     });
+  }
+
+  /**
+   * Patient registration web service function
+   */
+  Future register() async{
+
+    if(passwordCtrl.text != conPasswordCtrl.text){
+
+    }
+    else {
+      /**
+       * save the data registered to database
+       */
+      WebRequestController req = WebRequestController
+        (server: "http://10.0.2.2:8080/api/", path: "patient/register");
+
+      req.setBody(
+        {
+          "PatientName": 'new-user',
+          "PatientEmail" : emailCtrl.text,
+          "PatientPassword": passwordCtrl.text,
+        }
+      );
+
+      await req.post();
+
+      print(req.result());
+
+      if (req.result() != null) {
+        ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+            type: ArtSweetAlertType.success,
+            title: "SIGN UP SUCCESSFUL",
+            text: "You may proceed to go to Login page now!",
+            onConfirm: (){
+              Navigator.push(context, 
+                MaterialPageRoute(builder: (context)=> PatientLogin())
+              );
+            }
+          ),
+        );
+      }
+
+          
+    }
+    
   }
 
   @override
@@ -110,6 +165,7 @@ class _UserRegisterState extends State<UserRegister> {
                             }
                             return null;
                           },
+                          controller: emailCtrl,
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
@@ -163,6 +219,7 @@ class _UserRegisterState extends State<UserRegister> {
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
+                          controller: passwordCtrl,
                           decoration: InputDecoration(
                             labelStyle: GoogleFonts.poppins(
                               color: Colors.white,
@@ -226,6 +283,7 @@ class _UserRegisterState extends State<UserRegister> {
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
+                          controller: conPasswordCtrl,
                           decoration: InputDecoration(
                             labelStyle: GoogleFonts.poppins(
                               color: Colors.white,
@@ -286,7 +344,15 @@ class _UserRegisterState extends State<UserRegister> {
                        */
                       InkWell(
                         onTap: (){
-                          
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+
+                            register();
+                          }
                         },
                         child: Card(
                           child: Container(

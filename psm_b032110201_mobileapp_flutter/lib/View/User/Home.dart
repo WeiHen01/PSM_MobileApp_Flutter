@@ -17,7 +17,11 @@ import 'Social/Social Chat.dart';
 
 
 class PatientHomePage extends StatefulWidget {
-  const PatientHomePage({super.key});
+
+  final int? id;
+  final String? name;
+
+  PatientHomePage({Key? key, this.id, this.name});
 
   @override
   State<PatientHomePage> createState() => _PatientHomePageState();
@@ -364,7 +368,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                           ),
               
                           GradientText(
-                              'NG WEI HEN',
+                              widget.name ?? "",
                               style: GoogleFonts.poppins(
                                   fontSize: 25.0, fontWeight: FontWeight.bold
                               ),
