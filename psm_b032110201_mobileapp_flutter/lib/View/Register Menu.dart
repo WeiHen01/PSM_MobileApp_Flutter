@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:psm_b032110201_mobileapp_flutter/View/Doctor/Register.dart';
-import 'package:psm_b032110201_mobileapp_flutter/View/User/Register.dart';
+import './Doctor/Register.dart';
+import './Patient/Register.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'Login Menu.dart';

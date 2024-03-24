@@ -7,7 +7,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'Doctor/Login.dart';
 import 'Register Menu.dart';
-import 'User/Login.dart';
+import 'Patient/Login.dart';
 
 class LoginMenu extends StatelessWidget {
   const LoginMenu({super.key});

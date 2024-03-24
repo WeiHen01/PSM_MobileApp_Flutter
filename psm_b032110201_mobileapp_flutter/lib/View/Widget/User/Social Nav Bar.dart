@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 
-import '../../User/Social/Social Home.dart';
+import '../../Patient/Social/Social Home.dart';
 
 class UserSocialNav extends StatefulWidget {
 

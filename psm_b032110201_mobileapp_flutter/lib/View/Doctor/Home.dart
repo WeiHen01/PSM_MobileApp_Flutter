@@ -5,7 +5,9 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../main.dart';
-import '../User/Home.dart';
+import '../Login Menu.dart';
+import '../Patient/Home.dart';
+import 'Profile.dart';
 
 class DoctorHomePage extends StatefulWidget {
 
@@ -86,7 +88,11 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
               
 
               InkWell(
-                onTap:(){},
+                onTap:() => Navigator.push(
+                  context, MaterialPageRoute(
+                    builder: (context) => DoctorProfile()
+                  )
+                ),
                 child: SizedBox(
                   height: 40,
                   child: Row(
@@ -209,7 +215,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
 
               InkWell(
                 onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => SplashScreen()
+                    builder: (context) => LoginMenu()
                   )
                 ),
                 child: SizedBox(
@@ -295,7 +301,11 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
         child: Column(
           children: [
             InkWell(
-              onTap: null,
+              onTap: () => Navigator.push(
+                context, MaterialPageRoute(
+                  builder: (context) => DoctorProfile()
+                )
+              ),
               child: Card(
                 elevation: 5,
                 child: Container(
@@ -339,7 +349,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                           ),
               
                           GradientText(
-                              'NG WEI HEN',
+                              widget.name ?? "",
                               style: GoogleFonts.poppins(
                                   fontSize: 25.0, fontWeight: FontWeight.bold
                               ),
@@ -361,7 +371,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
 
             InkWell(
               onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => PatientHomePage()
+                  builder: (context) => LoginMenu()
                 )
               ),
               child: Container(

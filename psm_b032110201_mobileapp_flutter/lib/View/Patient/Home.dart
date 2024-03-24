@@ -8,6 +8,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:gradient_icon/gradient_icon.dart';
 
 import '../Doctor/Home.dart';
+import '../Login Menu.dart';
 import '../Widget/User/Social Nav Bar.dart';
 import '../../main.dart';
 import 'ChatGPT bot/Chat Page.dart';
@@ -231,7 +232,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
 
               InkWell(
                 onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => SplashScreen()
+                    builder: (context) => LoginMenu()
                   )
                 ),
                 child: SizedBox(
@@ -501,7 +502,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
 
             InkWell(
               onTap:()=>Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => SplashScreen()
+                  builder: (context) => LoginMenu()
                 )
               ),
               child: Container(

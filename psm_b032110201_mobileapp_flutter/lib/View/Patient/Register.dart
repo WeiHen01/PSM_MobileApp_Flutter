@@ -1,7 +1,7 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import './Login.dart';
+import 'Login.dart';
 
 import '../../Controller/Request Controller.dart';
 import '../Register Menu.dart';
