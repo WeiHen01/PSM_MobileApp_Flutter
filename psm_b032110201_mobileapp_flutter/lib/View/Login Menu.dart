@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-import '../main.dart';
 import 'Doctor/Login.dart';
 import 'Register Menu.dart';
 import 'User/Login.dart';
