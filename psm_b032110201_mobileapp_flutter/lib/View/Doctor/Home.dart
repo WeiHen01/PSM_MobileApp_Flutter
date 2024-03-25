@@ -4,17 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-import '../../main.dart';
 import '../Login Menu.dart';
-import '../Patient/Home.dart';
 import 'Profile/Profile.dart';
 
 class DoctorHomePage extends StatefulWidget {
 
   final int? id;
   final String? name;
+  final String? email;
 
-  DoctorHomePage({Key? key, this.id, this.name});
+  DoctorHomePage({Key? key, this.id, this.name, this.email});
 
   @override
   State<DoctorHomePage> createState() => _DoctorHomePageState();
@@ -58,13 +57,13 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       
-                      Text("User Name", style: GoogleFonts.poppins(
+                      Text(widget.name ?? 'Doctor Name', style: GoogleFonts.poppins(
                           fontSize: 20.0, fontWeight: FontWeight.bold,
                           color: Colors.white
                         ),
                       ),
 
-                      Text("Email", style: GoogleFonts.poppins(
+                      Text(widget.email ?? 'Doctor Email', style: GoogleFonts.poppins(
                           fontSize: 15.0, color: Colors.white
                         ),
                       ),
@@ -90,7 +89,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
               InkWell(
                 onTap:() => Navigator.push(
                   context, MaterialPageRoute(
-                    builder: (context) => DoctorProfile()
+                    builder: (context) => DoctorProfile(id: widget.id ?? 0, name: widget.name ?? '')
                   )
                 ),
                 child: SizedBox(

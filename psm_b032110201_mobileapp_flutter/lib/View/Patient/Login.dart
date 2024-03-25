@@ -59,6 +59,7 @@ class _PatientLoginState extends State<PatientLogin> {
       final patient = patientData['patient'];
       var patient_id = patient["PatientID"];
       var patient_name = patient["PatientName"];
+      var patient_email = patient["PatientEmail"];
 
       ArtSweetAlert.show(
           context: context,
@@ -68,7 +69,7 @@ class _PatientLoginState extends State<PatientLogin> {
             text: "You may proceed to go to home page!",
             onConfirm: (){
               Navigator.push(context, 
-                MaterialPageRoute(builder: (context)=> PatientHomePage(id: patient_id, name: patient_name))
+                MaterialPageRoute(builder: (context)=> PatientHomePage(id: patient_id, name: patient_name, email: patient_email,))
               );
             }
           ),

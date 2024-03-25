@@ -5,7 +5,12 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'Profile.dart';
 
 class DoctorEditProfile extends StatefulWidget {
-  const DoctorEditProfile({super.key});
+
+  final int? id;
+  final String? name;
+  final String? email;
+
+  DoctorEditProfile({Key? key, this.id, this.name, this.email});
 
   @override
   State<DoctorEditProfile> createState() => _DoctorEditProfileState();
@@ -16,6 +21,18 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController addressCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameCtrl.text = widget.name ?? '';
+    emailCtrl.text = widget.email ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +111,7 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
                                           }
                                           return null;
                                         },
+                                        controller: nameCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Name',
                                           hintStyle: GoogleFonts.poppins(),
@@ -101,25 +119,8 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
                                         ),
-                                      ),
-
-                                      SizedBox(height: 10),
-
-                                      // Add TextFormFields and ElevatedButton here.
-                                      TextFormField(
-                                        // The validator receives the text that the user has entered.
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: 'Email',
-                                          hintStyle: GoogleFonts.poppins(),
-                                          prefixIcon: Icon(Icons.email),
-                                          filled: true,
-                                          fillColor: Color(0xFFF0F0F0),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
                                         ),
                                       ),
 
@@ -134,12 +135,40 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
                                           }
                                           return null;
                                         },
+                                        controller: emailCtrl,
+                                        decoration: InputDecoration(
+                                          hintText: 'Email',
+                                          hintStyle: GoogleFonts.poppins(),
+                                          prefixIcon: Icon(Icons.email),
+                                          filled: true,
+                                          fillColor: Color(0xFFF0F0F0),
+                                        ),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
+                                        ),
+                                      ),
+
+                                      SizedBox(height: 10),
+
+                                      // Add TextFormFields and ElevatedButton here.
+                                      TextFormField(
+                                        // The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
+                                        controller: addressCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Address',
                                           hintStyle: GoogleFonts.poppins(),
                                           prefixIcon: Icon(Icons.place),
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
+                                        ),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
                                         ),
                                       ),
 

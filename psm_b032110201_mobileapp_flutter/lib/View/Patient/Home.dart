@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -10,7 +8,6 @@ import 'package:gradient_icon/gradient_icon.dart';
 import '../Doctor/Home.dart';
 import '../Login Menu.dart';
 import '../Widget/User/Social Nav Bar.dart';
-import '../../main.dart';
 import 'ChatGPT bot/Chat Page.dart';
 import 'Emergency/Emergency Call.dart';
 import 'Profile/Profile.dart';
@@ -21,8 +18,9 @@ class PatientHomePage extends StatefulWidget {
 
   final int? id;
   final String? name;
+  final String? email;
 
-  PatientHomePage({Key? key, this.id, this.name});
+  PatientHomePage({Key? key, this.id, this.name, this.email});
 
   @override
   State<PatientHomePage> createState() => _PatientHomePageState();
@@ -67,13 +65,13 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       
-                      Text("User Name", style: GoogleFonts.poppins(
+                      Text(widget.name ?? 'Patient Name', style: GoogleFonts.poppins(
                           fontSize: 20.0, fontWeight: FontWeight.bold,
                           color: Colors.white
                         ),
                       ),
 
-                      Text("Email", style: GoogleFonts.poppins(
+                      Text(widget.email ?? 'Patient Email', style: GoogleFonts.poppins(
                           fontSize: 15.0, color: Colors.white
                         ),
                       ),
@@ -97,9 +95,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
               
 
               InkWell(
-                onTap:() => Navigator.push(
+                onTap: () => Navigator.push(
                   context, MaterialPageRoute(
-                    builder: (context) => UserProfile()
+                    builder: (context) => UserProfile(id: widget.id ?? 0, name: widget.name ?? ''),
                   )
                 ),
                 child: SizedBox(

@@ -4,6 +4,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../Controller/Request Controller.dart';
+import 'Edit Profile.dart';
 
 
 class DoctorProfile extends StatefulWidget {
@@ -142,7 +143,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                           
                                               
                                 InkWell(
-                                  onTap: null,
+                                  onTap: () => Navigator.push(
+                                    context, MaterialPageRoute(builder: (context) => DoctorEditProfile(id: widget.id, name: widget.name, email: email))
+                                  ),
                                   child: Card(
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
