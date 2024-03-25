@@ -7,7 +7,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../../main.dart';
 import '../Login Menu.dart';
 import '../Patient/Home.dart';
-import 'Profile.dart';
+import 'Profile/Profile.dart';
 
 class DoctorHomePage extends StatefulWidget {
 
@@ -303,7 +303,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
             InkWell(
               onTap: () => Navigator.push(
                 context, MaterialPageRoute(
-                  builder: (context) => DoctorProfile()
+                  builder: (context) => DoctorProfile(id: widget.id ?? 0, name: widget.name ?? '')
                 )
               ),
               child: Card(

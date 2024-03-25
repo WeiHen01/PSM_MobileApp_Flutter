@@ -5,12 +5,55 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../../Controller/Request Controller.dart';
 import 'About Me.dart';
 import 'Change Password.dart';
 import 'Edit Profile.dart';
 
-class UserProfile extends StatelessWidget {
-  const UserProfile({super.key});
+class UserProfile extends StatefulWidget {
+  
+  final int? id;
+  final String? name;
+
+  UserProfile({Key? key, this.id, this.name});
+
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+  String email = "";
+
+  Future<void> getProfile () async {
+    WebRequestController req = WebRequestController(
+      server: "http://10.0.2.2:8080/api/", path: "patient/findPatient/${widget.id}"
+    );
+
+    await req.get();
+
+    try{
+      if (req.status()== 200) {
+        
+        var data = req.result();
+
+        setState((){
+          email = data["PatientEmail"];
+        });
+        
+      }
+    }catch (e) {
+      print('Error fetching user : $e');
+      // Handle the exception as needed, for example, show an error message to the user
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +112,11 @@ class UserProfile extends StatelessWidget {
                             child: Column(
                               children: [
                                               
-                                const SizedBox(height: 25.0),
+                                const SizedBox(height: 40.0),
                                 
 
                                 GradientText(
-                                    'Username',
+                                    widget.name ?? '',
                                     style: GoogleFonts.poppins(
                                         fontSize: 25.0, fontWeight: FontWeight.bold
                                     ),
@@ -82,7 +125,7 @@ class UserProfile extends StatelessWidget {
                                     ],
                                 ),
                                               
-                                Text("Email", style: GoogleFonts.poppins(
+                                Text(email, style: GoogleFonts.poppins(
                                     fontSize: 15.0,
                                   )
                                 ),

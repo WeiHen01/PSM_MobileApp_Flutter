@@ -323,7 +323,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
             InkWell(
               onTap: () => Navigator.push(
                 context, MaterialPageRoute(
-                  builder: (context) => UserProfile(),
+                  builder: (context) => UserProfile(id: widget.id ?? 0, name: widget.name ?? ''),
                 )
               ),
               child: Card(
@@ -505,6 +505,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   builder: (context) => LoginMenu()
                 )
               ),
+              
               child: Container(
                 padding: const EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width,
