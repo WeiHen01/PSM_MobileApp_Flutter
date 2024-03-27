@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 
-import '../../Patient/Social/Social Home.dart';
+import '../../Patient/Social/Social Chat.dart';
 
-class UserSocialNav extends StatefulWidget {
+
+class ChatNav extends StatefulWidget {
 
   final int tabIndexes;
 
-  const UserSocialNav({Key? key, required this.tabIndexes}) : super(key: key);
+  const ChatNav({Key? key, required this.tabIndexes}) : super(key: key);
 
   @override
-  State<UserSocialNav> createState() => _UserSocialNavState();
+  State<ChatNav> createState() => _ChatNavState();
 }
 
-class _UserSocialNavState extends State<UserSocialNav> {
+class _ChatNavState extends State<ChatNav> {
 
   // set the default initial page
   int _tabIndex = 0;
@@ -66,9 +67,8 @@ class _UserSocialNavState extends State<UserSocialNav> {
            * will be appeared when user is at current page
            */
           Icon(Icons.home, color: Colors.white, size: 35,),
-          Icon(Icons.search, color: Colors.white, size: 35,),
-          Icon(Icons.forum, color: Colors.white, size: 35,),
-          Icon(Icons.person, color: Colors.white, size: 35,),
+          Icon(Icons.local_hospital, color: Colors.white, size: 35,),
+          Icon(Icons.call, color: Colors.white, size: 35,),
         ],
 
         /**
@@ -79,15 +79,13 @@ class _UserSocialNavState extends State<UserSocialNav> {
           Text("Home", style: GoogleFonts.poppins(
             color: Colors.white, fontWeight: FontWeight.bold
           ),),
-          Text("Search", style: GoogleFonts.poppins(
+          Text("Doctor", style: GoogleFonts.poppins(
               color: Colors.white, fontWeight: FontWeight.bold
           ),),
-          Text("Forum", style: GoogleFonts.poppins(
+          Text("Calls", style: GoogleFonts.poppins(
               color: Colors.white, fontWeight: FontWeight.bold
           ),),
-          Text("Account", style: GoogleFonts.poppins(
-            color: Colors.white, fontWeight: FontWeight.bold
-          ),),
+         
         ],
         color: Colors.white,
         height: 60,
@@ -135,7 +133,7 @@ class _UserSocialNavState extends State<UserSocialNav> {
            * The index of the screen starts from 0 in sequence
            * which is related to variable tabIndex later on
            */
-          SocialHome(),
+          SocialChat()
 
         ],
       )

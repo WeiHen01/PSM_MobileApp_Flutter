@@ -2,18 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class UserEditProfile extends StatefulWidget {
-  const UserEditProfile({super.key});
+import 'Profile.dart';
+
+class PatientEditProfile extends StatefulWidget {
+  
+  final int? id;
+  final String? name;
+  final String? email;
+
+  PatientEditProfile({Key? key, this.id, this.name, this.email});
 
   @override
-  State<UserEditProfile> createState() => _UserEditProfileState();
+  State<PatientEditProfile> createState() => _PatientEditProfileState();
 }
 
-class _UserEditProfileState extends State<UserEditProfile> {
+class _PatientEditProfileState extends State<PatientEditProfile> {
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController addressCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameCtrl.text = widget.name ?? '';
+    emailCtrl.text = widget.email ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +111,16 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           }
                                           return null;
                                         },
+                                        controller: nameCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Name',
                                           hintStyle: GoogleFonts.poppins(),
                                           prefixIcon: Icon(Icons.person),
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
+                                        ),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
                                         ),
                                       ),
 
@@ -112,12 +135,16 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           }
                                           return null;
                                         },
+                                        controller: emailCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Email',
                                           hintStyle: GoogleFonts.poppins(),
                                           prefixIcon: Icon(Icons.email),
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
+                                        ),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
                                         ),
                                       ),
 
@@ -138,6 +165,9 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           prefixIcon: Icon(Icons.place),
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
+                                        ),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15
                                         ),
                                       ),
 
@@ -190,7 +220,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                         onTap: ()=>Navigator.push(
                                           context, 
                                           MaterialPageRoute(
-                                            builder: (context)=>UserEditProfile()
+                                            builder: (context)=>PatientProfile()
                                           )
                                         ),
                                         child: Card(

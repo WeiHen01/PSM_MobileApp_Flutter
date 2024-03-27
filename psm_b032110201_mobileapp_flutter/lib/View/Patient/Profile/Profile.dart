@@ -10,18 +10,18 @@ import 'About Me.dart';
 import 'Change Password.dart';
 import 'Edit Profile.dart';
 
-class UserProfile extends StatefulWidget {
+class PatientProfile extends StatefulWidget {
   
   final int? id;
   final String? name;
 
-  UserProfile({Key? key, this.id, this.name});
+  PatientProfile({Key? key, this.id, this.name});
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<PatientProfile> createState() => _PatientProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _PatientProfileState extends State<PatientProfile> {
   String email = "";
 
   Future<void> getProfile () async {
@@ -148,7 +148,7 @@ class _UserProfileState extends State<UserProfile> {
                                   onTap: ()=>Navigator.push(
                                     context, 
                                     MaterialPageRoute(
-                                      builder: (context)=>UserEditProfile()
+                                      builder: (context)=>PatientEditProfile(id: widget.id ?? 0, name: widget.name ?? '', email: email)
                                     )
                                   ),
                                   child: Card(

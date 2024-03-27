@@ -5,9 +5,8 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:gradient_icon/gradient_icon.dart';
 
-import '../Doctor/Home.dart';
 import '../Login Menu.dart';
-import '../Widget/User/Social Nav Bar.dart';
+import '../Widget/Patient/Chat NavBar.dart';
 import 'ChatGPT bot/Chat Page.dart';
 import 'Emergency/Emergency Call.dart';
 import 'Profile/Profile.dart';
@@ -97,7 +96,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
               InkWell(
                 onTap: () => Navigator.push(
                   context, MaterialPageRoute(
-                    builder: (context) => UserProfile(id: widget.id ?? 0, name: widget.name ?? ''),
+                    builder: (context) => PatientProfile(id: widget.id ?? 0, name: widget.name ?? ''),
                   )
                 ),
                 child: SizedBox(
@@ -321,7 +320,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
             InkWell(
               onTap: () => Navigator.push(
                 context, MaterialPageRoute(
-                  builder: (context) => UserProfile(id: widget.id ?? 0, name: widget.name ?? ''),
+                  builder: (context) => PatientProfile(id: widget.id ?? 0, name: widget.name ?? ''),
                 )
               ),
               child: Card(
@@ -434,7 +433,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context, MaterialPageRoute(
-                        builder: (context) => UserSocialNav(tabIndexes: 0,),
+                        builder: (context) => ChatNav(tabIndexes: 0,)
                       )
                     ),
                     child: Container(
@@ -469,28 +468,6 @@ class _PatientHomePageState extends State<PatientHomePage> {
                       child: const Text('Emergency Call'),
                     ),
                   ),
-
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.teal[500],
-                      child: const Text('Chat with Doctor!'),
-                    ),
-                  ),
-
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (context) => DoctorHomePage()
-                      )
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.teal[600],
-                      child: const Text('Go to doctor page'),
-                    ),
-                  )
                   
                 ],
               ),
