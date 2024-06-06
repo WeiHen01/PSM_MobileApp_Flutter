@@ -353,13 +353,21 @@ class _DoctorChatRoomState extends State<DoctorChatRoom> {
           children: [
             
             Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.blue,
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: _images != null
+                      ? DecorationImage(
+                      fit: BoxFit.cover,
+                      image: MemoryImage(_images!)
+                  )
+                      : DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(imageUrl)
+                  )
+                ),
               ),
-            ),
 
             const SizedBox(width: 8),
 

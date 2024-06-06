@@ -1,16 +1,17 @@
-# psm_mobileapp_flutter
+# PSM_MobileApp_Flutter
 
-A new Flutter project.
+This repository contains all the mobile application including front-end (User Interface and Behaviour to interact with server side using Rest API Endpoint). For server/backend side, please refer 'PSM_Web_React_Server' in Github
 
-## Getting Started
+## Mobile Application: EpiHealth
 
-This project is a starting point for a Flutter application.
+Developed by NG WEI HEN for BITU3973 & BITU3983 FINAL YEAR PROJECT during Semester 2 and 3 Year 2023/2024
 
-A few resources to get you started if this is your first Flutter project:
+### Technology Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Front-end Language: Flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Architecture: Client-server
+
+Back-end Language: Option 1: Express.js through REST API (Please refer 'PSM_Web_React_Server' in Github), Option 2: Direct interfacing with mongoDB
+
+Database: MongoDB

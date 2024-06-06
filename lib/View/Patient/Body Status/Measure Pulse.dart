@@ -89,7 +89,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
 
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
-                    radiusFactor: 1.3,
+                    radiusFactor: 0.85,
                     majorTickStyle: MajorTickStyle(
                         length: 0.1,
                         thickness: 2,
@@ -143,7 +143,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
                             style:
                             GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
                           ),
-                          positionFactor: 0.8,
+                          positionFactor: 0.6,
                           angle: 90)
                     ],
                   ),

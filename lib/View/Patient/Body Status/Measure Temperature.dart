@@ -83,7 +83,7 @@ class _TempMeasureState extends State<TempMeasure> {
                   axisLabelStyle: GaugeTextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
-                  radiusFactor: 1.3,
+                  radiusFactor: 0.85,
                   majorTickStyle: MajorTickStyle(
                       length: 0.1,
                       thickness: 2,

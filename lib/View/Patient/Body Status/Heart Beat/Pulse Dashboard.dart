@@ -158,7 +158,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
     if (picked != null && picked.start != null && picked.end != null) {
       setState(() {
-        graphTitle = "Temperature records between ${formatDate(picked.start.toString())} and ${formatDate(picked.end.toString())}";
+        graphTitle = "Pulse records between ${formatDate(picked.start.toString())} and ${formatDate(picked.end.toString())}";
       });
       getPulseRecordsByDateRange(picked.start, picked.end);
     }
@@ -184,7 +184,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
         pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
       });
     } catch (e, printStack) {
-      print('Error fetching temperature records: $e');
+      print('Error fetching pulse records: $e');
       print(printStack);
     }
   }
