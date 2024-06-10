@@ -58,7 +58,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
   Future<void> getProfile () async {
     
     MongoDatabase mongo = MongoDatabase();
-    
+    mongo.open("Doctor");
     // Find the user by email and password
     var userList = await mongo.getCertainInfo("Doctor");
     var doctorData;
@@ -80,6 +80,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    MongoDatabase db = MongoDatabase();
+    db.open("Doctor");
     getProfile();
     fetchProfileImage();
   }
@@ -150,7 +152,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.width * 0.2,
+                    top: MediaQuery.of(context).size.width * 0.25,
                   ),
                   child: Column(
                         
@@ -183,13 +185,13 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                               shape: BoxShape.circle,
                                               image: _images != null
                                                   ? DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: MemoryImage(_images!)
-                                              )
+                                                    fit: BoxFit.cover,
+                                                    image: MemoryImage(_images!)
+                                                  )
                                                   : DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(imageUrl)
-                                              ),
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(imageUrl)
+                                                  ),
                                               border: Border.all(
                                                 color: Colors.white,
                                                 width: 4.0,

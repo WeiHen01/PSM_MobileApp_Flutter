@@ -326,148 +326,151 @@ class _ViewProfileState extends State<ViewProfile> {
                       const SizedBox(height: 20.0),
 
                      Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0)
-                                    )
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0)
+                          )
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Temperature", style: GoogleFonts.poppins(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold
+                                )
+                              ),
+                            ),
+                
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF301847), Color(0xFFC10214)
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(width: 2.0),
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                          
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Temperature", style: GoogleFonts.poppins(
-                                            fontSize: 15.0, fontWeight: FontWeight.bold
-                                          )
-                                        ),
-                                      ),
-                          
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.8,
-                                        padding: EdgeInsets.all(10),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: DataTable(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(0xFF301847), Color(0xFFC10214)
-                                                ],
-                                              ),
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              border: Border.all(width: 2.0),
-                                            ),
-                                            headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
-                                            headingTextStyle: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600, color: Colors.white,
-                                              fontSize: 15.0
-                                            ),
-                                            dataTextStyle: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 15.0
-                                            ),
-                                            dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
-                                            columns: [
-                                              DataColumn(label: Text('Date')),
-                                              DataColumn(label: Text('Time')),
-                                              DataColumn(label: Text('Temperature')),
-                                            ],
-                                            rows: temperatures.map((user) {
-                                              return DataRow(cells: [
-                                                DataCell(Text("${formatDate(user.measureDate.toString())}")),
-                                                DataCell(Text("${formatTime(user.measureTime.toString())}")),
-                                                DataCell(Text("${user.temperature}")),
-                                              ]);
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ),
-                          
-                                      const SizedBox(height: 20.0),
-                          
-                                      
-                                    ],
-                                  )
+                                  headingRowHeight: 30,
+                                  columnSpacing: MediaQuery.sizeOf(context).width * 0.06,
+                                  
+                                  headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
+                                  headingTextStyle: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 12.0
+                                  ),
+                                  dataTextStyle: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 12.0
+                                  ),
+                                  dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
+                                  columns: [
+                                    DataColumn(label: Container(width: 50, padding: EdgeInsets.zero, child: Text('Date'))),
+                                    DataColumn(label: Text('Time')),
+                                    DataColumn(label: Text('Temperature')),
+                                  ],
+                                  rows: temperatures.map((user) {
+                                    return DataRow(cells: [
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatDate(user.measureDate.toString())}"))),
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatTime(user.measureTime.toString())}"))),
+                                      DataCell(Text("${user.temperature}")),
+                                    ]);
+                                  }).toList(),
                                 ),
+                              ),
+                            ),
+                
+                            const SizedBox(height: 20.0),
+                
+                            
+                          ],
+                        )
+                      ),
 
-                                const SizedBox(height: 20.0),
-                        
-                        
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0)
-                                    )
+                      const SizedBox(height: 20.0),
+              
+              
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0)
+                          )
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Heart Pulse", style: GoogleFonts.poppins(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold
+                                )
+                              ),
+                            ),
+                      
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF301847), Color(0xFFC10214)
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(width: 2.0),
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                          
-                          
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Heart Pulse", style: GoogleFonts.poppins(
-                                            fontSize: 15.0, fontWeight: FontWeight.bold
-                                          )
-                                        ),
-                                      ),
-                                
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.8,
-                                        padding: EdgeInsets.all(10),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: DataTable(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(0xFF301847), Color(0xFFC10214)
-                                                ],
-                                              ),
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              border: Border.all(width: 2.0),
-                                            ),
-                                            headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
-                                            headingTextStyle: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600, color: Colors.white,
-                                              fontSize: 15.0
-                                            ),
-                                            dataTextStyle: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 15.0
-                                            ),
-                                            dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
-                                            columns: [
-                                              DataColumn(label: Text('Date')),
-                                              DataColumn(label: Text('Time')),
-                                              DataColumn(label: Text('Pulse')),
-                                            ],
-                                            rows: pulses.map((user) {
-                                              return DataRow(cells: [
-                                                DataCell(Text("${formatDate(user.MeasureDate.toString())}")),
-                                                DataCell(Text("${formatTime(user.MeasureTime.toString())}")),
-                                                DataCell(Text("${user.pulseRate}")),
-                                              ]);
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  headingRowHeight: 30,
+                                  columnSpacing: MediaQuery.sizeOf(context).width * 0.1,
+                                  headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
+                                  headingTextStyle: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 12.0
+                                  ),
+                                  dataTextStyle: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 12.0
+                                  ),
+                                  dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
+                                  columns: [
+                                    DataColumn(label: Container(width: 50, padding: EdgeInsets.zero, child: Text('Date'))),
+                                    DataColumn(label: Container(child: Text('Time'))),
+                                    DataColumn(label: Container(child: Text('Pulse'))),
+                                  ],
+                                  rows: pulses.map((user) {
+                                    return DataRow(cells: [
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatDate(user.MeasureDate.toString())}"))),
+                                      DataCell(Container(width: 50, child: Text("${formatTime(user.MeasureTime.toString())}"))),
+                                      DataCell(Text("${user.pulseRate}")),
+                                    ]);
+                                  }).toList(),
                                 ),
-                
+                              ),
+                            ),
+
+                            SizedBox(height: 30),
+
+                            
+
+                          ],
+                        )
+                      ),
                       
-                
-                      
-                        
-                
                       SizedBox(height: 30),
                         
-                        
-                        
+                      
                     ],
                   ),
                 ),

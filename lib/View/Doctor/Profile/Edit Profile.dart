@@ -90,8 +90,7 @@ class _DoctorEditProfileState extends State<DoctorEditProfile> {
     
     MongoDatabase mongo = MongoDatabase();
 
-    await mongo.getCertainInfo("Doctor");
-
+    await mongo.open("Doctor");
     // Find the user by email and password
     var userList = await mongo.getCertainInfo("Doctor");
     var doctorData;

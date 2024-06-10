@@ -190,7 +190,11 @@ class MongoDatabase{
 
   Future<List> getCertainInfo(String collectionName) async {
     try {
-      await open(collectionName);
+      if (db == null) {
+        await open(collectionName);
+      } else {
+        this.database = db;
+      }
       var userList = await db!.collection(collectionName).find().toList();
       debugPrint('Document Fetched');
       return userList;
@@ -202,7 +206,11 @@ class MongoDatabase{
 
   Future<List> getByQuery(String collectionName, Map<String, dynamic> query) async{
     try{
-      await open(collectionName);
+      if (db == null) {
+        await open(collectionName);
+      } else {
+        this.database = db;
+      }
       var lists = await db!.collection(collectionName).find(query).toList();
       return lists;
     } catch (e) {
@@ -217,7 +225,11 @@ class MongoDatabase{
 
   Future<List<Map<String, dynamic>>> getByQuery2(String collectionName, Map<String, dynamic> query, Map<String, dynamic> sortOrder) async {
     try {
-      await open(collectionName);
+      if (db == null) {
+        await open(collectionName);
+      } else {
+        this.database = db;
+      }
       var lists = await db!.collection(collectionName).find(query).sort(sortOrder).toList();
       return lists;
     } catch (e) {
@@ -228,7 +240,11 @@ class MongoDatabase{
 
   Future<List<Map<String, dynamic>>> getByQuery3(String collectionName, Map<String, dynamic> query) async {
     try {
-      await open(collectionName);
+      if (db == null) {
+        await open(collectionName);
+      } else {
+        this.database = db;
+      }
       var lists = await db!.collection(collectionName).find(query).toList();
       return lists;
     } catch (e) {

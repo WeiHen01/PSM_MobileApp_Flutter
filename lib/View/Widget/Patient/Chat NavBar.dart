@@ -96,6 +96,7 @@ class _ChatNavState extends State<ChatNav> {
         ],
         color: Colors.white,
         height: 60,
+        
         circleWidth: 60,
         activeIndex: tabIndex,
         onTap: (index) {

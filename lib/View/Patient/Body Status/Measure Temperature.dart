@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,28 @@ class _TempMeasureState extends State<TempMeasure> {
       // handle the response here
     } catch (e) {
       print('Error sending command to NodeMCU: $e');
+    }
+  }
+
+  var tempReceived;
+
+  Future<void> _getRecordedData() async {
+    final url = 'http://$nodeMCUIP/command'; // Replace with the correct URL
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final responseBody = response.body;
+      // Parse the response body to extract the recorded data
+      // For example, if the response body is a JSON string:
+      final jsonData = jsonDecode(responseBody);
+      final temp = jsonData['temperature'];
+
+      // Update the UI with the recorded data
+      setState(() {
+        tempReceived = temp;
+      });
+    } else {
+      print('Failed to retrieve recorded data');
     }
   }
 
@@ -163,6 +186,7 @@ class _TempMeasureState extends State<TempMeasure> {
             InkWell(
               onTap: (){
                 sendCommandToNodeMCU("Temperature");
+                _getRecordedData();
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.6,

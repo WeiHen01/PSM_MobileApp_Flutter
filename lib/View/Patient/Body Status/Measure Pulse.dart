@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,6 +26,28 @@ class _PulseMeasureState extends State<PulseMeasure> {
       // handle the response here
     } catch (e) {
       print('Error sending command to NodeMCU: $e');
+    }
+  }
+
+  var pulseReceived;
+
+  Future<void> _getRecordedData() async {
+    final url = 'http://$nodeMCUIP/command'; // Replace with the correct URL
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final responseBody = response.body;
+      // Parse the response body to extract the recorded data
+      // For example, if the response body is a JSON string:
+      final jsonData = jsonDecode(responseBody);
+      final pulse = jsonData['pulse'];
+
+      // Update the UI with the recorded data
+      setState(() {
+        pulseReceived = pulse;
+      });
+    } else {
+      print('Failed to retrieve recorded data');
     }
   }
 
@@ -150,9 +173,11 @@ class _PulseMeasureState extends State<PulseMeasure> {
                 ],
               ),
 
+
+
               SizedBox(height: 80),
 
-              Text("Record", style: GoogleFonts.poppins(
+              Text(pulseReceived == null ? '' : pulseReceived, style: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold, color: Colors.black,
                 fontSize: 30.0,  
                 shadows: [
@@ -169,6 +194,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
               InkWell(
                 onTap: (){
                   sendCommandToNodeMCU("Pulse");
+                  _getRecordedData();
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.6,

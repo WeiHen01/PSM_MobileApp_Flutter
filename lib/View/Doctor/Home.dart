@@ -396,6 +396,8 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                 width: MediaQuery.of(context).size.width * 0.4,
                 color: Colors.white
               ),
+
+              SizedBox(height: 50),
               
             ],
           )
@@ -511,9 +513,9 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                         ),
                     
                         subtitle: GradientText(
-                            'Doctor ${name}',
+                            'Dr ${name}',
                             style: GoogleFonts.poppins(
-                                fontSize: 20.0, fontWeight: FontWeight.bold
+                                fontSize: 18.0, fontWeight: FontWeight.bold
                             ),
                             colors: [
                                 Color(0xFF301847), Color(0xFFC10214)
@@ -853,7 +855,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                 ),
               ),
 
-              const SizedBox(height: 20.0),
+               const SizedBox(height: 60.0),
         
 
             ],

@@ -311,138 +311,151 @@ class _DoctorChatState extends State<DoctorChat> {
                             shrinkWrap: true,
                             itemCount: allPatients.length,
                             itemBuilder: (context, index) {
-                              final user = allPatients[index];
-                              final lastMessage = lastMessages[index];
+                              if (index < allPatients.length) {
+                                final user = allPatients[index];
+                                final lastMessage = lastMessages[index];
 
-                              //Split the timestamp into date and time components
-                              List<String> components = lastMessage['timestamp'].toString().split(' ');
-                              // Extract date and time components
-                              print(components);
-                              String date = components.first; 
-                              // Get the current date
-                              DateTime currentDate = DateTime.now();
-                              DateTime? localDateTime;
-                              // Initialize localDateTime based on the extracted date string
-                              try {
-                                localDateTime = DateTime.parse(date);
-                              } catch (e) {
-                                print('Error parsing date: $e');
-                              }
-                              String formattedDate = '';
-                              // Check if localDateTime is not null
-                              if (localDateTime != null) {
-                                // Check if the date is today
-                                if (localDateTime.year == currentDate.year &&
-                                    localDateTime.month == currentDate.month &&
-                                    localDateTime.day == currentDate.day) {
-                                  formattedDate = 'Today';
-                                } 
-                                // Check if the date is yesterday
-                                else if (localDateTime.year == currentDate.year &&
-                                    localDateTime.month == currentDate.month &&
-                                    localDateTime.day == currentDate.day - 1) {
-                                  formattedDate = 'Yesterday';
-                                } 
-                                // Otherwise, display the date
-                                else {
-                                  formattedDate = "${localDateTime.year}-${localDateTime.month.toString().padLeft(2, '0')}-${localDateTime.day.toString().padLeft(2, '0')}";
+                                //Split the timestamp into date and time components
+                                List<String> components = lastMessage['timestamp'].toString().split(' ');
+                                // Extract date and time components
+                                print(components);
+                                String date = components.first; 
+                                // Get the current date
+                                DateTime currentDate = DateTime.now();
+                                DateTime? localDateTime;
+                                // Initialize localDateTime based on the extracted date string
+                                try {
+                                  localDateTime = DateTime.parse(date);
+                                } catch (e) {
+                                  print('Error parsing date: $e');
                                 }
-                              } else {
-                                // Handle case where localDateTime is null (e.g., if parsing the date string fails)
-                                print('localDateTime is null');
-                              }
-                                                    
-                              //String formattedTime = convertTo12HourFormat(lastMessageData['timestamp']);
-                              print('Date Original: $date');
-                              print('Date: $formattedDate');
-                              print('Time: ${components.last}');
-                              List<String> items = components.last.split(':');
-                              print(items);
-                              var hour;
-                              var minute;
-                              String formattedTime = "",  meridiem = "";
-                              if(lastMessages.isNotEmpty){
-                                hour = items.length > 1 ? int.parse(items.first) : '';
-                                minute = items.length > 1 ? items.elementAt(1) : '';
-                                print("$hour: $minute");
-                                // Determine the meridiem (AM or PM)
-                                if(hour != ""){
-                                  meridiem = hour < 12 ? 'AM' : 'PM';
-                                  // Convert the hour to 12-hour format
-                                  if (hour > 12) {
-                                    hour -= 12; // Convert to 12-hour format
-                                  } else if(hour == 0){
-                                    hour = 12;
+                                String formattedDate = '';
+                                // Check if localDateTime is not null
+                                if (localDateTime != null) {
+                                  // Check if the date is today
+                                  if (localDateTime.year == currentDate.year &&
+                                      localDateTime.month == currentDate.month &&
+                                      localDateTime.day == currentDate.day) {
+                                    formattedDate = 'Today';
+                                  } 
+                                  // Check if the date is yesterday
+                                  else if (localDateTime.year == currentDate.year &&
+                                      localDateTime.month == currentDate.month &&
+                                      localDateTime.day == currentDate.day - 1) {
+                                    formattedDate = 'Yesterday';
+                                  } 
+                                  // Otherwise, display the date
+                                  else {
+                                    formattedDate = "${localDateTime.day.toString()}/${localDateTime.month.toString()}/${localDateTime.year}";
                                   }
-                                  // Format the time string
-                                  formattedTime = '$hour:${minute.toString().padLeft(2, '0')} $meridiem';
+                                } else {
+                                  // Handle case where localDateTime is null (e.g., if parsing the date string fails)
+                                  print('localDateTime is null');
                                 }
-                                
-                              }
-                              return Container(
-                                padding: EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    
-                                    
-                                    InkWell(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => DoctorChatRoom(patientID: user.patientID, doctorID: widget.id,)
-                                          )
-                                        );
-                                      },
-                                      child: Card(
-                                        elevation: 5,
-                                        child: ListTile(
-                                          leading: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: profileImages.isNotEmpty && index < profileImages.length && profileImages[index] != null
-                                                  ? DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: MemoryImage(profileImages[index]!)
-                                                    )
-                                                  : DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: AssetImage(imageUrl)
-                                                    ),
+                                                      
+                                //String formattedTime = convertTo12HourFormat(lastMessageData['timestamp']);
+                                print('Date Original: $date');
+                                print('Date: $formattedDate');
+                                print('Time: ${components.last}');
+                                List<String> items = components.last.split(':');
+                                print(items);
+                                var hour;
+                                var minute;
+                                String formattedTime = "",  meridiem = "";
+                                if(lastMessages.isNotEmpty){
+                                  hour = items.length > 1 ? int.parse(items.first) : '';
+                                  minute = items.length > 1 ? items.elementAt(1) : '';
+                                  print("$hour: $minute");
+                                  // Determine the meridiem (AM or PM)
+                                  if(hour != ""){
+                                    meridiem = hour < 12 ? 'AM' : 'PM';
+                                    // Convert the hour to 12-hour format
+                                    if (hour > 12) {
+                                      hour -= 12; // Convert to 12-hour format
+                                    } else if(hour == 0){
+                                      hour = 12;
+                                    }
+                                    // Format the time string
+                                    formattedTime = '$hour:${minute.toString().padLeft(2, '0')} $meridiem';
+                                  }
+                                  
+                                }
+                                return Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      
+                                      
+                                      InkWell(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => DoctorChatRoom(patientID: user.patientID, doctorID: widget.id,)
+                                            )
+                                          );
+                                        },
+                                        child: Card(
+                                          elevation: 5,
+                                          child: ListTile(
+                                            leading: Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: profileImages.isNotEmpty && index < profileImages.length && profileImages[index] != null
+                                                    ? DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: MemoryImage(profileImages[index]!)
+                                                      )
+                                                    : DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(imageUrl)
+                                                      ),
+                                              ),
                                             ),
-                                          ),
 
-                                          title: GradientText(allPatients.isNotEmpty ? user.patientName :"", 
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 18, fontWeight: FontWeight.w500,
+                                            title: Row(
+                                              children: [
+                                                GradientText(allPatients.isNotEmpty ? user.patientName :"", 
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 18, fontWeight: FontWeight.w500,
+                                                  ),
+                                                  colors: [
+                                                      Color(0xFF301847), Color(0xFFC10214)
+                                                  ], overflow: TextOverflow.ellipsis,
+                                                ),
+
+                                                Spacer(),
+
+                                                Text(
+                                                  formattedDate == "Today" ? formattedTime : formattedDate,
+                                                  style: GoogleFonts.poppins(
+                                                  color: Colors.black,
+                                                  fontSize: 11.0
+                                                ),),
+                                              ],
                                             ),
-                                            colors: [
-                                                Color(0xFF301847), Color(0xFFC10214)
-                                            ],
-                                          ),
 
-                                          subtitle: Text(lastMessage['message'],
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 15.0
+                                            subtitle: Text(lastMessage['message'],
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.black,
+                                                fontSize: 15.0
+                                              ), overflow: TextOverflow.ellipsis,
                                             ),
-                                          ),
 
-                                          trailing: Text(formattedDate == "Today" ? formattedTime : formattedDate,
-                                            style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 15.0
-                                          ),),
-                                        
-                                            
+                                              
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    
-                                  ],
-                                ),
-                              );
+                                      
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Container(); // Return an empty container if index is out of range
+                              }
+
+                              
                             },
                           ),
                         ),

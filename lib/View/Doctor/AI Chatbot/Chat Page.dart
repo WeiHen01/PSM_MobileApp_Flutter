@@ -88,7 +88,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
         children: [
           Container(
             //get max height
-            height: MediaQuery.of(context).size.height - 160,
+            height: MediaQuery.of(context).size.height - 200,
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -107,7 +107,6 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
               child: Column(
                 children: [
 
-                  SizedBox(height: 30),
               
                   Expanded(
                     child: Container(
@@ -116,7 +115,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
                         itemCount: _chatHistory.length,
                         shrinkWrap: false,
                         controller: _scrollController,
-                        padding: const EdgeInsets.only(top: 10,bottom: 10),
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: (context, index){
                           
@@ -149,6 +148,8 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
                     ),
                   ),
 
+                  SizedBox(height: 30),
+
 
 
 
@@ -166,7 +167,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                height: 80,
+                height: 160,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(

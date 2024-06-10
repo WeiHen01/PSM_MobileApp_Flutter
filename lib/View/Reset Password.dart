@@ -483,6 +483,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                         ),
                       ),
+
+
+                      const SizedBox(height: 100)
           
                     ],
                   ),

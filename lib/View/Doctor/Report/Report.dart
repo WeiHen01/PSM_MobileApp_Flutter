@@ -1,9 +1,17 @@
+
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:psm_mobileapp_flutter/View/Doctor/Report/View%20Profile.dart';
+import 'View Profile.dart';
 
 import '../../../Controller/MongoDBController.dart';
 import '../../../Model/Patient.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -146,6 +154,38 @@ class _ReportState extends State<Report> {
     return '$hour12:$minute:$second $period';
   }
 
+  Future<void> _createPdf() async {
+    final PdfDocument document = PdfDocument();
+    final PdfPage page = document.pages.add();
+    final PdfGrid grid = PdfGrid();
+    grid.columns.add(count: 2);
+    grid.headers.add(1);
+    final PdfGridRow header = grid.headers[0];
+    header.cells[0].value = 'Patient Name';
+    header.cells[1].value = 'Patient Email';
+
+    allPatients.forEach((patient) {
+      final PdfGridRow row = grid.rows.add();
+      row.cells[0].value = patient.patientName;
+      row.cells[1].value = patient.patientEmail;
+    });
+
+    grid.draw(page: page, bounds: Rect.fromLTWH(0, 0, 0, 0));
+
+    List<int> bytes = await document.save();
+    document.dispose();
+
+    // Use path_provider to get the directory to save the file
+    Directory directory = await getApplicationDocumentsDirectory();
+    String outputFile = '${directory.path}/report.pdf';
+
+    final file = File(outputFile);
+    await file.writeAsBytes(bytes, flush: true);
+    OpenFile.open(outputFile);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,15 +235,18 @@ class _ReportState extends State<Report> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Report", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.black,
-                        fontSize: 20.0
-                      ),),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Report", style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.black,
+                          fontSize: 20.0
+                        ),),
+                      ),
             
                       SizedBox(height: 10),
             
                       Container(
-                        height: 100,
+                        height: 150,
                         child: ListView.separated(
                           separatorBuilder: (context, builder) {
                             return SizedBox(width: 10,);
@@ -228,18 +271,18 @@ class _ReportState extends State<Report> {
                                 ),
                                 
                                 height: 80,
-                                width: 250,
+                                width: MediaQuery.of(context).size.width / 3.8,
                                 child: Column(
                                   children: [
                                     
                                     Text("Highest Temperature Today Record", style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 12.0
-                                    ),),
+                                    ), textAlign: TextAlign.justify,),
                                         
                                     Spacer(),
                                         
-                                    Text("${highestTemperature}", style: GoogleFonts.poppins(
+                                    Text("${highestTemperature ?? "-"}", style: GoogleFonts.poppins(
                                       color: Colors.white, fontWeight: FontWeight.w700,
                                       fontSize: 20.0
                                     ),),
@@ -264,18 +307,18 @@ class _ReportState extends State<Report> {
                                 ),
                                 
                                 height: 80,
-                                width: 250,
+                                width: MediaQuery.of(context).size.width / 3.8,
                                 child: Column(
                                   children: [
                                     
                                     Text("Highest Pulse Today Record", style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 12.0
-                                    ),),
+                                    ), textAlign: TextAlign.justify,),
                                         
                                     Spacer(),
                                         
-                                    Text("${highestPulse}", style: GoogleFonts.poppins(
+                                    Text("${highestPulse ?? "-"}", style: GoogleFonts.poppins(
                                       color: Colors.white, fontWeight: FontWeight.w700,
                                       fontSize: 20.0
                                     ),),
@@ -300,18 +343,18 @@ class _ReportState extends State<Report> {
                                 ),
                                 
                                 height: 80,
-                                width: 250,
+                                width: MediaQuery.of(context).size.width / 3.8,
                                 child: Column(
                                   children: [
                                     
                                     Text("Total Patients", style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 12.0
-                                    ),),
+                                    ), textAlign: TextAlign.justify,),
                                         
                                     Spacer(),
                                         
-                                    Text("${totalPatients}", style: GoogleFonts.poppins(
+                                    Text("${totalPatients ?? 0}", style: GoogleFonts.poppins(
                                       color: Colors.white, fontWeight: FontWeight.w700,
                                       fontSize: 20.0
                                     ),),
@@ -321,28 +364,24 @@ class _ReportState extends State<Report> {
                               ),
                             );
                             }
-                                    
-                                    
-                           
-                                    
-                                    
-                                    
-                            
+                                
                           }
                         ),
                       ),
             
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
             
-                      Text("Patients", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.black,
-                        fontSize: 20.0
-                      ),),
-                      
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("All Patients", style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.black,
+                          fontSize: 20.0
+                        ),),
+                      ),
+
 
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(10),
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
@@ -357,36 +396,80 @@ class _ReportState extends State<Report> {
                             ),
                             headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
                             headingTextStyle: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600, color: Colors.white,
+                              fontWeight: FontWeight.w700, color: Colors.white,
                               fontSize: 15.0
                             ),
                             dataTextStyle: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 15.0
+                              fontSize: 12.0
                             ),
                             dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
                             columns: [
-                              DataColumn(label: Text('Name')),
-                              DataColumn(label: Text('Email')),
-                              DataColumn(label: Text('Action')),
+                              DataColumn(label: Container(child: Text('Patient'),)),
+                              DataColumn(label: Container(width: 50, child: Text('Action'))),
                             ],
                             rows: allPatients.map((user) {
                               return DataRow(cells: [
-                                DataCell(Text(user.patientName)),
-                                DataCell(Text(user.patientEmail)),
-                                DataCell(IconButton(onPressed: (){
+                                DataCell(Container(width: MediaQuery.of(context).size.width * 1/2, child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(user.patientName, style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 15.0, fontWeight: FontWeight.w600
+                                    )),
+                                    Text(user.patientEmail),
+                                  ],
+                                ))),
+                                DataCell(Container(child: IconButton(onPressed: (){
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => ViewProfile(
                                       id: user.patientID
                                     )
                                    )
                                   );
-                                }, icon: Icon(Icons.account_box))),
+                                }, icon: Icon(Icons.account_box)))),
                               ]);
                             }).toList(),
                           ),
+
+
                         ),
+                      ),
+
+                      SizedBox(height: 20),
+                      
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () => _createPdf(),
+                            child: Card(
+                              elevation: 3,
+                              child: Container(
+                                width: 100,
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF301847), Color(0xFFC10214)
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Center(
+                                  child: Text('Print', style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 15.0
+                                  ),),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       )
+
+
                     ]
                   )
                 ),

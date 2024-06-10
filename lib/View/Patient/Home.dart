@@ -415,6 +415,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 width: MediaQuery.of(context).size.width * 0.3,
                 color: Colors.white
               ),
+
+              SizedBox(height: 50),
             ],
           )
 
@@ -887,7 +889,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 ),
               ),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 60.0),
         
         
             ],

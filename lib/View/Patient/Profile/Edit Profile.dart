@@ -332,6 +332,8 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
     // TODO: implement initState
     super.initState();
     getLocalIP();
+    MongoDatabase db = MongoDatabase();
+    db.open("Patient");
     getProfile();
     fetchProfileImage();
     

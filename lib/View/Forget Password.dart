@@ -60,7 +60,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             onConfirm: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ResetPassword(id: patient.patientID, username: patient.patientName, role: "Patient")),
+                MaterialPageRoute(builder: (context) => ResetPassword(id: patientData["PatientID"], username: patientData["PatientName"], role: "Patient")),
               );
             },
           )
@@ -233,7 +233,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               children: [
                 Image.asset("images/Reset_password.png", height: 450),
           
-                Text("FORGET PASSWORD",
+                Text("FORGET PASSWORD for ${(widget.role) == null ? "" : widget.role!.toUpperCase()}",
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                       fontSize: 30, color: Colors.white,
@@ -378,6 +378,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                         ),
                       ),
+
+                      const SizedBox(height: 100),
           
                     ],
                   ),
