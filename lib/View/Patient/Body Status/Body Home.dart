@@ -192,107 +192,110 @@ class _BodyHomeState extends State<BodyHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Today", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.black,
-                        fontSize: 25.0, 
-                        shadows: [
-                          Shadow(
-                            color: Color.fromARGB(255, 139, 139, 139),
-                            offset: Offset(1.0, 2.0),
-                            blurRadius: 4.0,
-                          ),
-                        ],
-                      ),),
-                  
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Colors.grey.shade200,
-                        ),
-                        
-                        padding: EdgeInsets.all(10.0),
-                        width: double.maxFinite,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Card(
-                                  elevation: 4,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.35,
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                                      color: Colors.pink,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text("Latest Temperature", style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontSize: 15.0, 
-                                        ),),
-                                                          
-                                        Text("${latestTemperatureRecord} °C", style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.bold, color: Colors.white,
-                                          fontSize: 20.0,
-                                          shadows: [
-                                            Shadow(
-                                              color: Color.fromARGB(255, 139, 139, 139),
-                                              offset: Offset(1.0, 2.0),
-                                              blurRadius: 4.0,
-                                            ),
-                                          ],
-                                        ),),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                        
-                                Card(
-                                  elevation: 4,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.35,
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                                      color: Colors.pink,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text("Latest Heart Pulse", style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontSize: 15.0, 
-                                        ),),
-                                                          
-                                        Text("${latestPulseRecord} BPM", style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.bold, color: Colors.white,
-                                          fontSize: 20.0, 
-                                          shadows: [
-                                            Shadow(
-                                              color: Color.fromARGB(255, 139, 139, 139),
-                                              offset: Offset(1.0, 2.0),
-                                              blurRadius: 4.0,
-                                            ),
-                                          ],
-                                        ),),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Today", style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.black,
+                          fontSize: 25.0, 
+                          shadows: [
+                            Shadow(
+                              color: Color.fromARGB(255, 139, 139, 139),
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 4.0,
+                            ),
                           ],
+                        ),),
+                    
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.grey.shade200,
+                          ),
+                          
+                          padding: EdgeInsets.all(10.0),
+                          width: double.maxFinite,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Card(
+                                    elevation: 4,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width * 0.35,
+                                      padding: EdgeInsets.all(10.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                                        color: Colors.pink,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text("Latest Temperature", style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 15.0, 
+                                          ),),
+                                                            
+                                          Text("${latestTemperatureRecord} °C", style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.bold, color: Colors.white,
+                                            fontSize: 20.0,
+                                            shadows: [
+                                              Shadow(
+                                                color: Color.fromARGB(255, 139, 139, 139),
+                                                offset: Offset(1.0, 2.0),
+                                                blurRadius: 4.0,
+                                              ),
+                                            ],
+                                          ),),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          
+                                  Card(
+                                    elevation: 4,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width * 0.35,
+                                      padding: EdgeInsets.all(10.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                                        color: Colors.pink,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text("Latest Heart Pulse", style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 15.0, 
+                                          ),),
+                                                            
+                                          Text("${latestPulseRecord} BPM", style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.bold, 
+                                            color: Colors.white,
+                                            fontSize: 20.0, 
+                                            shadows: [
+                                              Shadow(
+                                                color: Color.fromARGB(255, 139, 139, 139),
+                                                offset: Offset(1.0, 2.0),
+                                                blurRadius: 4.0,
+                                              ),
+                                            ],
+                                          ),),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
@@ -554,7 +557,7 @@ class _BodyHomeState extends State<BodyHome> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text("View More", style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold, color: Colors.black,
-                    fontSize: 25.0, 
+                    fontSize: 20.0, 
                     shadows: [
                       Shadow(
                         color: Color.fromARGB(255, 139, 139, 139),
@@ -582,7 +585,7 @@ class _BodyHomeState extends State<BodyHome> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: NetworkImage("https://c0.wallpaperflare.com/preview/448/719/696/appointment-book-blur-care-check-up.jpg")
+                              image: NetworkImage("https://img.freepik.com/free-vector/doctor-smartwatch-with-heart-medical-icons-smartwatch-health-tracker-health-monitor-activity-tracking-concept-pinkish-coral-bluevector-isolated-illustration_335657-2303.jpg")
                             )
                           ),
                         ),
@@ -615,14 +618,14 @@ class _BodyHomeState extends State<BodyHome> {
                       ),
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.width / 2.5,
+                        height: MediaQuery.of(context).size.width / 2,
                         child: Stack(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: NetworkImage("https://wallpapers.com/images/hd/hot-background-0nwqya60ye5z8xup.jpg")
+                                  image: NetworkImage("https://static.vecteezy.com/system/resources/previews/002/390/681/non_2x/thermometer-icon-object-for-measure-temperature-illustration-free-vector.jpg")
                                 )
                               ),
                             ),
@@ -691,14 +694,14 @@ class _BodyHomeState extends State<BodyHome> {
                       ),
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.width / 2.5,
+                        height: MediaQuery.of(context).size.width / 2,
                         child: Stack(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: NetworkImage("https://img.pikbest.com/wp/202408/heart-rate-red-cardiogram-with-hand-shaped-on-a-bold-background-medical-design-in-3d_9773873.jpg!sw800")
+                                  image: NetworkImage("https://cdni.iconscout.com/illustration/premium/thumb/doctor-checking-to-heartrate-monitor-4704802-3919128.png?f=webp")
                                 )
                               ),
                             ),

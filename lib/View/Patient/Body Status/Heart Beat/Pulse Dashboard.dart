@@ -239,115 +239,117 @@ class _PulseDashboardState extends State<PulseDashboard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: SfCartesianChart(
-                    // Initialize category axis
-                    primaryXAxis: CategoryAxis(
-                      // For days view
-                      labelStyle: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10.0),
-                      /* title: AxisTitle(
-                        text: 'Day',
-                        textStyle: GoogleFonts.poppins(
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: SfCartesianChart(
+                      // Initialize category axis
+                      primaryXAxis: CategoryAxis(
+                        // For days view
+                        labelStyle: GoogleFonts.poppins(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15.0),
-                      ), */
-                    ),
-
-                    primaryYAxis: NumericAxis(
-                      labelStyle: GoogleFonts.poppins(
-                        color: Colors.black, fontWeight: FontWeight.w600,
-                        fontSize: 15.0
+                            fontSize: 10.0),
+                        /* title: AxisTitle(
+                          text: 'Day',
+                          textStyle: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15.0),
+                        ), */
                       ),
-                      /* title: AxisTitle(
-                        text: 'Celsius', // Set the label for X axis
+                  
+                      primaryYAxis: NumericAxis(
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.black, fontWeight: FontWeight.w600,
+                          fontSize: 15.0
+                        ),
+                        /* title: AxisTitle(
+                          text: 'Celsius', // Set the label for X axis
+                          textStyle:  GoogleFonts.poppins(
+                            color: Colors.black, fontWeight: FontWeight.w600,
+                            fontSize: 15.0
+                          ),
+                        ), */
+                      ),
+                  
+                  
+                      title: ChartTitle(
+                        text: '${graphTitle}',
                         textStyle:  GoogleFonts.poppins(
                           color: Colors.black, fontWeight: FontWeight.w600,
                           fontSize: 15.0
                         ),
-                      ), */
-                    ),
-
-
-                    title: ChartTitle(
-                      text: '${graphTitle}',
-                      textStyle:  GoogleFonts.poppins(
-                        color: Colors.black, fontWeight: FontWeight.w600,
-                        fontSize: 15.0
                       ),
-                    ),
-
-                    series: <CartesianSeries>[
-
-                      /*  
-                        ColumnSeries: Displays data as vertical columns, with height representing the data value.
-                        BarSeries: Similar to ColumnSeries, but the columns are horizontal.
-                        AreaSeries: Displays data as a filled area, with the area under the curve filled with color.
-                        SplineSeries: Similar to LineSeries, but the curve is smoothed out.
-                        ScatterSeries: Represents individual data points as symbols without connecting them.
-                        BubbleSeries: Represents data points as bubbles, with the size of the bubble representing the data value.
-                        PieSeries: Displays data as slices of a pie, with each slice representing a category and its size representing the data value.
-                        DoughnutSeries: Similar to PieSeries, but with a hole in the center. 
-                      */
-
-                       // Temperature Series
-                      SplineSeries<GraphData, String>(
-                        color: Color(0xFFFF5E00),
-                        dataSource: pulsesData,
-                        xValueMapper: (GraphData value, _) => value.day,
-                        yValueMapper: (GraphData value, _) => value.value,
-                        enableTooltip: true,
-                        name: 'Heart rate (BPM)', // Name of the series
-                        /* dataLabelSettings: DataLabelSettings(
-                          isVisible: true, textStyle:  GoogleFonts.poppins(
+                  
+                      series: <CartesianSeries>[
+                  
+                        /*  
+                          ColumnSeries: Displays data as vertical columns, with height representing the data value.
+                          BarSeries: Similar to ColumnSeries, but the columns are horizontal.
+                          AreaSeries: Displays data as a filled area, with the area under the curve filled with color.
+                          SplineSeries: Similar to LineSeries, but the curve is smoothed out.
+                          ScatterSeries: Represents individual data points as symbols without connecting them.
+                          BubbleSeries: Represents data points as bubbles, with the size of the bubble representing the data value.
+                          PieSeries: Displays data as slices of a pie, with each slice representing a category and its size representing the data value.
+                          DoughnutSeries: Similar to PieSeries, but with a hole in the center. 
+                        */
+                  
+                         // Temperature Series
+                        SplineSeries<GraphData, String>(
+                          color: Color(0xFFFF5E00),
+                          dataSource: pulsesData,
+                          xValueMapper: (GraphData value, _) => value.day,
+                          yValueMapper: (GraphData value, _) => value.value,
+                          enableTooltip: true,
+                          name: 'Heart rate (BPM)', // Name of the series
+                          /* dataLabelSettings: DataLabelSettings(
+                            isVisible: true, textStyle:  GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 8.0
+                          ),) */
+                        ),
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                      ],
+                      // Enable legend
+                  
+                      // Custom legend position
+                      legend: Legend(
+                        isVisible: true,
+                        position: LegendPosition.auto, // Adjust the position here
+                        textStyle:  GoogleFonts.poppins(
                           color: Colors.black,
+                          fontSize: 10.0
+                        ),
+                      ),
+                  
+                      // Enable zooming and panning
+                      zoomPanBehavior: ZoomPanBehavior(
+                        enableSelectionZooming: true,
+                        enableMouseWheelZooming: true,
+                        enablePanning: true,
+                        enablePinching: true,
+                        zoomMode: ZoomMode.x,
+                      ),
+                  
+                      // Add tooltip
+                      tooltipBehavior: TooltipBehavior(
+                        textStyle:  GoogleFonts.poppins(
+                          color: Colors.white,
                           fontSize: 8.0
-                        ),) */
+                        ),
+                        enable: true,
+                  
                       ),
-
-
-
-
-
-
-
-                    ],
-                    // Enable legend
-
-                    // Custom legend position
-                    legend: Legend(
-                      isVisible: true,
-                      position: LegendPosition.auto, // Adjust the position here
-                      textStyle:  GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 10.0
-                      ),
+                  
+                  
                     ),
-
-                    // Enable zooming and panning
-                    zoomPanBehavior: ZoomPanBehavior(
-                      enableSelectionZooming: true,
-                      enableMouseWheelZooming: true,
-                      enablePanning: true,
-                      enablePinching: true,
-                      zoomMode: ZoomMode.x,
-                    ),
-
-                    // Add tooltip
-                    tooltipBehavior: TooltipBehavior(
-                      textStyle:  GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 8.0
-                      ),
-                      enable: true,
-
-                    ),
-
-
                   ),
                 ),
                 
@@ -355,7 +357,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                 SizedBox(height: 15),
 
 
-                 Container(
+                Container(
                   height: 60,
                   child: ListView.separated(
                     separatorBuilder: (context, builder){
@@ -367,31 +369,31 @@ class _PulseDashboardState extends State<PulseDashboard> {
                       if(index == 0){
 
                         return InkWell(
-                        onTap: (){
-                          getAllPulseRecordsByToday();
-                          setState(() {
-                            graphTitle = "Today Pulse";
-                          });
-                        }, 
-                        child: Card(
-                          elevation:3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xFF301847), Color(0xFFC10214)
-                                ],
+                          onTap: (){
+                            getAllPulseRecordsByToday();
+                            setState(() {
+                              graphTitle = "Today Pulse";
+                            });
+                          }, 
+                          child: Card(
+                            elevation:3,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFF301847), Color(0xFFC10214)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(8.0)
                               ),
-                              borderRadius: BorderRadius.circular(8.0)
+                              padding: EdgeInsets.all(15),
+                              child: Text("Today", style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0, color: Colors.white
+                              ),),
                             ),
-                            padding: EdgeInsets.all(15),
-                            child: Text("Today", style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0, color: Colors.white
-                            ),),
-                          ),
-                        )
-                      );
+                          )
+                        );
 
                     
 

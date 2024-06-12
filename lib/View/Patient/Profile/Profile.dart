@@ -169,7 +169,7 @@ class _PatientProfileState extends State<PatientProfile> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.1,
+                    top: MediaQuery.of(context).size.height * 0.15,
                   ),
                   child: Column(
                         
@@ -244,14 +244,14 @@ class _PatientProfileState extends State<PatientProfile> {
                                     color: Colors.grey,
                                   ),
                                                 
-                                  Row(
+                                 /*  Row(
                                     children: [
                                       Text("Description", style: GoogleFonts.poppins(
                                           fontSize: 16.0,
                                         )
                                       ),
                                     ],
-                                  ),
+                                  ), */
                 
                                   const SizedBox(height: 20.0),
                                             
@@ -310,7 +310,7 @@ class _PatientProfileState extends State<PatientProfile> {
                 
                       const SizedBox(height: 20.0),
                 
-                      Card(
+                      /* Card(
                         child: Container(
                           padding: const EdgeInsets.all(10.0),
                           width: MediaQuery.of(context).size.width * 0.8,
@@ -347,7 +347,7 @@ class _PatientProfileState extends State<PatientProfile> {
                             ),
                           ),
                         ),
-                      ),
+                      ), */
                         
                       const SizedBox(height: 10.0),
                         
