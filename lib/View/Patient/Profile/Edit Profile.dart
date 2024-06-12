@@ -1065,6 +1065,8 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                                           ),
                                         )
                                       ),
+
+                                      SizedBox(height: 50)
                                     ],
                                   ),
                                 ),

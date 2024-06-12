@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 
-import '../../Patient/Body Status/Blood Pressure/Pressure Dashboard.dart';
-import '../../Patient/Body Status/Blood Pressure/Pressure History.dart';
-
 
 class PressureNav extends StatefulWidget {
 
@@ -131,8 +128,8 @@ class _PressureNavState extends State<PressureNav> {
            * The index of the screen starts from 0 in sequence
            * which is related to variable tabIndex later on
            */
-          PressureDashboard(),
-          PressureHistory(),
+          //PressureDashboard(),
+          //PressureHistory(),
 
         ],
       )

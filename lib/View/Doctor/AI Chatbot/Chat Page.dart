@@ -88,7 +88,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
         children: [
           Container(
             //get max height
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height - 160,
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
                 gradient: LinearGradient(

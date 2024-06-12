@@ -88,7 +88,7 @@ class _AIChatPageState extends State<AIChatPage> {
         children: [
           Container(
             //get max height
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -108,7 +108,7 @@ class _AIChatPageState extends State<AIChatPage> {
                 children: [
 
                   SizedBox(height: 30),
-              
+
                   Expanded(
                     child: Container(
                       height: double.infinity,
@@ -119,9 +119,9 @@ class _AIChatPageState extends State<AIChatPage> {
                         padding: const EdgeInsets.only(top: 10,bottom: 10),
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: (context, index){
-                          
+
                           return Container(
-                            
+
                             padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
                             child: Align(
                               alignment: (_chatHistory[index]["isSender"]
@@ -152,17 +152,16 @@ class _AIChatPageState extends State<AIChatPage> {
 
 
 
-              
+
                 ],
               ),
             )
 
           ),
 
-          
+
 
           Positioned(
-            bottom: 10,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -186,7 +185,7 @@ class _AIChatPageState extends State<AIChatPage> {
                           hintStyle: GoogleFonts.poppins(
                             color: Colors.white,
                           ),
-                          
+
                           prefixIcon: Icon(Icons.message, color: Colors.white,),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -200,7 +199,7 @@ class _AIChatPageState extends State<AIChatPage> {
                         ),
                       ),
                     ),
-                    
+
                     IconButton(
                       onPressed: (){
                         setState(() {
@@ -211,18 +210,18 @@ class _AIChatPageState extends State<AIChatPage> {
                               "isSender": true,
                             });
                             chatController.clear();
-                    
+
                           }
                         });
                         _scrollController.jumpTo(
                           _scrollController.position.maxScrollExtent,
                         );
-                    
+
                         getAnswer();
                       },
                       icon: Icon(Icons.send, color: Colors.white,)
                     )
-            
+
                   ],
                 ),
               ),
@@ -233,4 +232,3 @@ class _AIChatPageState extends State<AIChatPage> {
     );
   }
 }
-

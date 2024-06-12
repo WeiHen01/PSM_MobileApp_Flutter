@@ -102,7 +102,6 @@ class _PulseMeasureState extends State<PulseMeasure> {
                 axes: <RadialAxis>[
                   
                   RadialAxis(
-
                     ticksPosition: ElementsPosition.outside,
                     labelsPosition: ElementsPosition.outside,
                     minorTicksPerInterval: 5,
@@ -149,7 +148,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
                     ],
                     pointers: <GaugePointer>[
                       NeedlePointer(
-                          value: 175, needleColor: Colors.black,
+                          value: pulseReceived ?? 0, needleColor: Colors.black,
                           tailStyle: TailStyle(length: 0.18, width: 8,
                               color: Colors.black,
                               lengthUnit: GaugeSizeUnit.factor),
@@ -179,7 +178,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
 
               SizedBox(height: 80),
 
-              Text(pulseReceived == null ? '' : pulseReceived, style: GoogleFonts.poppins(
+              Text(pulseReceived ?? '', style: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold, color: Colors.black,
                 fontSize: 30.0,  
                 shadows: [

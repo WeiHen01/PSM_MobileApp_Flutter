@@ -142,7 +142,7 @@ class _TempMeasureState extends State<TempMeasure> {
                   ],
                   pointers: <GaugePointer>[
                     NeedlePointer(
-                        value: 95, needleColor: Colors.black,
+                        value: tempReceived ?? 0, needleColor: Colors.black,
                         tailStyle: TailStyle(length: 0.18, width: 8,
                             color: Colors.black,
                             lengthUnit: GaugeSizeUnit.factor),
@@ -170,7 +170,7 @@ class _TempMeasureState extends State<TempMeasure> {
 
             SizedBox(height: 80),
 
-            Text("Record", style: GoogleFonts.poppins(
+            Text(tempReceived ?? "", style: GoogleFonts.poppins(
               fontWeight: FontWeight.bold, color: Colors.black,
               fontSize: 30.0,  
               shadows: [

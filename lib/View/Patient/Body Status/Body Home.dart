@@ -227,7 +227,7 @@ class _BodyHomeState extends State<BodyHome> {
                                 Card(
                                   elevation: 4,
                                   child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    width: MediaQuery.of(context).size.width * 0.35,
                                     padding: EdgeInsets.all(10.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -259,7 +259,7 @@ class _BodyHomeState extends State<BodyHome> {
                                 Card(
                                   elevation: 4,
                                   child: Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    width: MediaQuery.of(context).size.width * 0.35,
                                     padding: EdgeInsets.all(10.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -726,6 +726,10 @@ class _BodyHomeState extends State<BodyHome> {
 
                   ],
                 ),
+
+                SizedBox(height: 60),
+
+                SizedBox(height: 30),
 
                 
               ]
