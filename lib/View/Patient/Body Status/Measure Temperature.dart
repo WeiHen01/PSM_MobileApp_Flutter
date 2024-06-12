@@ -16,7 +16,8 @@ class TempMeasure extends StatefulWidget {
 
 class _TempMeasureState extends State<TempMeasure> {
 
-  final String nodeMCUIP = '192.168.101.226';
+  // IP here refer to IP connected to NodeMCU
+  final String nodeMCUIP = '192.168.171.226';
 
   Future<void> sendCommandToNodeMCU(String command) async {
 

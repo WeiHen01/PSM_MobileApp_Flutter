@@ -1,14 +1,16 @@
 import 'dart:convert'; //json encode/decode
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
 class WebRequestController{
+
   String path;
 
   //192.168.109.212
   //10.131.78.79
   //10.0.2.2
   //192.168.8.119
-  String server = "http://192.168.8.119:8000/api/";
+
+  String server = "http://192.168.171.212:8000/api/";
   http.Response? _res;
   final Map<dynamic, dynamic> _body = {};
   final Map<String, String> _headers = {};

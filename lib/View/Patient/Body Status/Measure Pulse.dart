@@ -15,7 +15,9 @@ class PulseMeasure extends StatefulWidget {
 }
 
 class _PulseMeasureState extends State<PulseMeasure> {
-  final String nodeMCUIP = '192.168.101.226'; //IP based on IPConfig
+
+  //IP based on NodeMCU
+  final String nodeMCUIP = '192.168.171.226'; //IP based on IPConfig
 
   Future<void> sendCommandToNodeMCU(String command) async {
 
