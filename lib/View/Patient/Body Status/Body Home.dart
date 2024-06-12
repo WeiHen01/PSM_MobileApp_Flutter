@@ -188,6 +188,7 @@ class _BodyHomeState extends State<BodyHome> {
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Container(
+             color: Colors.grey.shade300,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -200,7 +201,7 @@ class _BodyHomeState extends State<BodyHome> {
                       children: [
                         Text("Today", style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold, color: Colors.black,
-                          fontSize: 25.0, 
+                          fontSize: 22.0, 
                           shadows: [
                             Shadow(
                               color: Color.fromARGB(255, 139, 139, 139),
@@ -213,7 +214,7 @@ class _BodyHomeState extends State<BodyHome> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Colors.grey.shade200,
+                            color: Color(0xFFB1B1B1),
                           ),
                           
                           padding: EdgeInsets.all(10.0),
@@ -232,7 +233,11 @@ class _BodyHomeState extends State<BodyHome> {
                                       padding: EdgeInsets.all(10.0),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color: Colors.pink,
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFF301847), Color(0xFFC10214)
+                                          ],
+                                        )
                                       ),
                                       child: Column(
                                         children: [
@@ -264,7 +269,11 @@ class _BodyHomeState extends State<BodyHome> {
                                       padding: EdgeInsets.all(10.0),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        color: Colors.pink,
+                                         gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFF301847), Color(0xFFC10214)
+                                          ],
+                                        )
                                       ),
                                       child: Column(
                                         children: [

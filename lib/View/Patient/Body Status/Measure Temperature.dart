@@ -78,7 +78,7 @@ class _TempMeasureState extends State<TempMeasure> {
 
         title: Text("Measure Temperature", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, color: Colors.white,
-          fontSize: 20.0
+          fontSize: 18.0
         ),),
 
         

@@ -5,6 +5,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../Controller/MongoDBController.dart';
 import '../../../../Model/GraphData.dart';
@@ -131,16 +132,77 @@ class _TempDashboardState extends State<TempDashboard> {
     }
   }
 
+
   void _selectDateRange() async {
-    final picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-      // Customize color scheme
-      
+
+    final ThemeData customTheme = ThemeData(
+      colorScheme: ColorScheme.light(
+        primary: Color.fromARGB(255, 255, 123, 0), // Change the primary color
+      ),
+      textTheme: TextTheme(
+        titleLarge: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF0400FF)
+        ),
+        titleSmall: GoogleFonts.poppins(
+          fontSize: 13.0,
+          color: Color(0xFF0400FF)
+        ),
+        displayMedium: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+        headlineLarge: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF5900FF),
+        ),
+        headlineMedium: GoogleFonts.poppins(
+          fontSize: 16.0,
+          color: Color(0xFF00FFEA),
+        ),
+        headlineSmall: GoogleFonts.poppins(
+          fontSize: 12.0,
+          color: Color(0xFFFF0000),
+        ),
+        bodyLarge: GoogleFonts.poppins(
+          fontSize: 18.0,
+          color: Color(0xFF000000),
+        ),
+        bodyMedium: GoogleFonts.poppins(
+          fontSize: 18.0,
+          color: Color(0xFFFF006A),
+        ),
+        labelLarge: GoogleFonts.poppins(
+          fontSize: 16.0,
+          color: Color(0xFFFC8600),
+        ),
+      ),
     );
 
-    if (picked != null && picked.start != null && picked.end != null) {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(1970),
+      lastDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.calendar,
+      barrierColor: Color(0xFFFF0000).withOpacity(0.5), // Change the background color of the dialog
+      /* initialDateRange: DateTimeRange(
+        start: DateTime.now().subtract(Duration(days: 7)),
+        end: DateTime.now(),
+      ), */
+      
+      builder: (context, child) {
+        return Theme(
+          data: customTheme,
+          child: child!,
+        );
+      },
+
+    );
+
+    if (picked != null) {
       setState(() {
         graphTitle = "Temperature records between ${formatDate(picked.start.toString())} and ${formatDate(picked.end.toString())}";
       });
@@ -341,9 +403,18 @@ class _TempDashboardState extends State<TempDashboard> {
 
                 SizedBox(height: 15),
 
+                Padding(
+                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                  child: Text("View Mode", style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.0
+                  ),),
+                ),
 
                 Container(
-                  height: 60,
+                  height: 120,
+                  padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
                     separatorBuilder: (context, builder){
                       return SizedBox(width: 10);
@@ -352,17 +423,18 @@ class _TempDashboardState extends State<TempDashboard> {
                     itemCount: 3,
                     itemBuilder: (context, index){
                       if(index == 0){
-
                         return InkWell(
                           onTap: (){
                             getAllTempRecordsByToday();
                             setState(() {
                               graphTitle = "Today Temperature";
                             });
+                  
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -371,27 +443,33 @@ class _TempDashboardState extends State<TempDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Today", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.calendar_today, color: Colors.white,),
+                  
+                                  Text("Today", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0
+                                  ),),
+                  
+                  
+                                ],
+                              ),
                             ),
-                          ),
+                          )
                         );
-
-                    
-
                       }
                       else if(index == 1){
                         return InkWell(
                           onTap: (){
                             _selectDateRange();
-                            
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -400,28 +478,37 @@ class _TempDashboardState extends State<TempDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Select date", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.calendar_view_day_rounded, color: Colors.white,),
+                  
+                                  Text("Range of date", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0,
+                                  ), textAlign: TextAlign.center),
+                  
+                  
+                                ],
+                              ),
                             ),
-                          ),
+                          )
                         );
-
-                    
                       }
-                      else {
+                      else{
                         return InkWell(
                           onTap: (){
                             getHighestTempRecordsForRecentDays();
                             setState(() {
                               graphTitle = "Highest temperature records for Recent 5 days";
                             });
+                  
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -430,18 +517,32 @@ class _TempDashboardState extends State<TempDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Highest records for Recent 5 days", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.data_exploration, color: Colors.white,),
+                  
+                                  Text("Highest records in recent 5 days", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0,
+                                  ), textAlign: TextAlign.center),
+                  
+                  
+                                ],
+                              ),
                             ),
-                          ),
+                          )
                         );
                       }
+                  
+                  
+                  
+                  
                     }
                   )
                 )
+
 
 
                 

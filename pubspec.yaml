@@ -89,7 +89,7 @@ dependencies:
   
   flutter_gradient_text: ^1.0.1
   syncfusion_flutter_gauges: ^25.2.4
-  syncfusion_flutter_datepicker: ^25.2.4
+  syncfusion_flutter_datepicker: ^25.2.7
   dropdown_button2: ^2.3.9
   flutter_phone_direct_caller: ^2.1.1
   call_log: ^4.0.0

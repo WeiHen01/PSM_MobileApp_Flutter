@@ -242,6 +242,7 @@ class _DoctorChatState extends State<DoctorChat> {
           getAllPatients();
         },
         child: Container(
+          color: Colors.grey.shade300,
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             

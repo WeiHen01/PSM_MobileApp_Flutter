@@ -79,7 +79,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
 
         title: Text("Measure Pulse", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, color: Colors.white,
-          fontSize: 20.0
+          fontSize: 18.0
         ),),
 
       

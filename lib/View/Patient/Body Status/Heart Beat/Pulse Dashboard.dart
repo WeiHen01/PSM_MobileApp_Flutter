@@ -135,22 +135,67 @@ class _PulseDashboardState extends State<PulseDashboard> {
   }
 
   void _selectDateRange() async {
+    final ThemeData customTheme = ThemeData(
+      colorScheme: ColorScheme.light(
+        primary: Color.fromARGB(255, 255, 123, 0), // Change the primary color
+      ),
+      textTheme: TextTheme(
+        titleLarge: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF0400FF)
+        ),
+        titleSmall: GoogleFonts.poppins(
+          fontSize: 13.0,
+          color: Color(0xFF0400FF)
+        ),
+        displayMedium: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+        headlineLarge: GoogleFonts.poppins(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF5900FF),
+        ),
+        headlineMedium: GoogleFonts.poppins(
+          fontSize: 16.0,
+          color: Color(0xFF00FFEA),
+        ),
+        headlineSmall: GoogleFonts.poppins(
+          fontSize: 12.0,
+          color: Color(0xFFFF0000),
+        ),
+        bodyLarge: GoogleFonts.poppins(
+          fontSize: 18.0,
+          color: Color(0xFF000000),
+        ),
+        bodyMedium: GoogleFonts.poppins(
+          fontSize: 18.0,
+          color: Color(0xFFFF006A),
+        ),
+        labelLarge: GoogleFonts.poppins(
+          fontSize: 16.0,
+          color: Color(0xFFFC8600),
+        ),
+      ),
+    );
+
     final picked = await showDateRangePicker(
       context: context,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1970),
       lastDate: DateTime.now(),
-      // Customize color scheme
-      builder: (BuildContext context, Widget? child) {
+      initialEntryMode: DatePickerEntryMode.calendar,
+      barrierColor: Color(0xFFFF0000).withOpacity(0.5), // Change the background color of the dialog
+      /* initialDateRange: DateTimeRange(
+        start: DateTime.now().subtract(Duration(days: 7)),
+        end: DateTime.now(),
+      ), */
+      
+      builder: (context, child) {
         return Theme(
-          data: ThemeData.from(
-            colorScheme:  ColorScheme.light(
-              // primary: MyColors.primary,
-              primary: Colors.pink,
-              
-            ),
-            
-            //.dialogBackgroundColor:Colors.blue[900],
-          ),
+          data: customTheme,
           child: child!,
         );
       },
@@ -353,12 +398,20 @@ class _PulseDashboardState extends State<PulseDashboard> {
                   ),
                 ),
                 
-                
-                SizedBox(height: 15),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                  child: Text("View Mode", style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.0
+                  ),),
+                ),
 
 
                 Container(
-                  height: 60,
+                  height: 120,
+                  padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
                     separatorBuilder: (context, builder){
                       return SizedBox(width: 10);
@@ -367,7 +420,6 @@ class _PulseDashboardState extends State<PulseDashboard> {
                     itemCount: 3,
                     itemBuilder: (context, index){
                       if(index == 0){
-
                         return InkWell(
                           onTap: (){
                             getAllPulseRecordsByToday();
@@ -376,8 +428,9 @@ class _PulseDashboardState extends State<PulseDashboard> {
                             });
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -386,27 +439,33 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Today", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.calendar_today, color: Colors.white,),
+
+                                  Text("Today", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0
+                                  ),),
+
+
+                                ],
+                              ),
                             ),
                           )
                         );
-
-                    
-
                       }
                       else if(index == 1){
                         return InkWell(
                           onTap: (){
                             _selectDateRange();
-                            
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -415,18 +474,25 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Select date", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
-                            ),
-                          ),
-                        );
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.calendar_view_day_rounded, color: Colors.white,),
 
-                    
+                                  Text("Range of date", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0,
+                                  ), textAlign: TextAlign.center),
+
+
+                                ],
+                              ),
+                            ),
+                          )
+                        );
                       }
-                      else {
+                      else{
                         return InkWell(
                           onTap: (){
                             getHighestPulseRecordsForRecentDays();
@@ -435,8 +501,9 @@ class _PulseDashboardState extends State<PulseDashboard> {
                             });
                           }, 
                           child: Card(
-                            elevation:3,
+                            elevation: 3,
                             child: Container(
+                              width: 100,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -445,18 +512,32 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(8.0)
                               ),
-                              padding: EdgeInsets.all(15),
-                              child: Text("Highest records for Recent 5 days", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0, color: Colors.white
-                              ),),
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.data_exploration, color: Colors.white,),
+
+                                  Text("Highest records in recent 5 days", style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 10.0,
+                                  ), textAlign: TextAlign.center),
+
+
+                                ],
+                              ),
                             ),
-                          ),
+                          )
                         );
                       }
+
+
+
+
                     }
                   )
-                 )
+                )
+
 
 
 

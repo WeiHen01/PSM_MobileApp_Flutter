@@ -316,6 +316,7 @@ class _SocialChatState extends State<SocialChat> {
           getLastMessagesForOtherPatients();
         },
         child: Container(
+           color: Colors.grey.shade300,
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -514,7 +515,7 @@ class _SocialChatState extends State<SocialChat> {
                                   } 
                                   // Otherwise, display the date
                                   else {
-                                    formattedDate = "${localDateTime.year}-${localDateTime.month.toString().padLeft(2, '0')}-${localDateTime.day.toString().padLeft(2, '0')}";
+                                    formattedDate = "${localDateTime.day.toString()}/${localDateTime.month.toString()}/${localDateTime.year}";
                                   }
                                 } else {
                                   // Handle case where localDateTime is null (e.g., if parsing the date string fails)
@@ -580,12 +581,25 @@ class _SocialChatState extends State<SocialChat> {
                                                       ),
                                               ),
                                             ),
-                                            title: GradientText(otherUsers.isNotEmpty ? user.patientName : "", 
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 18, fontWeight: FontWeight.w500
-                                              ),
-                                              colors: [
-                                                Color(0xFF301847), Color(0xFFC10214)
+                                            title: Row(
+                                              children: [
+                                                GradientText(otherUsers.isNotEmpty ? user.patientName : "", 
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 18, fontWeight: FontWeight.w500
+                                                  ),
+                                                  colors: [
+                                                    Color(0xFF301847), Color(0xFFC10214)
+                                                  ],
+                                                ),
+
+                                                Spacer(),
+
+                                                Text(
+                                                  formattedDate == "Today" ? formattedTime : formattedDate,
+                                                  style: GoogleFonts.poppins(
+                                                  color: Colors.black,
+                                                  fontSize: 11.0
+                                                ),),
                                               ],
                                             ),
 
@@ -598,14 +612,7 @@ class _SocialChatState extends State<SocialChat> {
                                               ),
                                             ),
 
-                                            trailing: Text(
-                                              formattedDate == "Today" ? formattedTime : formattedDate,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                              ),
-                                            ),
+                                            
                                             
                                           ),
                                         ),

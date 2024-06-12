@@ -217,7 +217,7 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
       Map<String, dynamic> message = {
         "ChatID": newChatID,
         "ChatMessage": msgCtrl.text,
-        "ChatDateTime": now.toString(),
+        "ChatDateTime": now,
         "ChatStatus": 'Unseen',
         "ReceiverID": "P-" + widget.otherId.toString(),
         "PatientID": "P-" + widget.selfId.toString(),
