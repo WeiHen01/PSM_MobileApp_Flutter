@@ -1,18 +1,11 @@
-
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'View Profile.dart';
 
 import '../../../Controller/MongoDBController.dart';
 import '../../../Model/Patient.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
-
 class Report extends StatefulWidget {
   const Report({super.key});
 
@@ -154,34 +147,21 @@ class _ReportState extends State<Report> {
     return '$hour12:$minute:$second $period';
   }
 
-  Future<void> _createPdf() async {
-    final PdfDocument document = PdfDocument();
-    final PdfPage page = document.pages.add();
-    final PdfGrid grid = PdfGrid();
-    grid.columns.add(count: 2);
-    grid.headers.add(1);
-    final PdfGridRow header = grid.headers[0];
-    header.cells[0].value = 'Patient Name';
-    header.cells[1].value = 'Patient Email';
+  Future _createPdf() async {
+    //final pdfFile = await PdfGenerateAPI.generate(allPatients);
 
-    allPatients.forEach((patient) {
-      final PdfGridRow row = grid.rows.add();
-      row.cells[0].value = patient.patientName;
-      row.cells[1].value = patient.patientEmail;
-    });
+    Fluttertoast.showToast(
+      msg: 'Login Successfully',
+      backgroundColor: Colors.white,
+      textColor: Colors.red,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_SHORT,
+      fontSize: 16.0,
+    );
 
-    grid.draw(page: page, bounds: Rect.fromLTWH(0, 0, 0, 0));
+    //PdfApi.openFile(pdfFile);
 
-    List<int> bytes = await document.save();
-    document.dispose();
-
-    // Use path_provider to get the directory to save the file
-    Directory directory = await getApplicationDocumentsDirectory();
-    String outputFile = '${directory.path}/report.pdf';
-
-    final file = File(outputFile);
-    await file.writeAsBytes(bytes, flush: true);
-    OpenFile.open(outputFile);
+    
   }
 
 
@@ -443,7 +423,10 @@ class _ReportState extends State<Report> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           InkWell(
-                            onTap: () => _createPdf(),
+                            onTap: (){
+                              //_createPdf();
+                              
+                            },
                             child: Card(
                               elevation: 3,
                               child: Container(

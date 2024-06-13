@@ -427,14 +427,14 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
                         final chat = wifdoctorChats[index];
                     
                         // Convert UTC DateTime to local DateTime
-                        DateTime? localDateTime = chat.chatDateTime;
+                        DateTime? localDateTime = chat.chatDateTime!.toLocal();
 
                         // Get the current date
                         DateTime currentDate = DateTime.now();
 
                         // Extract hour and minute from the DateTime object
-                        int hour = chat.chatDateTime?.hour ?? 0;
-                        int minute = chat.chatDateTime?.minute ?? 0;
+                        int hour = localDateTime.hour ?? 0;
+                        int minute = localDateTime.minute ?? 0;
 
                         // Determine if it's AM or PM
                         String period = (hour < 12) ? 'AM' : 'PM';

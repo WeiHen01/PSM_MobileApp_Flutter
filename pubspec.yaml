@@ -102,6 +102,7 @@ dependencies:
   pdf: ^3.10.8
   file_picker: ^8.0.4
   open_file: ^3.3.2
+  fluttertoast: ^8.2.6
 
 
 dev_dependencies:
@@ -130,6 +131,11 @@ flutter:
   # assets:
   assets:
     - images/
+    - assets/fonts/Poppins Bold 700.ttf
+    - assets/fonts/Poppins ExtraBold 800.ttf
+    - assets/fonts/Poppins Medium 500.ttf
+    - assets/fonts/Poppins Regular 400.ttf
+    - assets/fonts/Poppins SemiBold 600.ttf
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

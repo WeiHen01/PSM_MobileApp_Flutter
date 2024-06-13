@@ -438,8 +438,8 @@ class _SocialwifDoctorChatRoomState extends State<ChatWifDoctorRoom> {
                         DateTime currentDate = DateTime.now();
 
                         // Extract hour and minute from the DateTime object
-                        int hour = chat.chatDateTime?.hour ?? 0;
-                        int minute = chat.chatDateTime?.minute ?? 0;
+                        int hour = localDateTime.hour ?? 0;
+                        int minute = localDateTime.minute ?? 0;
 
                         // Determine if it's AM or PM
                         String period = (hour < 12) ? 'AM' : 'PM';

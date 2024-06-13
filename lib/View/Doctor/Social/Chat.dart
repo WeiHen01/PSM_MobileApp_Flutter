@@ -243,6 +243,7 @@ class _DoctorChatState extends State<DoctorChat> {
         },
         child: Container(
           color: Colors.grey.shade300,
+          height: double.maxFinite,
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             
@@ -326,7 +327,7 @@ class _DoctorChatState extends State<DoctorChat> {
                                 DateTime? localDateTime;
                                 // Initialize localDateTime based on the extracted date string
                                 try {
-                                  localDateTime = DateTime.parse(date);
+                                  localDateTime = DateTime.parse(date).toLocal();
                                 } catch (e) {
                                   print('Error parsing date: $e');
                                 }

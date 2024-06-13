@@ -131,8 +131,11 @@ class _SocialChatState extends State<SocialChat> {
 
   Future<void> fetchProfileImages(List<Patient> patients) async {
     List<Uint8List?> images = [];
+    
     final prefs = await SharedPreferences.getInstance();
+    
     String? server = prefs.getString("localhost");
+    
     for (var patient in patients) {
       try {
         final response = await http.get(Uri.parse(
@@ -316,7 +319,7 @@ class _SocialChatState extends State<SocialChat> {
           getLastMessagesForOtherPatients();
         },
         child: Container(
-           color: Colors.grey.shade300,
+          color: Colors.grey.shade300,
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -353,9 +356,7 @@ class _SocialChatState extends State<SocialChat> {
                 ),
             
                 const SizedBox(height: 10.0,),
-
                
-            
                 /**
                  * List 1
                  */
@@ -464,7 +465,7 @@ class _SocialChatState extends State<SocialChat> {
                 /**
                  * List 2
                  */
-                 FutureBuilder<void>(
+                FutureBuilder<void>(
                   future: getOthers,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -531,6 +532,7 @@ class _SocialChatState extends State<SocialChat> {
                                 var hour;
                                 var minute;
                                 String formattedTime = "",  meridiem = "";
+                                
                                 if(lastMessages.isNotEmpty){
                                   hour = items.length > 1 ? int.parse(items.first) : '';
                                   minute = items.length > 1 ? items.elementAt(1) : '';
@@ -549,6 +551,7 @@ class _SocialChatState extends State<SocialChat> {
                                   }
                                   
                                 }
+                                
                                 return Container(
                                   padding: EdgeInsets.all(5),
                                   child: Column(
@@ -620,7 +623,8 @@ class _SocialChatState extends State<SocialChat> {
                                     ],
                                   ),
                                 );
-                              } else {
+                              } 
+                              else {
                                 return Container(); // Return an empty container if index is out of range
                               }
 
