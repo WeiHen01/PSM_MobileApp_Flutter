@@ -612,8 +612,6 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
                 }
               ),
             ),
-
-            Spacer(),
             
             const Divider(
               color: Colors.white,

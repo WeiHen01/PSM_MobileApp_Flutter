@@ -618,13 +618,10 @@ class _SocialwifDoctorChatRoomState extends State<ChatWifDoctorRoom> {
               ),
             ),
 
-            
             const Divider(
               color: Colors.white,
             ),
             
-            
-
             Form(
               key: _formKey,
               child: Row(
