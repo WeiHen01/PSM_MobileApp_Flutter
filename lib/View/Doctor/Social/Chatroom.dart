@@ -616,8 +616,6 @@ class _DoctorChatRoomState extends State<DoctorChatRoom> {
                 }
               ),
             ),
-
-            Spacer(),
             
             const Divider(
               color: Colors.white,
