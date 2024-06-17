@@ -410,11 +410,11 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
 
                 Container(
-                  height: 120,
+                  height: MediaQuery.sizeOf(context).width / 3,
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
                     separatorBuilder: (context, builder){
-                      return SizedBox(width: 10);
+                      return SizedBox(width: 5);
                     },
                     scrollDirection: Axis.horizontal,
                     itemCount: 3,
@@ -430,7 +430,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           child: Card(
                             elevation: 3,
                             child: Container(
-                              width: 100,
+                              width: MediaQuery.sizeOf(context).width / 3.5,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -465,7 +465,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           child: Card(
                             elevation: 3,
                             child: Container(
-                              width: 100,
+                              width:  MediaQuery.sizeOf(context).width / 3.5,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -503,7 +503,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           child: Card(
                             elevation: 3,
                             child: Container(
-                              width: 100,
+                              width:  MediaQuery.sizeOf(context).width / 3.5,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

@@ -177,6 +177,8 @@ class _SocialChatState extends State<SocialChat> {
         chats.sort((a, b) => b['ChatDateTime'].compareTo(a['ChatDateTime']));
 
         if (chats.isNotEmpty) {
+
+          
           messages.add({
             'message': chats.first['ChatMessage'],
             'timestamp': chats.first['ChatDateTime']
