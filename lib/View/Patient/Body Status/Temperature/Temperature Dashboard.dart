@@ -345,7 +345,7 @@ class _TempDashboardState extends State<TempDashboard> {
                       */
 
                        // Temperature Series
-                      SplineSeries<GraphData, String>(
+                      BarSeries<GraphData, String>(
                         color: Color(0xFFFF5E00),
                         dataSource: temperatureData,
                         xValueMapper: (GraphData value, _) => value.day,

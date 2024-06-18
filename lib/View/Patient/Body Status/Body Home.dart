@@ -1,8 +1,10 @@
-import 'dart:convert';
+import 'dart:convert'; //json encode/decode
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../Controller/MongoDBController.dart';
@@ -135,7 +137,23 @@ class _BodyHomeState extends State<BodyHome> {
 
   }
   
+  Future<void> sendCommandToNodeMCU(String command) async {
+    
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? server = await prefs.getString("localhost");
 
+    
+    String? nodeMCUIP = await prefs.getString("nodeMCU");
+
+    Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
+    
+    try {
+      final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
+      // handle the response here
+    } catch (e) {
+      print('Error sending command to NodeMCU: $e');
+    }
+  }
 
 
   @override
@@ -580,11 +598,18 @@ class _BodyHomeState extends State<BodyHome> {
                 SizedBox(height: 10),
 
                 InkWell(
-                  onTap: () => Navigator.push(
-                    context, MaterialPageRoute(
-                      builder: (context) => MeasureNav(tabIndexes: 0, id: widget.id)
-                    )
-                  ),
+                  onTap: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                    //IP based on NodeMCU
+                    await prefs.setString("nodeMCU", "192.168.115.102");
+                    sendCommandToNodeMCU("Start");
+                    Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) => MeasureNav(tabIndexes: 0, id: widget.id)
+                      )
+                    );
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 180,

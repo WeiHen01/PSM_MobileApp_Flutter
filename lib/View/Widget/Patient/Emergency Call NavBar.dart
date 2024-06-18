@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 
-import '../../Patient/Emergency/Contacts.dart';
+import '../../Patient/Emergency/Call History.dart';
 import '../../Patient/Emergency/Emergency Call.dart';
 import '../../Patient/Emergency/Location.dart';
 
@@ -145,7 +145,7 @@ class _EmergencyNavState extends State<EmergencyNav> {
            */
           /* EmergencyLocation(), */
           EmergencyCall(id: widget.patientID),
-          Contacts(id: widget.patientID),
+          CallHistory(id: widget.patientID),
 
         ],
       )

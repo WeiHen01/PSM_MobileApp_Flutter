@@ -2,16 +2,16 @@ import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Contacts extends StatefulWidget {
+class CallHistory extends StatefulWidget {
 
   final int? id;
-  const Contacts({super.key, this.id});
+  const CallHistory({super.key, this.id});
 
   @override
-  State<Contacts> createState() => _ContactsState();
+  State<CallHistory> createState() => _CallHistoryState();
 }
 
-class _ContactsState extends State<Contacts> {
+class _CallHistoryState extends State<CallHistory> {
 
   Iterable<CallLogEntry>? _callLogs;
 
@@ -30,6 +30,16 @@ class _ContactsState extends State<Contacts> {
     } catch (e) {
       print('Failed to fetch call logs: $e');
     }
+  }
+
+  String _formatDate(int? timestamp) {
+    if (timestamp == null) return 'Unknown date';
+    final DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return '${_addLeadingZero(date.day)}-${_addLeadingZero(date.month)}-${date.year} ${_addLeadingZero(date.hour)}:${_addLeadingZero(date.minute)}';
+  }
+
+  String _addLeadingZero(int number) {
+    return number < 10 ? '0$number' : '$number';
   }
 
   @override
@@ -87,15 +97,22 @@ class _ContactsState extends State<Contacts> {
                           fontWeight: FontWeight.bold, color: Colors.black,
                           fontSize: 20.0
                         ),),
-                        subtitle: Text(entry?.number ?? 'No number', style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 15.0
-                        ),),
-                        trailing: Text(entry?.duration.toString() ?? '0', style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 15.0
-                        ),),
-                        leading: Icon(Icons.people),
+                        subtitle: Row(
+                          children: [
+                            Text(entry?.number ?? 'No number', style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 15.0
+                            ),),
+
+                            Spacer(),
+
+                            Text(_formatDate(entry?.timestamp), style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 12.0
+                            ),),
+                          ],
+                        ),
+                        leading: Icon(Icons.call),
                       ),
                     );
                   }

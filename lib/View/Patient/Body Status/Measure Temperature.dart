@@ -3,7 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import '../../../Controller/MongoDBController.dart';
+import '../../../Model/Temperature.dart';
+import '../../Widget/Patient/Custom Loading Popup.dart';
 
 class TempMeasure extends StatefulWidget {
 
@@ -17,22 +22,66 @@ class TempMeasure extends StatefulWidget {
 class _TempMeasureState extends State<TempMeasure> {
 
   // IP here refer to IP connected to NodeMCU
-  final String nodeMCUIP = '192.168.171.226';
+  final String nodeMCUIP = '192.168.115.102';
 
-  /* Future<void> sendCommandToNodeMCU(String command) async {
+  int latestTemperatureRecord = 0;
+  late List<Temperature> temperatures = [];
 
-    Map<String, dynamic> body = {'cmd': command, 'PatientID': 'P-${widget.id}' };
+  Future<void> sendCommandToNodeMCU(String command) async {
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? server = await prefs.getString("localhost");
+
+    Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
     
     try {
-      final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
-      // handle the response here
+      LoadingScreen.show(context, "Loading, please wait");
+      Future.delayed(Duration(seconds: 10), () {
+        // 5s over, navigate to a new page
+        LoadingScreen.hide(context);
+      });
+
+      await http.get(Uri.http('$nodeMCUIP', '/command', body));
+
+      // Get today's date
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day);
+
+
+      try {
+        // Assuming 'MongoDatabase' instance is accessible here
+        var temp = await MongoDatabase().getByQuery("Temperature", 
+          {
+            "PatientID" : 'P-${widget.id}',
+            "MeasureDate": {
+              "\$gte": today, //change to today
+              "\$lt": today.add(Duration(days: 1)),
+            }
+          }
+        );
+        print("All Temperature: $temp");
+        print("Total: ${temp.length}");
+        
+        if(temp.isNotEmpty){
+          setState((){
+            temperatures = temp.map((json) => Temperature.fromJson(json)).toList();
+            latestTemperatureRecord = temperatures.last.temperature;
+            tempReceived = latestTemperatureRecord;
+          });
+        }
+      
+
+      } catch (e, printStack) {
+        print('Error fetching other doctors : $e');
+        print(printStack);
+        // Handle the exception as needed, for example, show an error message to the user
+      }
     } catch (e) {
       print('Error sending command to NodeMCU: $e');
     }
   }
- */
-  var tempReceived;
 
+  var tempReceived;
   
 
   String? temperature;
@@ -131,7 +180,7 @@ class _TempMeasureState extends State<TempMeasure> {
                       ],
                       pointers: <GaugePointer>[
                         NeedlePointer(
-                            value: tempReceived ?? 0, needleColor: Colors.black,
+                            value: tempReceived?.toDouble() ?? 0, needleColor: Colors.black,
                             tailStyle: TailStyle(length: 0.18, width: 8,
                                 color: Colors.black,
                                 lengthUnit: GaugeSizeUnit.factor),
@@ -158,7 +207,7 @@ class _TempMeasureState extends State<TempMeasure> {
                 ),
             
             
-                Text(tempReceived ?? "", style: GoogleFonts.poppins(
+                Text("${tempReceived == null ? "" : '$tempReceived °C'} ", style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold, color: Colors.black,
                   fontSize: 30.0,  
                   shadows: [
@@ -172,8 +221,7 @@ class _TempMeasureState extends State<TempMeasure> {
                 
                 InkWell(
                   onTap: (){
-                    //sendCommandToNodeMCU("Temperature");
-                    //_getRecordedData();
+                    sendCommandToNodeMCU("Temperature");
                   },
                   child: Card(
                     elevation: 3,

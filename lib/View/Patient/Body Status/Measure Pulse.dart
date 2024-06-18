@@ -3,7 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import '../../../Controller/MongoDBController.dart';
+import '../../../Model/Heart Pulse.dart';
+import '../../Widget/Patient/Custom Loading Popup.dart';
 
 class PulseMeasure extends StatefulWidget {
   
@@ -17,19 +22,68 @@ class PulseMeasure extends StatefulWidget {
 class _PulseMeasureState extends State<PulseMeasure> {
 
   //IP based on NodeMCU
-  final String nodeMCUIP = '192.168.171.226'; //IP based on IPConfig
+  //final String nodeMCUIP = '192.168.115.102';
 
-  /* Future<void> sendCommandToNodeMCU(String command) async {
+  int latestPulseRecord = 0;
+  late List<Pulse> pulses = [];
 
-    Map<String, dynamic> body = {'cmd': command, 'PatientID': 'P-${widget.id}' };
+  Future<void> sendCommandToNodeMCU(String command) async {
+    
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? server = await prefs.getString("localhost");
+
+    
+    String? nodeMCUIP = await prefs.getString("nodeMCU");
+
+    Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
     
     try {
+      LoadingScreen.show(context, "Please place your finger while measuring..");
+      Future.delayed(Duration(seconds: 10), () {
+        // 5s over, navigate to a new page
+        LoadingScreen.hide(context);
+      });
+
       final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
+
+      // Get today's date
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day);
+
+
+      try {
+        // Assuming 'MongoDatabase' instance is accessible here
+        var pulse = await MongoDatabase().getByQuery("Heart_Pulse", 
+          {
+            "PatientID" : 'P-${widget.id}',
+            "MeasureDate": {
+              "\$gte": today, //change to today
+              "\$lt": today.add(Duration(days: 1)),
+            }
+          }
+        );
+        print("All Pulse: $pulse");
+        print("Total: ${pulse.length}");
+        
+        if(pulse.isNotEmpty){
+          setState((){
+            pulses = pulse.map((json) => Pulse.fromJson(json)).toList();
+            latestPulseRecord = pulses.last.pulseRate;
+            pulseReceived = latestPulseRecord;
+          });
+        }
+
+      } catch (e, printStack) {
+        print('Error fetching other pulses : $e');
+        print(printStack);
+        // Handle the exception as needed, for example, show an error message to the user
+      }
+
       // handle the response here
     } catch (e) {
       print('Error sending command to NodeMCU: $e');
     }
-  } */
+  }
 
   var pulseReceived;
 
@@ -131,7 +185,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
                       ],
                       pointers: <GaugePointer>[
                         NeedlePointer(
-                            value: pulseReceived ?? 0, needleColor: Colors.black,
+                            value: pulseReceived?.toDouble() ?? 0, needleColor: Colors.black,
                             tailStyle: TailStyle(length: 0.18, width: 8,
                                 color: Colors.black,
                                 lengthUnit: GaugeSizeUnit.factor),
@@ -158,7 +212,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
                 ),
             
             
-                Text(pulseReceived ?? '', style: GoogleFonts.poppins(
+                Text("${pulseReceived == null ? "" : '$pulseReceived BPM'}", style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold, color: Colors.black,
                   fontSize: 30.0,  
                   shadows: [
@@ -172,7 +226,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
             
                 InkWell(
                   onTap: (){
-                    //sendCommandToNodeMCU("Pulse");
+                    sendCommandToNodeMCU("Pulse");
                     //_getRecordedData();
                   },
                   child: Card(
