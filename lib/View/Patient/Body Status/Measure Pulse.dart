@@ -39,16 +39,16 @@ class _PulseMeasureState extends State<PulseMeasure> {
     Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
     
     try {
-      
-
-      
-
       LoadingScreen.show(context, "Please place your finger while measuring.. Might take 10-15 seconds..");
-      final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
+      
       Future.delayed(Duration(seconds: 10), () {
         // 5s over, navigate to a new page
-        LoadingScreen.hide(context);
+        LoadingScreen.hide(context); 
       });
+      await http.get(Uri.http('$nodeMCUIP', '/command', body));
+      
+
+      
 
       // Get today's date
       DateTime now = DateTime.now();
