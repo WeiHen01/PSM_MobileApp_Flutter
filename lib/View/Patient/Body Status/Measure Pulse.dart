@@ -1,3 +1,4 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -38,13 +39,16 @@ class _PulseMeasureState extends State<PulseMeasure> {
     Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
     
     try {
-      LoadingScreen.show(context, "Please place your finger while measuring..");
+      
+
+      
+
+      LoadingScreen.show(context, "Please place your finger while measuring.. Might take 10-15 seconds..");
+      final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
       Future.delayed(Duration(seconds: 10), () {
         // 5s over, navigate to a new page
         LoadingScreen.hide(context);
       });
-
-      final response = await http.get(Uri.http('$nodeMCUIP', '/command', body));
 
       // Get today's date
       DateTime now = DateTime.now();
@@ -70,6 +74,60 @@ class _PulseMeasureState extends State<PulseMeasure> {
             pulses = pulse.map((json) => Pulse.fromJson(json)).toList();
             latestPulseRecord = pulses.last.pulseRate;
             pulseReceived = latestPulseRecord;
+
+            if(pulseReceived < 60){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "LOW PULSE DATA",
+                  text: "The pulse data: ${pulseReceived}! Suggested to try measure again!",
+              
+                ),
+              );
+            }
+
+            if(pulseReceived > 60 && pulseReceived < 100){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.success,
+                  title: "NORMAL PULSE DATA",
+                  text: "Your pulse data: ${pulseReceived} is normal! ",
+                
+                  
+                ),
+              );
+            }
+
+            if(pulseReceived > 100 && pulseReceived < 120){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.warning,
+                  title: "ELEVATED PULSE DATA",
+                  text: "Your pulse data: ${pulseReceived} is elevated! Please be careful!",
+                
+                  
+                ),
+              );
+            }
+
+             if(pulseReceived > 130){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "DANGER PULSE DATA",
+                  text: "Your pulse data: ${pulseReceived} is too high! Please take a rest now!",
+                
+                  onConfirm: () async{
+                    LoadingScreen.hide(context);
+                    Navigator.pop(context); // Dismiss the dialog
+                  }
+                ),
+              );
+            }
           });
         }
 

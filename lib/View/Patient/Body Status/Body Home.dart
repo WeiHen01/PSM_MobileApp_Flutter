@@ -199,7 +199,6 @@ class _BodyHomeState extends State<BodyHome> {
         onRefresh: ()async {
           // Simulate a time-consuming task
           await Future.delayed(Duration(seconds: 1));
-          
           getAllTempRecordsByToday();
           getAllPulseRecordsByToday();
         },

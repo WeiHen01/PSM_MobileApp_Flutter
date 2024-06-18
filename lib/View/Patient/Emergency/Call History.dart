@@ -1,6 +1,10 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../Controller/MongoDBController.dart';
+import '../../../Model/Emergency.dart';
 
 class CallHistory extends StatefulWidget {
 
@@ -13,7 +17,7 @@ class CallHistory extends StatefulWidget {
 
 class _CallHistoryState extends State<CallHistory> {
 
-  Iterable<CallLogEntry>? _callLogs;
+  //Iterable<CallLogEntry>? _callLogs;
 
   @override
   void initState() {
@@ -21,26 +25,64 @@ class _CallHistoryState extends State<CallHistory> {
     _fetchCallLogs();
   }
 
+  late List<Emergency> calls = [];
+
   Future<void> _fetchCallLogs() async {
     try {
-      final Iterable<CallLogEntry> result = await CallLog.get();
-      setState(() {
-        _callLogs = result;
-      });
+      //final Iterable<CallLogEntry> result = await CallLog.get();
+      // Assuming 'MongoDatabase' instance is accessible here
+      var emergencyCall = await MongoDatabase().getByQuery("Emergency_Call", 
+        {
+          "PatientID" : widget.id
+        }
+      );
+      print("All Call: $emergencyCall");
+      if(emergencyCall.isNotEmpty){
+        setState((){
+          calls = emergencyCall.map((json) => Emergency.fromJson(json)).toList();
+        });
+      }
     } catch (e) {
       print('Failed to fetch call logs: $e');
     }
   }
 
-  String _formatDate(int? timestamp) {
-    if (timestamp == null) return 'Unknown date';
-    final DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return '${_addLeadingZero(date.day)}-${_addLeadingZero(date.month)}-${date.year} ${_addLeadingZero(date.hour)}:${_addLeadingZero(date.minute)}';
+  CallContact(String number) async{
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+
+    // save the emergency contact
+    MongoDatabase db = MongoDatabase();
+
+    Map<String, dynamic> query = {
+      "PatientID": {"\$exists": true} // Check if ChatID exists
+    };
+
+    // Count the total number of documents in the "Chat" collection
+    var lists = await db.getCertainInfo("Emergency_Call");
+
+    int total = lists.length;
+
+    // Increment the new chat ID by 1
+    int newCallID = total + 1;
+
+    DateTime now = DateTime.now();
+
+    // Construct the message document
+    Map<String, dynamic> message = {
+      "CallingID": newCallID,
+      "TargetNumber": number,
+      "CallingTimestamp" : now,
+      "PatientID": widget.id
+    };
+
+    print(message);
+
+    // Store the message in MongoDB
+    var result = await db.insert("Emergency_Call", message);
+
+    print(result);
   }
 
-  String _addLeadingZero(int number) {
-    return number < 10 ? '0$number' : '$number';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +111,7 @@ class _CallHistoryState extends State<CallHistory> {
       body: RefreshIndicator(
         onRefresh: () async{
           await Future.delayed(Duration(seconds: 1));
+          _fetchCallLogs();
         },
         child: Container(
           padding: EdgeInsets.all(10.0),
@@ -84,35 +127,27 @@ class _CallHistoryState extends State<CallHistory> {
         
               Expanded(
                 child: ListView.separated(
-                  itemCount: _callLogs?.length ?? 0,
+                  itemCount: calls.length,
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: 8); // Adjust the height as needed
                   },
                   physics: AlwaysScrollableScrollPhysics(),
                   itemBuilder: (context, index){
-                    final entry = _callLogs?.elementAt(index);
+                    final entry = calls.elementAt(index);
                     return Card(
                       child: ListTile(
-                        title: Text(entry?.name ?? 'Unknown', style: GoogleFonts.poppins(
+                        title: Text(entry.targetNumber, style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold, color: Colors.black,
                           fontSize: 20.0
                         ),),
-                        subtitle: Row(
-                          children: [
-                            Text(entry?.number ?? 'No number', style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 15.0
-                            ),),
-
-                            Spacer(),
-
-                            Text(_formatDate(entry?.timestamp), style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 12.0
-                            ),),
-                          ],
-                        ),
+                        subtitle: Text("${entry.callDateTime}", style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 12.0
+                        ),),
                         leading: Icon(Icons.call),
+                        trailing: IconButton(onPressed: (){
+                          CallContact(entry.targetNumber);
+                        }, icon: Icon(Icons.phone),),
                       ),
                     );
                   }

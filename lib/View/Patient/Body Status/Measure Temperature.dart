@@ -36,7 +36,7 @@ class _TempMeasureState extends State<TempMeasure> {
     
     try {
       LoadingScreen.show(context, "Loading, please wait");
-      Future.delayed(Duration(seconds: 10), () {
+      Future.delayed(Duration(seconds: 5), () {
         // 5s over, navigate to a new page
         LoadingScreen.hide(context);
       });
