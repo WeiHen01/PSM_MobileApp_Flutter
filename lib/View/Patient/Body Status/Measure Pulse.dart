@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../../Controller/MongoDBController.dart';
+import '../../../Controller/OneSignal Controller.dart';
 import '../../../Model/Heart Pulse.dart';
 import '../../Widget/Patient/Custom Loading Popup.dart';
 
@@ -81,10 +82,21 @@ class _PulseMeasureState extends State<PulseMeasure> {
                 artDialogArgs: ArtDialogArgs(
                   type: ArtSweetAlertType.danger,
                   title: "LOW PULSE DATA",
-                  text: "The pulse data: ${pulseReceived}! Suggested to try measure again!",
+                  text: "The pulse data: ${pulseReceived} is low! Suggested to try measure again!",
               
                 ),
               );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+
+              var title = "Low Pulse data!";
+              var desc = "The pulse data: ${pulseReceived} is low! Suggested to try measure again!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
             }
 
             if(pulseReceived > 60 && pulseReceived < 100){
@@ -98,6 +110,17 @@ class _PulseMeasureState extends State<PulseMeasure> {
                   
                 ),
               );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+
+              var title = "Normal Pulse data!";
+              var desc = "Your pulse data: ${pulseReceived} is normal!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
             }
 
             if(pulseReceived > 100 && pulseReceived < 120){
@@ -111,6 +134,17 @@ class _PulseMeasureState extends State<PulseMeasure> {
                   
                 ),
               );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+              
+              var title = "Elevated Pulse data!";
+              var desc = "Your pulse data: ${pulseReceived} is elevated! Please be careful!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
             }
 
              if(pulseReceived > 130){
@@ -127,6 +161,17 @@ class _PulseMeasureState extends State<PulseMeasure> {
                   }
                 ),
               );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+              
+              var title = "Danger Pulse data!";
+              var desc = "Your pulse data: ${pulseReceived} is too high! Please take a rest now!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
             }
           });
         }

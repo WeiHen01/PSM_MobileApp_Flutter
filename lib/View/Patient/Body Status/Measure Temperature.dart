@@ -1,3 +1,4 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../../Controller/MongoDBController.dart';
+import '../../../Controller/OneSignal Controller.dart';
 import '../../../Model/Temperature.dart';
 import '../../Widget/Patient/Custom Loading Popup.dart';
 
@@ -67,6 +69,76 @@ class _TempMeasureState extends State<TempMeasure> {
             temperatures = temp.map((json) => Temperature.fromJson(json)).toList();
             latestTemperatureRecord = temperatures.last.temperature;
             tempReceived = latestTemperatureRecord;
+
+            if(tempReceived < 20){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.warning,
+                  title: "LOW TEMPERATURE",
+                  text: "The temperature is ${tempReceived}°C! It is cold now!",
+                
+                ),
+              );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+              
+              var title = "LOW TEMPERATURE";
+              var desc = "The temperature is ${tempReceived}°C! It is cold now!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
+            }
+
+            if(tempReceived > 20 && tempReceived < 33){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.success,
+                  title: "NORMAL TEMPERATURE DATA",
+                  text: "Your temperature data: ${tempReceived} is normal! ",
+                
+                  
+                ),
+              );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+
+              var title = "Normal Temperature data!";
+              var desc = "Your temperature data: ${tempReceived} is normal!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
+            }
+
+            if(tempReceived > 33){
+              ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.warning,
+                  title: "HIGH TEMPERATURE",
+                  text: "The temperature is ${tempReceived}°C! It is hot now! Please be careful!",
+                
+                ),
+              );
+
+              String id = "P-${widget.id}";
+              List<String> sendTo = [];
+
+              sendTo.add(id);
+              
+              var title = "HIGH TEMPERATURE";
+              var desc = "The temperature is ${tempReceived}°C! It is hot now! Please be careful!";
+
+              OneSignalController onesignal = OneSignalController();
+              onesignal.SendNotification(title, desc, sendTo);
+            }
           });
         }
       
