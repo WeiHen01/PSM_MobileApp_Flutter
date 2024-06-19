@@ -429,12 +429,12 @@ class _DoctorChatState extends State<DoctorChat> {
 
                                                 Spacer(),
 
-                                                Text(
+                                                /* Text(
                                                   formattedDate == "Today" ? formattedTime : formattedDate,
                                                   style: GoogleFonts.poppins(
                                                   color: Colors.black,
                                                   fontSize: 11.0
-                                                ),),
+                                                ),), */
                                               ],
                                             ),
 
