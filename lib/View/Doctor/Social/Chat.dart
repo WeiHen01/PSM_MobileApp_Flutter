@@ -239,7 +239,8 @@ class _DoctorChatState extends State<DoctorChat> {
         onRefresh: ()async {
           // Simulate a time-consuming task
           await Future.delayed(Duration(seconds: 1));
-          getAllPatients();
+           getPatients = getAllPatients();
+           getAllPatientsWithLastMessages();
         },
         child: Container(
           color: Colors.grey.shade300,
@@ -261,6 +262,10 @@ class _DoctorChatState extends State<DoctorChat> {
                     prefixIcon: Icon(Icons.search),
                     filled: true,
                     fillColor: Color(0xFFF0F0F0),
+                  ),
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 18.0
                   ),
                   onChanged: (value) {
                   // If the query is empty, reload all users
