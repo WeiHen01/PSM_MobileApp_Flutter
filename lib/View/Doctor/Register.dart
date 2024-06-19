@@ -23,9 +23,11 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController emailCtrl = TextEditingController();
-  TextEditingController specializeCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController usernameCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
   TextEditingController conPasswordCtrl = TextEditingController();
+  TextEditingController contactCtrl = TextEditingController();
   
   bool _password = false;
   bool _confirmPass = false;
@@ -102,10 +104,12 @@ class _DoctorRegisterState extends State<DoctorRegister> {
         // Construct the doctor document
         Map<String, dynamic> doctorData = {
           "DoctorID": newDoctorID,
-          "DoctorName": 'new-doctor',
+          "DoctorName": nameCtrl.text,
+          "DoctorUsername": usernameCtrl.text,
+          "DoctorContact": contactCtrl.text,
           "DoctorEmail": emailCtrl.text,
           "DoctorPassword": passwordCtrl.text,
-          "DoctorSpecialize": specializeCtrl.text,
+          
         };
 
         // Store the doctor in MongoDB
@@ -332,23 +336,133 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter specialize';
+                                return 'Please enter name';
                               }
                               return null;
                             },
                             style: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            controller: specializeCtrl,
+                            controller: nameCtrl,
                             decoration: InputDecoration(
                               labelStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
-                              hintText: 'Specialize',
+                              hintText: 'Name',
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
-                              prefixIcon: const Icon(FontAwesomeIcons.stethoscope, color: Colors.white),
+                              prefixIcon: const Icon(FontAwesomeIcons.user, color: Colors.white),
+                              
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+          
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter username';
+                              }
+                              return null;
+                            },
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: usernameCtrl,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Username',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(FontAwesomeIcons.user, color: Colors.white),
+                              
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+          
+                        const SizedBox(height: 15),
+
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter contact';
+                              }
+                              return null;
+                            },
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: contactCtrl,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Contact',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(FontAwesomeIcons.phone, color: Colors.white),
                               
                               filled: true,
                               fillColor: Colors.transparent,

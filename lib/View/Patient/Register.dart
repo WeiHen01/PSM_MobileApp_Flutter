@@ -30,6 +30,8 @@ class _UserRegisterState extends State<UserRegister> {
   TextEditingController passwordCtrl = TextEditingController();
   TextEditingController conPasswordCtrl = TextEditingController();
   TextEditingController contactCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController usernameCtrl = TextEditingController();
 
   final List<String> genderItems = [
     'Male',
@@ -123,7 +125,8 @@ class _UserRegisterState extends State<UserRegister> {
         // Construct the message document
         Map<String, dynamic> message = {
           "PatientID": newPatientID,
-          "PatientName": 'new-user',
+          "PatientName": nameCtrl.text,
+          "PatientUsername": usernameCtrl.text,
           "PatientEmail" : emailCtrl.text,
           "PatientPassword": passwordCtrl.text,
           "PatientContact": contactCtrl.text,
@@ -338,6 +341,116 @@ class _UserRegisterState extends State<UserRegister> {
                           ),
                         ),
           
+                        const SizedBox(height: 15),
+
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter name';
+                              }
+                              return null;
+                            },
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: nameCtrl,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Name',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(FontAwesomeIcons.user, color: Colors.white),
+                              
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+          
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter username';
+                              }
+                              return null;
+                            },
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: usernameCtrl,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Username',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(FontAwesomeIcons.user, color: Colors.white),
+                              
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+
                         const SizedBox(height: 15),
           
                         // Add TextFormFields and ElevatedButton here.
