@@ -340,8 +340,23 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           DoughnutSeries: Similar to PieSeries, but with a hole in the center. 
                         */
                   
-                         // Temperature Series
-                        SplineSeries<GraphData, String>(
+                        pulsesData.length > 1
+                        // Temperature Series
+                        ? SplineSeries<GraphData, String>(
+                          color: Color(0xFFFF5E00),
+                          dataSource: pulsesData,
+                          xValueMapper: (GraphData value, _) => value.day,
+                          yValueMapper: (GraphData value, _) => value.value,
+                          enableTooltip: true,
+                          name: 'Heart rate (BPM)', // Name of the series
+                          /* dataLabelSettings: DataLabelSettings(
+                            isVisible: true, textStyle:  GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 8.0
+                          ),) */
+                        )
+                        
+                        : ColumnSeries<GraphData, String>(
                           color: Color(0xFFFF5E00),
                           dataSource: pulsesData,
                           xValueMapper: (GraphData value, _) => value.day,

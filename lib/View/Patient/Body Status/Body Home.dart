@@ -85,6 +85,8 @@ class _BodyHomeState extends State<BodyHome> {
           temperatureData = temperatures.map((temp) =>
               GraphData(day: formatTime(temp.measureTime.toString()), value2: temp.temperature)
           ).toList();
+
+          print("All temp: ${temperatures}");
         });
       }
 
@@ -126,6 +128,8 @@ class _BodyHomeState extends State<BodyHome> {
           pulseData = pulses.map((pulse) =>
               GraphData(day: formatTime(pulse.MeasureTime.toString()), value2: pulse.pulseRate)
           ).toList();
+
+          print("All Pulse: ${pulses}");
         });
       }
 
@@ -382,7 +386,22 @@ class _BodyHomeState extends State<BodyHome> {
                       */
 
                        // Temperature Series
-                      ColumnSeries<GraphData, String>(
+                      temperatureData.length > 1 
+                      ? SplineSeries<GraphData, String>(
+                        color: Color(0xFFFF0019),
+                        dataSource: temperatureData,
+                        xValueMapper: (GraphData value, _) => value.day,
+                        yValueMapper: (GraphData value, _) => value.value2,
+                        enableTooltip: true,
+                        name: 'Temperature (°C)', // Name of the series
+                        /* dataLabelSettings: DataLabelSettings(
+                          isVisible: true, textStyle:  GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 8.0
+                        ),) */
+                      )
+                      
+                      : ColumnSeries<GraphData, String>(
                         color: Color(0xFFFF0019),
                         dataSource: temperatureData,
                         xValueMapper: (GraphData value, _) => value.day,
@@ -503,7 +522,24 @@ class _BodyHomeState extends State<BodyHome> {
 
 
                       // Heart Pulse Series
-                      LineSeries<GraphData, String>(
+                      pulseData.length > 1 
+                      ? LineSeries<GraphData, String>(
+                        color: Color(0xFF0400FF),
+                        dataSource: pulseData,
+                        xValueMapper: (GraphData data, _) => data.day!,
+                        yValueMapper: (GraphData data, _) => data.value2!.toDouble(),
+                        enableTooltip: true,
+
+
+                        name: 'Heart Pulse (bpm)', // Name of the series
+                        /* dataLabelSettings: DataLabelSettings(isVisible: true, 
+                        textStyle:  GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 8.0
+                        ),) */
+                      )
+
+                      : ColumnSeries<GraphData, String>(
                         color: Color(0xFF0400FF),
                         dataSource: pulseData,
                         xValueMapper: (GraphData data, _) => data.day!,

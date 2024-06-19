@@ -345,7 +345,23 @@ class _TempDashboardState extends State<TempDashboard> {
                       */
 
                        // Temperature Series
-                      BarSeries<GraphData, String>(
+                      temperatureData.length > 1 
+
+                      ? SplineSeries<GraphData, String>(
+                        color: Color(0xFFFF5E00),
+                        dataSource: temperatureData,
+                        xValueMapper: (GraphData value, _) => value.day,
+                        yValueMapper: (GraphData value, _) => value.value,
+                        enableTooltip: true,
+                        name: 'Temperature (°C)', // Name of the series
+                        /* dataLabelSettings: DataLabelSettings(
+                          isVisible: true, textStyle:  GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 8.0
+                        ),) */
+                      )
+
+                      : ColumnSeries<GraphData, String>(
                         color: Color(0xFFFF5E00),
                         dataSource: temperatureData,
                         xValueMapper: (GraphData value, _) => value.day,
