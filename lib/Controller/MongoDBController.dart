@@ -73,6 +73,9 @@ class MongoDatabase{
    */
   Future<void> delete(int id, String collectionName, String attributes) async {
     try {
+      if (db == null || !db.isConnected) {
+        await open(collectionName);
+      } 
       await db!.collection(collectionName).remove(where.eq(attributes, id));
       debugPrint('Document Removed');
     } catch (e) {

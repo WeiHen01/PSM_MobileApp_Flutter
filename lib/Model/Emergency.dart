@@ -9,7 +9,7 @@ class Emergency {
   );
 
   Emergency.fromJson(Map<String, dynamic> json)
-  : callID = json["ChatID"] ?? 0,
+  : callID = json["CallingID"] ?? 0,
     callDateTime = json["CallingTimestamp"] != null
       ? json["CallingTimestamp"]
       : null,

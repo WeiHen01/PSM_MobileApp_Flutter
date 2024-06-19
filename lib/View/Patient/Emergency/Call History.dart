@@ -83,6 +83,19 @@ class _CallHistoryState extends State<CallHistory> {
     print(result);
   }
 
+  Future<void> _deleteCallHistory(int callId, int index) async {
+    try {
+      // save the emergency contact
+      MongoDatabase db = MongoDatabase();
+      // Assuming 'MongoDatabase' instance is accessible here
+      await db.delete(callId, "Emergency_Call", "CallingID");
+      print("Call history deleted");
+    } catch (e, stackTrace) {
+      print('Failed to delete call history: $e');
+      print(stackTrace);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +116,7 @@ class _CallHistoryState extends State<CallHistory> {
           onPressed: ()=>Navigator.pop(context),
         ),
 
-        title: Text("Contacts", style: GoogleFonts.poppins(
+        title: Text("History", style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold, color: Colors.white,
           fontSize: 20.0
         ),),
@@ -133,21 +146,40 @@ class _CallHistoryState extends State<CallHistory> {
                   },
                   physics: AlwaysScrollableScrollPhysics(),
                   itemBuilder: (context, index){
-                    final entry = calls.elementAt(index);
-                    return Card(
-                      child: ListTile(
-                        title: Text(entry.targetNumber, style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, color: Colors.black,
-                          fontSize: 20.0
-                        ),),
-                        subtitle: Text("${entry.callDateTime}", style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 12.0
-                        ),),
-                        leading: Icon(Icons.call),
-                        trailing: IconButton(onPressed: (){
-                          CallContact(entry.targetNumber);
-                        }, icon: Icon(Icons.phone),),
+                    final entry = calls[index];
+                    return Dismissible(
+                      key: Key(entry.callID.toString()),
+                      onDismissed: (direction) {
+                        print("Call ID: ${entry.callID}");
+                        setState(() {
+                          calls.removeAt(index);
+                        });
+                        _deleteCallHistory(entry.callID, index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Call history deleted")),
+                        );
+                      },
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                      child: Card(
+                        child: ListTile(
+                          title: Text(entry.targetNumber, style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.black,
+                            fontSize: 20.0
+                          ),),
+                          subtitle: Text("${entry.callDateTime}", style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 12.0
+                          ),),
+                          leading: Icon(Icons.phone_android_outlined),
+                          trailing: IconButton(onPressed: (){
+                            CallContact(entry.targetNumber);
+                          }, icon: Icon(Icons.phone_enabled),),
+                        ),
                       ),
                     );
                   }
