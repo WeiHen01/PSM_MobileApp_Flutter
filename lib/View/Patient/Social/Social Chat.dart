@@ -497,7 +497,7 @@ class _SocialChatState extends State<SocialChat> {
                                 DateTime? localDateTime;
                                 // Initialize localDateTime based on the extracted date string
                                 try {
-                                  localDateTime = DateTime.parse(date);
+                                  localDateTime = DateTime.parse(date).toLocal();
                                 } catch (e) {
                                   print('Error parsing date: $e');
                                 }

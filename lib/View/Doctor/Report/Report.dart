@@ -147,23 +147,7 @@ class _ReportState extends State<Report> {
     return '$hour12:$minute:$second $period';
   }
 
-  Future _createPdf() async {
-    //final pdfFile = await PdfGenerateAPI.generate(allPatients);
-
-    Fluttertoast.showToast(
-      msg: 'Login Successfully',
-      backgroundColor: Colors.white,
-      textColor: Colors.red,
-      gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_SHORT,
-      fontSize: 16.0,
-    );
-
-    //PdfApi.openFile(pdfFile);
-
-    
-  }
-
+  
 
 
   @override
@@ -419,7 +403,7 @@ class _ReportState extends State<Report> {
                       SizedBox(height: 20),
                       
 
-                      Row(
+                      /* Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           InkWell(
@@ -450,7 +434,7 @@ class _ReportState extends State<Report> {
                             ),
                           ),
                         ],
-                      )
+                      ) */
 
 
                     ]

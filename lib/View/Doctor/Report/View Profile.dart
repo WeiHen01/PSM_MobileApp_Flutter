@@ -54,7 +54,7 @@ class _ViewProfileState extends State<ViewProfile> {
   // Function to format DateTime to string
   String formatDate(String date) {
     // Parse the date string
-    final dateTime = DateTime.parse(date);
+    final dateTime = DateTime.parse(date).toLocal();
     // Format the DateTime into a desired string format
     return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
   }
