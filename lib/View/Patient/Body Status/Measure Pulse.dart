@@ -41,12 +41,12 @@ class _PulseMeasureState extends State<PulseMeasure> {
     
     try {
       LoadingScreen.show(context, "Please place your finger while measuring.. Might take 10-15 seconds..");
-      
+      await http.get(Uri.http('$nodeMCUIP', '/command', body));
       Future.delayed(Duration(seconds: 10), () {
         // 5s over, navigate to a new page
         LoadingScreen.hide(context); 
       });
-      await http.get(Uri.http('$nodeMCUIP', '/command', body));
+      
       
 
       

@@ -24,7 +24,7 @@ class TempMeasure extends StatefulWidget {
 class _TempMeasureState extends State<TempMeasure> {
 
   // IP here refer to IP connected to NodeMCU
-  final String nodeMCUIP = '192.168.115.102';
+  
 
   int latestTemperatureRecord = 0;
   late List<Temperature> temperatures = [];
@@ -32,18 +32,20 @@ class _TempMeasureState extends State<TempMeasure> {
   Future<void> sendCommandToNodeMCU(String command) async {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? nodeMCUIP = await prefs.getString("nodeMCU");
     String? server = await prefs.getString("localhost");
 
     Map<String, dynamic> body = {'cmd': command, 'IP' : server, 'PatientID': 'P-${widget.id}' };
     
     try {
       LoadingScreen.show(context, "Loading, please wait");
+      await http.get(Uri.http('$nodeMCUIP', '/command', body));
       Future.delayed(Duration(seconds: 5), () {
         // 5s over, navigate to a new page
         LoadingScreen.hide(context);
       });
 
-      await http.get(Uri.http('$nodeMCUIP', '/command', body));
+      
 
       // Get today's date
       DateTime now = DateTime.now();
@@ -81,6 +83,8 @@ class _TempMeasureState extends State<TempMeasure> {
                 ),
               );
 
+              Navigator.pop(context);
+
               String id = "P-${widget.id}";
               List<String> sendTo = [];
 
@@ -105,6 +109,8 @@ class _TempMeasureState extends State<TempMeasure> {
                 ),
               );
 
+              Navigator.pop(context);
+
               String id = "P-${widget.id}";
               List<String> sendTo = [];
 
@@ -127,6 +133,8 @@ class _TempMeasureState extends State<TempMeasure> {
                 
                 ),
               );
+
+              Navigator.pop(context);
 
               String id = "P-${widget.id}";
               List<String> sendTo = [];

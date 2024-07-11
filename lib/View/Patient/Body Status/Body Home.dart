@@ -636,8 +636,7 @@ class _BodyHomeState extends State<BodyHome> {
                   onTap: () async {
                     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                    //IP based on NodeMCU
-                    await prefs.setString("nodeMCU", "192.168.115.102");
+                   
                     sendCommandToNodeMCU("Start");
                     Navigator.push(
                       context, MaterialPageRoute(
