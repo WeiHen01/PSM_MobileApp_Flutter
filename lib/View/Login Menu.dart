@@ -10,7 +10,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
 import 'Doctor/Login.dart';
 import 'Register Menu.dart';
-import 'Patient/Login.dart';
+import 'Patient/Login.dart'; 
 
 class LoginMenu extends StatelessWidget {
   final Socket? socket; // Declare socket as a field
