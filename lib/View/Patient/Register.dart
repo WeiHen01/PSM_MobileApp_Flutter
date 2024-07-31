@@ -94,6 +94,7 @@ class _UserRegisterState extends State<UserRegister> {
       break;
     }
 
+     GoogleLogin.logout();
 
     if(!isEmailRegistered){
       if(passwordCtrl.text != conPasswordCtrl.text){

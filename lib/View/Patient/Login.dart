@@ -93,6 +93,8 @@ class _PatientLoginState extends State<PatientLogin> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt("loggedUserId", patient_id);
       await prefs.setString("usertype", "Patient");
+
+      GoogleLogin.logout();
       
       ArtSweetAlert.show(
         context: context,
@@ -113,6 +115,7 @@ class _PatientLoginState extends State<PatientLogin> {
         );
       }
       else {
+        GoogleLogin.logout();
         ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -141,7 +144,10 @@ class _PatientLoginState extends State<PatientLogin> {
     setState((){
       googleEmail = user?.email ?? '';
       emailCtrl.text = googleEmail;
+      
     });
+
+    GoogleLogin.logout();
 
     // Replace these lines with your MongoDB connection details
     MongoDatabase mongo = MongoDatabase();
@@ -166,6 +172,8 @@ class _PatientLoginState extends State<PatientLogin> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt("loggedUserId", patient_id);
       await prefs.setString("usertype", "Patient");
+
+      await GoogleLogin.logout();
 
       ArtSweetAlert.show(
         context: context,

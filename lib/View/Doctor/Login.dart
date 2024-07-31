@@ -129,6 +129,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
       emailCtrl.text = googleEmail;
     });
 
+    GoogleLogin.logout();
+
     // Replace these lines with your MongoDB connection details
     MongoDatabase mongo = MongoDatabase();
 
@@ -151,6 +153,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt("loggedUserId", doctor_id);
       await prefs.setString("usertype", "Doctor");
+
+      GoogleLogin.logout();
 
       ArtSweetAlert.show(
         barrierDismissible: false,

@@ -837,6 +837,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     await prefs.remove('loggedUserId');
                     await prefs.remove('usertype');
 
+                    await GoogleLogin.logout();
+
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) => LoginMenu())
                     );

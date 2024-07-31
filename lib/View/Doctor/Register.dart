@@ -82,6 +82,8 @@ class _DoctorRegisterState extends State<DoctorRegister> {
       }
     }
 
+     GoogleLogin.logout();
+
     // Proceed with registration if the email is not registered before
     if (!isEmailRegistered) {
       if (passwordCtrl.text != conPasswordCtrl.text) {
