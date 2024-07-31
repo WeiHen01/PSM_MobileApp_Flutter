@@ -47,14 +47,9 @@ class _PulseMeasureState extends State<PulseMeasure> {
         LoadingScreen.hide(context); 
       });
       
-      
-
-      
-
       // Get today's date
       DateTime now = DateTime.now();
       DateTime today = DateTime(now.year, now.month, now.day);
-
 
       try {
         // Assuming 'MongoDatabase' instance is accessible here
@@ -130,8 +125,6 @@ class _PulseMeasureState extends State<PulseMeasure> {
                   type: ArtSweetAlertType.warning,
                   title: "ELEVATED PULSE DATA",
                   text: "Your pulse data: ${pulseReceived} is elevated! Please be careful!",
-                
-                  
                 ),
               );
 

@@ -255,9 +255,5 @@ class MongoDatabase{
       rethrow;
     }
   }
-
-  
-
-
  
 }

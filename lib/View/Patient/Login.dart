@@ -167,7 +167,6 @@ class _PatientLoginState extends State<PatientLogin> {
       await prefs.setInt("loggedUserId", patient_id);
       await prefs.setString("usertype", "Patient");
 
-      GoogleLogin.logout();
       ArtSweetAlert.show(
         context: context,
         artDialogArgs: ArtDialogArgs(
@@ -180,7 +179,6 @@ class _PatientLoginState extends State<PatientLogin> {
              * optionally update only the text field is not null
              */
            
-
             await mongo.updateLastLoginDateTime("Patient", "PatientID", patient_id, DateTime.now().toLocal());
 
             OneSignal.login("P-$patient_id");
