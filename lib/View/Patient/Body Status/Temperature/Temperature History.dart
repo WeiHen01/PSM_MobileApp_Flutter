@@ -121,24 +121,33 @@ class _TempHistoryState extends State<TempHistory> {
                   itemBuilder: (context, index){
                     final records = temperatures[index];
 
-                    return ListTile(
-                      leading: Column(
-                        children: [
-                          Text(
-                            "Today",
-                            style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 15.0
-                          ),),
+                    return Card(
+                      elevation: 3,
+                      child: ListTile(
+                        leading: Column(
+                          children: [
+                            Text(
+                              "Today",
+                              style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 15.0
+                            ),),
+                      
+                            Text(
+                              "${formatTime(records.measureTime.toString())}",
+                              style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 11.0
+                            ),),
+                          ]
+                        ),
+                        title: Text(records.temperature.toString(), style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.black,
+                          fontSize: 20.0
+                        ),),
 
-                          Text(
-                            "${formatTime(records.measureTime.toString())}",
-                            style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 11.0
-                          ),),
-                        ]
-                      )
+                        
+                      ),
                     );
                   }
                 )
