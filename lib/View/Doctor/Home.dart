@@ -809,7 +809,6 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.remove('loggedUserId');
                     await prefs.remove('usertype');
-                     await GoogleLogin.logout();
                     
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) => LoginMenu())

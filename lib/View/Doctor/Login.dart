@@ -129,8 +129,6 @@ class _DoctorLoginState extends State<DoctorLogin> {
       emailCtrl.text = googleEmail;
     });
 
-    GoogleLogin.logout();
-
     // Replace these lines with your MongoDB connection details
     MongoDatabase mongo = MongoDatabase();
 

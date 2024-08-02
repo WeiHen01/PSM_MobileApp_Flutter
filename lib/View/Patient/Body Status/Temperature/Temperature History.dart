@@ -121,79 +121,31 @@ class _TempHistoryState extends State<TempHistory> {
                   itemBuilder: (context, index){
                     final records = temperatures[index];
 
-                    return InkWell(
-                      // Access the temperature record at the current index
-                      
-                      onLongPress: (){
-                        
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 224, 224, 224),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade600,
-                              offset: Offset(2, 2),
-                              spreadRadius: 1.0,
-                              blurRadius: 2.0,
-                            )
-                          ]
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text("${formatDate(records.measureDate.toString())} ${formatTime(records.measureTime.toString())}", style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 12.0
-                                ),),
-                                            
-                                
-                              ],
-                            ),
-                      
-                            SizedBox(height: 15),
-                                            
-                                            
-                            Row(
-                              children: [
-                                Text(records.temperature.toString(), style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.bold, color: Colors.black,
-                                  fontSize: 20.0
-                                ),),
-                                            
-                                SizedBox(width: 10),
-                                            
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("°C", style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold, color: Colors.black,
-                                      fontSize: 10
-                                    ),),
-                                            
-                                    Text("Degree Celsius", style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontSize: 10
-                                    ),),
-                                  ],
-                                )
-                              ],
-                            ),
-                                            
-                            
-                                            
-                                            
-                          ],
-                        ),
-                      ),
+                    return ListTile(
+                      leading: Column(
+                        children: [
+                          Text(
+                            "Today",
+                            style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 15.0
+                          ),),
+
+                          Text(
+                            "${formatTime(records.measureTime.toString())}",
+                            style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 11.0
+                          ),),
+                        ]
+                      )
                     );
                   }
-                
-                ),
-              ),
+                )
+
+              )
+
+              
             ],
           )
         )

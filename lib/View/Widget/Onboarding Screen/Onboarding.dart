@@ -13,7 +13,7 @@ class OnboardingInfo{
 class OnboardingData{
   List<OnboardingInfo> items = [
     OnboardingInfo(
-        title: "Health Checking",
+        title: "Body Health Checking",
         description: "Checking your health remotely regardless of space and time",
         image: "images/health_01.png"
     ),

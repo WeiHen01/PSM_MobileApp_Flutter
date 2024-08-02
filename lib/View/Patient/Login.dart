@@ -147,8 +147,6 @@ class _PatientLoginState extends State<PatientLogin> {
       
     });
 
-    GoogleLogin.logout();
-
     // Replace these lines with your MongoDB connection details
     MongoDatabase mongo = MongoDatabase();
 
@@ -165,6 +163,7 @@ class _PatientLoginState extends State<PatientLogin> {
       }
     }
 
+
     if (patientData != null) {
       // Successful login
       final patient_id = patientData["PatientID"];
@@ -173,7 +172,7 @@ class _PatientLoginState extends State<PatientLogin> {
       await prefs.setInt("loggedUserId", patient_id);
       await prefs.setString("usertype", "Patient");
 
-      await GoogleLogin.logout();
+      GoogleLogin.logout();
 
       ArtSweetAlert.show(
         context: context,
