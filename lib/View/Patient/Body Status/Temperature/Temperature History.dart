@@ -60,6 +60,30 @@ class _TempHistoryState extends State<TempHistory> {
     return '$hour12:$minute $period';
   }
 
+  // Function to get the day of the week
+  String getDayOfWeek(String date) {
+    final dateTime = DateTime.parse(date);
+    final dayOfWeek = dateTime.weekday;
+    switch (dayOfWeek) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return '';
+    }
+  }
+
   
 
   @override
@@ -116,36 +140,109 @@ class _TempHistoryState extends State<TempHistory> {
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: 15); // Adjust the height as needed
                   },
-                  reverse: true,
+                  reverse: false,
                   itemCount: temperatures.length,
                   itemBuilder: (context, index){
                     final records = temperatures[index];
 
                     return Card(
+                    
                       elevation: 3,
                       child: ListTile(
                         leading: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Today",
+                              "${formatDate(records.measureTime.toString())}",
                               style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 15.0
-                            ),),
-                      
+                                color: Colors.black,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                                                
+                            Text(
+                              "${getDayOfWeek(records.measureTime.toString())}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                                                
+                           
+                          ]
+                        ),
+                        title: Row(
+                          children: [
                             Text(
                               "${formatTime(records.measureTime.toString())}",
                               style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 11.0
+                              fontSize: 18.0
                             ),),
-                          ]
-                        ),
-                        title: Text(records.temperature.toString(), style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, color: Colors.black,
-                          fontSize: 20.0
-                        ),),
 
+                            Spacer(),
+                            
+
+                             Visibility(
+                              visible: (records.temperature > 36 || records.temperature < 0) ? true : false,
+                              child: Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: (records.temperature > 36) 
+                                          ? Colors.red 
+                                          : (records.temperature < 0) 
+                                          ? Colors.orange
+                                          : Colors.green,
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                                padding: EdgeInsets.all(5.0),
+                                
+                                child:  Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.warning_amber, color: Colors.white, size: 15.0,),
+                                    SizedBox(width: 5),
+                                    Text(records.temperature > 36
+                                          ? 'Fever'
+                                          : records.temperature < 0
+                                          ? 'Error'
+                                          : '', style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 12.0
+                                    ),),
+                                  ],
+                                ),
+                              )
+                            ),
+
+                            SizedBox(width: 5),
+
+
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: (records.temperature > 36) 
+                                        ? Colors.red 
+                                        : (records.temperature < 0) 
+                                        ? Colors.orange
+                                        : Colors.green,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                              child: Text("${records.temperature.toString()} °C", style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 15.0
+                              ), textAlign: TextAlign.center,),
+                            ),
+
+                           
+
+                            
+
+                          ],
+                        ),
+                      
+                        
                         
                       ),
                     );

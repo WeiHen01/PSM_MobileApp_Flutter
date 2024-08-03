@@ -59,6 +59,31 @@ class _PulseHistoryState extends State<PulseHistory> {
     final hour12 = hour % 12 == 0 ? 12 : hour % 12;
     return '$hour12:$minute $period';
   }
+
+  // Function to get the day of the week
+  String getDayOfWeek(String date) {
+    final dateTime = DateTime.parse(date);
+    final dayOfWeek = dateTime.weekday;
+    switch (dayOfWeek) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return '';
+    }
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -114,77 +139,111 @@ class _PulseHistoryState extends State<PulseHistory> {
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: 15); // Adjust the height as needed
                   },
-                  reverse: true,
+                  reverse: false,
                   itemCount: pulses.length,
                   itemBuilder: (context, index){
 
                     final records = pulses[index];
 
-                    return InkWell(
-                      onLongPress: (){
-                        
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 224, 224, 224),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade600,
-                              offset: Offset(2, 2),
-                              spreadRadius: 1.0,
-                              blurRadius: 2.0,
-                            )
+                    return Card(
+                    
+                      elevation: 3,
+                      child: ListTile(
+                        leading: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${formatDate(records.MeasureDate.toString())}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                                                
+                            Text(
+                              "${getDayOfWeek(records.MeasureDate.toString())}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                                                
+                           
                           ]
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        title: Row(
                           children: [
-                            Row(
-                              children: [
-                                Text("${formatDate(records.MeasureDate.toString())} ${formatTime(records.MeasureTime.toString())}", style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 12.0
-                                ),),
-                              
+                            Text(
+                              "${formatTime(records.MeasureTime.toString())}",
+                              style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 18.0
+                            ),),
+
+                            Spacer(),
+                            
+
+                             Visibility(
+                              visible: (records.pulseRate > 36 || records.pulseRate < 0) ? true : false,
+                              child: Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: (records.pulseRate > 36) 
+                                          ? Colors.red 
+                                          : (records.pulseRate < 0) 
+                                          ? Colors.orange
+                                          : Colors.green,
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                                padding: EdgeInsets.all(5.0),
                                 
-                              ],
-                            ),
-                      
-                            SizedBox(height: 15),
-                                            
-                                            
-                            Row(
-                              children: [
-                                Text("${records.pulseRate}", style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.bold, color: Colors.black,
-                                  fontSize: 20.0
-                                ),),
-                                            
-                                SizedBox(width: 10),
-                                            
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child:  Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("BPM", style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold, color: Colors.black,
-                                      fontSize: 10
-                                    ),),
-                                            
-                                    Text("Pulse Rate", style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontSize: 10
+                                    Icon(Icons.warning_amber, color: Colors.white, size: 15.0,),
+                                    SizedBox(width: 5),
+                                    Text(records.pulseRate > 36
+                                          ? 'Fever'
+                                          : records.pulseRate < 0
+                                          ? 'Error'
+                                          : '', style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 12.0
                                     ),),
                                   ],
-                                )
-                              ],
+                                ),
+                              )
                             ),
-                                            
+
+                            SizedBox(width: 5),
+
+
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: (records.pulseRate > 36) 
+                                        ? Colors.red 
+                                        : (records.pulseRate < 0) 
+                                        ? Colors.orange
+                                        : Colors.green,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                              child: Text("${records.pulseRate.toString()} °C", style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 15.0
+                              ), textAlign: TextAlign.center,),
+                            ),
+
+                           
+
                             
-                                            
-                                            
+
                           ],
                         ),
+                      
+                        
+                        
                       ),
                     );
                   }
