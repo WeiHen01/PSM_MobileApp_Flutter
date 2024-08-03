@@ -205,6 +205,7 @@ class _DoctorChangePasswordState extends State<DoctorChangePassword> {
                                           }
                                           return null;
                                         },
+                                        obscureText: !_password,
                                         controller: passwordCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'New Password',
@@ -242,6 +243,7 @@ class _DoctorChangePasswordState extends State<DoctorChangePassword> {
                                           }
                                           return null;
                                         },
+                                        obscureText: !_confirmPass,
                                         controller: conPasswordCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Confirm Password',

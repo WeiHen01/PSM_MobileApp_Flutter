@@ -210,6 +210,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                           }
                                           return null;
                                         },
+                                         obscureText: !_password,
                                         controller: passwordCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'New Password',
@@ -247,6 +248,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                           }
                                           return null;
                                         },
+                                         obscureText: !_confirmPass,
                                         controller: conPasswordCtrl,
                                         decoration: InputDecoration(
                                           hintText: 'Confirm Password',
