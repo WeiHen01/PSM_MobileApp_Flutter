@@ -191,11 +191,11 @@ class _TempHistoryState extends State<TempHistory> {
                             
 
                              Visibility(
-                              visible: (records.temperature > 36 || records.temperature < 0) ? true : false,
+                              visible: (records.temperature > 38 || records.temperature < 0) ? true : false,
                               child: Container(
                                 width: 70,
                                 decoration: BoxDecoration(
-                                  color: (records.temperature > 36) 
+                                  color: (records.temperature > 38) 
                                           ? Colors.red 
                                           : (records.temperature < 0) 
                                           ? Colors.orange
@@ -209,7 +209,7 @@ class _TempHistoryState extends State<TempHistory> {
                                   children: [
                                     Icon(Icons.warning_amber, color: Colors.white, size: 15.0,),
                                     SizedBox(width: 5),
-                                    Text(records.temperature > 36
+                                    Text(records.temperature > 38
                                           ? 'Fever'
                                           : records.temperature < 0
                                           ? 'Error'
@@ -229,7 +229,7 @@ class _TempHistoryState extends State<TempHistory> {
                               padding: EdgeInsets.all(5.0),
                               width: 80,
                               decoration: BoxDecoration(
-                                color: (records.temperature > 36) 
+                                color: (records.temperature > 38) 
                                         ? Colors.red 
                                         : (records.temperature < 0) 
                                         ? Colors.orange

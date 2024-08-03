@@ -355,6 +355,29 @@ class _PulseMeasureState extends State<PulseMeasure> {
                     ),
                   ),
                 ),
+
+                SizedBox(height: 20),
+
+                Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    
+                    color: Colors.black87,
+                  ),
+                  child: Column(children: [
+                    Text("Heart Rate Zone", style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold, color: Colors.white,
+                      fontSize: 18.0,  
+                      
+                    ),),
+
+                    
+                      
+                    
+                  ],)
+                )
             
                     
                 
@@ -367,3 +390,4 @@ class _PulseMeasureState extends State<PulseMeasure> {
     );
   }
 }
+
