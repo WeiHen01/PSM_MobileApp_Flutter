@@ -120,6 +120,7 @@ class _TempHistoryState extends State<TempHistory> {
         onRefresh: ()async {
           // Simulate a time-consuming task
           await Future.delayed(Duration(seconds: 1));
+           getAllTempRecords();
         },
         child: Container(
           decoration: BoxDecoration(
@@ -163,7 +164,7 @@ class _TempHistoryState extends State<TempHistory> {
                               "${formatDate(records.measureTime.toString())}",
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontSize: 15.0,
+                                fontSize: 13.0,
                               ),
                             ),
                                                 
@@ -184,22 +185,26 @@ class _TempHistoryState extends State<TempHistory> {
                               "${formatTime(records.measureTime.toString())}",
                               style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 15.0
+                              fontSize: 13.0
                             ),),
 
                             Spacer(),
                             
 
                              Visibility(
-                              visible: (records.temperature > 38 || records.temperature < 0) ? true : false,
+                              visible: (records.temperature > 38 || records.temperature < 0 || (records.temperature < 34 && records.temperature > 0)) ? true : false,
                               child: Container(
                                 width: 70,
                                 decoration: BoxDecoration(
-                                  color: (records.temperature > 38) 
-                                          ? Colors.red 
-                                          : (records.temperature < 0) 
-                                          ? Colors.orange
-                                          : Colors.green,
+                                  color:(records.temperature > 38) 
+                                        ? Colors.red.shade900
+                                        : (records.temperature < 38 && records.temperature > 37) 
+                                        ? Color(0xFFFF6600)
+                                        : records.temperature <= 37 && records.temperature >= 34
+                                        ? Colors.green
+                                        : records.temperature < 34 && records.temperature > 0
+                                        ? Color(0xFFFFA600)
+                                        : Color(0xFFFF0040),
                                   borderRadius: BorderRadius.circular(100.0),
                                 ),
                                 padding: EdgeInsets.all(5.0),
@@ -211,9 +216,13 @@ class _TempHistoryState extends State<TempHistory> {
                                     SizedBox(width: 5),
                                     Text(records.temperature > 38
                                           ? 'Fever'
-                                          : records.temperature < 0
-                                          ? 'Error'
-                                          : '', style: GoogleFonts.poppins(
+                                          : records.temperature <= 38 && records.temperature > 37
+                                          ? 'High'
+                                          : records.temperature <= 37 && records.temperature >= 34
+                                          ? 'Normal'
+                                          : records.temperature < 34 && records.temperature > 0
+                                          ? 'Lower'
+                                          : 'Error', style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 12.0
                                     ),),
@@ -227,13 +236,17 @@ class _TempHistoryState extends State<TempHistory> {
 
                             Container(
                               padding: EdgeInsets.all(5.0),
-                              width: 80,
+                              width: 60,
                               decoration: BoxDecoration(
                                 color: (records.temperature > 38) 
-                                        ? Colors.red 
-                                        : (records.temperature < 0) 
-                                        ? Colors.orange
-                                        : Colors.green,
+                                        ? Colors.red.shade900
+                                        : (records.temperature < 38 && records.temperature > 37) 
+                                        ? Color(0xFFFF6600)
+                                        : records.temperature <= 37 && records.temperature >= 34
+                                        ? Colors.green
+                                        : records.temperature < 34 && records.temperature > 0
+                                        ? Color(0xFFFFA600)
+                                        : Color(0xFFFF0040),
                                 borderRadius: BorderRadius.circular(100.0),
                               ),
                               child: Text("${records.temperature.toString()} °C", style: GoogleFonts.poppins(

@@ -151,7 +151,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           Text("Average", style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15.0
+                            fontSize: 12.0
                           ),),
                         ],
                       ),
@@ -172,7 +172,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           Text("Minimum", style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15.0
+                            fontSize: 12.0
                           ),),
                         ],
                       ),
@@ -194,7 +194,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           Text("Maximum", style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15.0
+                            fontSize: 12.0
                           ),),
                         ],
                       ),
@@ -390,20 +390,20 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
               Container(
                 alignment: Alignment.center,
-                  height: 130,
+                  height: 160,
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                       
+                      Text("View mode", style: GoogleFonts.poppins(
+                          color: Colors.white, fontWeight: FontWeight.w800,
+                          fontSize: 17.0
+                        ),),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("View mode", style: GoogleFonts.poppins(
-                            color: Colors.white, fontWeight: FontWeight.w800,
-                            fontSize: 17.0
-                          ),),
+                          
 
                           SizedBox(width: 5),
 
@@ -418,7 +418,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                               elevation: 3,
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width / 4,
-                                height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -458,7 +458,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                               elevation: 3,
                               child: Container(
                                 width:  MediaQuery.sizeOf(context).width / 4,
-                                 height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -500,7 +500,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                               elevation: 3,
                               child: Container(
                                 width:  MediaQuery.sizeOf(context).width / 4,
-                                 height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [

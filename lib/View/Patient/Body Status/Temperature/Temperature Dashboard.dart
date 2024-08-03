@@ -377,20 +377,20 @@ class _TempDashboardState extends State<TempDashboard> {
 
               Container(
                 alignment: Alignment.center,
-                  height: 150,
+                  height: 160,
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                       
+                      Text("View mode", style: GoogleFonts.poppins(
+                          color: Colors.white, fontWeight: FontWeight.w800,
+                          fontSize: 17.0
+                        ),),
 
                       Row(
                        mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("View mode", style: GoogleFonts.poppins(
-                            color: Colors.white, fontWeight: FontWeight.w800,
-                            fontSize: 17.0
-                          ),),
+                          
 
                           SizedBox(width: 5),
 
@@ -404,7 +404,7 @@ class _TempDashboardState extends State<TempDashboard> {
                               elevation: 3,
                               child: Container(
                                width: MediaQuery.sizeOf(context).width / 4,
-                                height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -444,7 +444,7 @@ class _TempDashboardState extends State<TempDashboard> {
                               elevation: 3,
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width / 4,
-                                height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -486,7 +486,7 @@ class _TempDashboardState extends State<TempDashboard> {
                               elevation: 3,
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width / 4,
-                                height: 80,
+                                height: 110,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [

@@ -343,7 +343,7 @@ class _PulseMeasureState extends State<PulseMeasure> {
                       child: SfLinearGauge(
                       minimum: 60,
                       maximum: 220,
-                      interval: 10,
+                      interval: 20,
                       showTicks: false,
                       minorTicksPerInterval: 4,
                       useRangeColorForAxis: true,

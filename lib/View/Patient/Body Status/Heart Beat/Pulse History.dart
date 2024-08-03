@@ -119,6 +119,7 @@ class _PulseHistoryState extends State<PulseHistory> {
         onRefresh: ()async {
           // Simulate a time-consuming task
           await Future.delayed(Duration(seconds: 1));
+          getAllPulseRecords();
         },
         child: Container(
           decoration: BoxDecoration(
@@ -163,7 +164,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                               "${formatDate(records.MeasureDate.toString())}",
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontSize: 15.0,
+                                fontSize: 13.0,
                               ),
                             ),
                                                 
@@ -184,7 +185,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                               "${formatTime(records.MeasureTime.toString())}",
                               style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 15.0
+                              fontSize: 13.0
                             ),),
 
                             Spacer(),
@@ -227,16 +228,18 @@ class _PulseHistoryState extends State<PulseHistory> {
 
                             Container(
                               padding: EdgeInsets.all(5.0),
-                              width: 80,
+                              width: 60,
                               decoration: BoxDecoration(
                                 color: (records.pulseRate > 36) 
                                         ? Colors.red 
                                         : (records.pulseRate < 0) 
                                         ? Colors.orange
+                                        : (records.pulseRate < 26) 
+                                        ? Colors.red.shade900
                                         : Colors.green,
                                 borderRadius: BorderRadius.circular(100.0),
                               ),
-                              child: Text("${records.pulseRate.toString()} °C", style: GoogleFonts.poppins(
+                              child: Text("${records.pulseRate.toString()} BPM", style: GoogleFonts.poppins(
                                 color: Colors.white,
                                 fontSize: 12.0
                               ), textAlign: TextAlign.center,),
