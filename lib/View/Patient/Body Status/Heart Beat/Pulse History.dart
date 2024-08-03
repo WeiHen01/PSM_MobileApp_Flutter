@@ -121,6 +121,13 @@ class _PulseHistoryState extends State<PulseHistory> {
           await Future.delayed(Duration(seconds: 1));
         },
         child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF301847), Color(0xFFC10214)
+                ],
+              )
+          ),
           padding: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +135,7 @@ class _PulseHistoryState extends State<PulseHistory> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text("History", style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold, color: Colors.black,
+                  fontWeight: FontWeight.bold, color: Colors.white,
                   fontSize: 20.0
                 ),),
               ),
