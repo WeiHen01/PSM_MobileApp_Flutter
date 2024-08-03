@@ -122,7 +122,7 @@ class _TempDashboardState extends State<TempDashboard> {
                 ],
               )
           ),
-        height: MediaQuery.sizeOf(context).height,
+        height: double.infinity,
         padding: EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: Column(
@@ -377,18 +377,23 @@ class _TempDashboardState extends State<TempDashboard> {
 
               Container(
                 alignment: Alignment.center,
-                  height: 130,
+                  height: 150,
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                       Text("View mode", style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 17.0
-                        ),),
+                       
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
+                       mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text("View mode", style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.w800,
+                            fontSize: 17.0
+                          ),),
+
+                          SizedBox(width: 5),
+
                           InkWell(
                             onTap: (){
                               setState(() {
@@ -398,7 +403,8 @@ class _TempDashboardState extends State<TempDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width: MediaQuery.sizeOf(context).width / 3.5,
+                               width: MediaQuery.sizeOf(context).width / 4,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -437,7 +443,8 @@ class _TempDashboardState extends State<TempDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width:  MediaQuery.sizeOf(context).width / 3.5,
+                                width: MediaQuery.sizeOf(context).width / 4,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -478,7 +485,8 @@ class _TempDashboardState extends State<TempDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width:  MediaQuery.sizeOf(context).width / 3.5,
+                                width: MediaQuery.sizeOf(context).width / 4,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -511,11 +519,13 @@ class _TempDashboardState extends State<TempDashboard> {
                           
                         ],
                       ),
+
+                      
                     ],
                   )
-                )
+                ),
 
-          
+                SizedBox(height: 50),
               
             ],
           ),

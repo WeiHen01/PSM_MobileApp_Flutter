@@ -394,14 +394,19 @@ class _PulseDashboardState extends State<PulseDashboard> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                       Text("View mode", style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 17.0
-                        ),),
+                       
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text("View mode", style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.w800,
+                            fontSize: 17.0
+                          ),),
+
+                          SizedBox(width: 5),
+
                           InkWell(
                             onTap: (){
                               getAllPulseRecordsByToday();
@@ -412,7 +417,8 @@ class _PulseDashboardState extends State<PulseDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width: MediaQuery.sizeOf(context).width / 3.5,
+                                width: MediaQuery.sizeOf(context).width / 4,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -451,7 +457,8 @@ class _PulseDashboardState extends State<PulseDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width:  MediaQuery.sizeOf(context).width / 3.5,
+                                width:  MediaQuery.sizeOf(context).width / 4,
+                                 height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -492,7 +499,8 @@ class _PulseDashboardState extends State<PulseDashboard> {
                             child: Card(
                               elevation: 3,
                               child: Container(
-                                width:  MediaQuery.sizeOf(context).width / 3.5,
+                                width:  MediaQuery.sizeOf(context).width / 4,
+                                 height: 80,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -527,10 +535,10 @@ class _PulseDashboardState extends State<PulseDashboard> {
                       ),
                     ],
                   )
-                )
+                ),
 
 
-          
+                 SizedBox(height: 70),
               
             ],
           ),

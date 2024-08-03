@@ -320,46 +320,10 @@ class _PulseMeasureState extends State<PulseMeasure> {
                   ],
                 ),),
             
-                InkWell(
-                  onTap: (){
-                    sendCommandToNodeMCU("Pulse");
-                    //_getRecordedData();
-                  },
-                  child: Card(
-                    elevation: 3,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        gradient: LinearGradient(
-                          colors: [
-                          const Color(0xFF301847), 
-                          const Color(0xFFC10214).withOpacity(0.8)
-                          ],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text("Measure", style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, color: Colors.white,
-                          fontSize: 15.0,  
-                          shadows: [
-                            Shadow(
-                              color: Color.fromARGB(255, 139, 139, 139),
-                              offset: Offset(1.0, 2.0),
-                              blurRadius: 4.0,
-                            ),
-                          ],
-                        ),),
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 20),
+               
 
                 Container(
-                  height: 200,
+                  height: 220,
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -372,6 +336,136 @@ class _PulseMeasureState extends State<PulseMeasure> {
                       fontSize: 18.0,  
                       
                     ),),
+
+                    SizedBox(height: 20),
+
+                    Container(
+                      child: SfLinearGauge(
+                      minimum: 60,
+                      maximum: 220,
+                      interval: 10,
+                      showTicks: false,
+                      minorTicksPerInterval: 4,
+                      useRangeColorForAxis: true,
+                      animateAxis: true,
+                      axisTrackStyle: LinearAxisTrackStyle(thickness: 40),
+                      axisLabelStyle: GoogleFonts.poppins(
+                        color: Colors.red,
+                        fontSize: 15,),
+                      
+                      ranges: <LinearGaugeRange>[
+                        LinearGaugeRange(
+
+                            startValue: 60,
+                            endValue: 102,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFF01CA55),
+                            child: Center(
+                              child: Container(
+                                child: Text("Average", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 102,
+                            endValue: 142,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFFFFA600),
+                            child: Center(
+                              child: Container(
+                                child: Text("Healthy", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 142,
+                            endValue: 183,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFFFD7A00),
+                            child: Center(
+                              child: Container(
+                                child: Text("Maximum", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 183,
+                            endValue: 220,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFF970000),
+                            child: Center(
+                              child: Container(
+                                child: Text("Danger", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                      ],
+                    )
+                  ),
+
+                   
+
+                  SizedBox(height: 20),
+
+                  InkWell(
+                      onTap: (){
+                        sendCommandToNodeMCU("Pulse");
+                        //_getRecordedData();
+                      },
+                      child: Card(
+                        elevation: 3,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            gradient: LinearGradient(
+                              colors: [
+                              const Color(0xFF301847), 
+                              const Color(0xFFC10214).withOpacity(0.8)
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text("Measure BPM", style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold, color: Colors.white,
+                              fontSize: 15.0,  
+                              shadows: [
+                                Shadow(
+                                  color: Color.fromARGB(255, 139, 139, 139),
+                                  offset: Offset(1.0, 2.0),
+                                  blurRadius: 4.0,
+                                ),
+                              ],
+                            ),),
+                          ),
+                        ),
+                      ),
+                    ),
 
                     
                       

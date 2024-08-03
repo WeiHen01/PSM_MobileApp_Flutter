@@ -184,7 +184,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                               "${formatTime(records.MeasureTime.toString())}",
                               style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 18.0
+                              fontSize: 15.0
                             ),),
 
                             Spacer(),
@@ -238,7 +238,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                               ),
                               child: Text("${records.pulseRate.toString()} °C", style: GoogleFonts.poppins(
                                 color: Colors.white,
-                                fontSize: 15.0
+                                fontSize: 12.0
                               ), textAlign: TextAlign.center,),
                             ),
 

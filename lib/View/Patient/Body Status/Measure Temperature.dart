@@ -299,40 +299,158 @@ class _TempMeasureState extends State<TempMeasure> {
                   ],
                 ),),
                 
-                InkWell(
-                  onTap: (){
-                    sendCommandToNodeMCU("Temperature");
-                  },
-                  child: Card(
-                    elevation: 3,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color(0xFF301847), 
-                            const Color(0xFFC10214).withOpacity(0.8)
-                          ],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text("Measure", style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, color: Colors.white,
-                          fontSize: 15.0,  
-                          shadows: [
-                            Shadow(
-                              color: Color.fromARGB(255, 139, 139, 139),
-                              offset: Offset(1.0, 2.0),
-                              blurRadius: 4.0,
+               
+                Container(
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    
+                    color: Colors.black87,
+                  ),
+                  child: Column(children: [
+                    Text("Temperature Measurement", style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold, color: Colors.white,
+                      fontSize: 18.0,  
+                      
+                    ),),
+
+                    SizedBox(height: 20),
+
+                    Container(
+                      child: SfLinearGauge(
+                      minimum: 30,
+                      maximum: 42.2,
+                      interval: 1,
+                      showTicks: false,
+                      showLabels: true,
+                      showAxisTrack: true,
+                      minorTicksPerInterval: 4,
+                      useRangeColorForAxis: true,
+                      animateAxis: true,
+                      axisTrackStyle: LinearAxisTrackStyle(thickness: 40),
+                      axisLabelStyle: GoogleFonts.poppins(
+                        color: Colors.red,
+                        fontSize: 15,),
+                      
+                      ranges: <LinearGaugeRange>[
+                        LinearGaugeRange(
+
+                            startValue: 10,
+                            endValue: 36,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xEDFFC400),
+                            child: Center(
+                              child: Container(
+                                child: Text("Lower", style: GoogleFonts.poppins(
+                                   color: Color(0xFF000000),
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
                             ),
-                          ],
-                        ),),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 36,
+                            endValue: 37,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFF00EE3B),
+                            child: Center(
+                              child: Container(
+                                child: Text("Normal", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                 fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 37,
+                            endValue: 38,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFFFD7200),
+                            child: Center(
+                              child: Container(
+                                child: Text("Higher", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                        LinearGaugeRange(
+                            startValue: 38,
+                            endValue: 42.2,
+                            startWidth: 40,
+                            midWidth: 40,
+                            endWidth: 40,
+                            position: LinearElementPosition.cross,
+                            color: Color(0xFFFD0000),
+                            child: Center(
+                              child: Container(
+                                child: Text("Danger", style: GoogleFonts.poppins(
+                                   color: Colors.white,
+                                  fontSize: 13.0,
+                                ), textAlign: TextAlign.center,),
+                              ),
+                            ),
+                        ),
+                      ],
+                    )
+                  ),
+
+                   
+
+                  SizedBox(height: 20),
+
+
+                  InkWell(
+                    onTap: (){
+                      sendCommandToNodeMCU("Temperature");
+                    },
+                    child: Card(
+                      elevation: 3,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          gradient: LinearGradient(
+                            colors: [
+                              const Color(0xFF301847), 
+                              const Color(0xFFC10214).withOpacity(0.8)
+                            ],
+                          ),
+                        ),
+                        child: Center(
+                          child: Text("Measure Temp", style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white,
+                            fontSize: 15.0,  
+                            shadows: [
+                              Shadow(
+                                color: Color.fromARGB(255, 139, 139, 139),
+                                offset: Offset(1.0, 2.0),
+                                blurRadius: 4.0,
+                              ),
+                            ],
+                          ),),
+                        ),
                       ),
                     ),
                   ),
-                ),
+
+                      
+                    
+                  ],)
+                )
             
               ],
             ),
