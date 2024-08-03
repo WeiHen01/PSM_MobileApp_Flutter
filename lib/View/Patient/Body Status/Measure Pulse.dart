@@ -449,6 +449,10 @@ class _PulseMeasureState extends State<PulseMeasure> {
                               const Color(0xFFC10214).withOpacity(0.8)
                               ],
                             ),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2.0,
+                            ),
                           ),
                           child: Center(
                             child: Text("Measure BPM", style: GoogleFonts.poppins(

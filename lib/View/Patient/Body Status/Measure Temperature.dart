@@ -428,7 +428,12 @@ class _TempMeasureState extends State<TempMeasure> {
                               const Color(0xFF301847), 
                               const Color(0xFFC10214).withOpacity(0.8)
                             ],
+                            
                           ),
+                          border: Border.all(
+                                      color: Colors.white,
+                                      width: 2.0,
+                                    ),
                         ),
                         child: Center(
                           child: Text("Measure Temp", style: GoogleFonts.poppins(
