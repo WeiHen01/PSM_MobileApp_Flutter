@@ -163,7 +163,7 @@ class _TempDashboardState extends State<TempDashboard> {
                         ),
                         child: Column(
                           children: [
-                            Text("Celsius", style: GoogleFonts.poppins(
+                            Text("Celsius °C", style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0
@@ -187,7 +187,7 @@ class _TempDashboardState extends State<TempDashboard> {
                         
                         child: Column(
                           children: [
-                            Text("Fahrenheit", style: GoogleFonts.poppins(
+                            Text("Fahrenheit °F", style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0
