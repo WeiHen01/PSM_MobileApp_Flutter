@@ -212,7 +212,19 @@ class _TempHistoryState extends State<TempHistory> {
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.warning_amber, color: Colors.white, size: 15.0,),
+                                    Icon(
+                                      records.temperature > 38
+                                          ? Icons.warning_amber
+                                          : records.temperature <= 38 && records.temperature > 37
+                                          ? Icons.arrow_drop_up
+                                          : records.temperature <= 37 && records.temperature >= 34
+                                          ? Icons.check
+                                          : records.temperature < 34 && records.temperature > 0
+                                          ? Icons.arrow_downward_rounded
+                                          : Icons.trending_down,
+                                      color: Colors.white, 
+                                      size: 15.0,
+                                    ),
                                     SizedBox(width: 5),
                                     Text(records.temperature > 38
                                           ? 'Fever'

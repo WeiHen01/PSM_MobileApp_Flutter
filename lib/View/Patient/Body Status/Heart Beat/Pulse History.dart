@@ -192,15 +192,19 @@ class _PulseHistoryState extends State<PulseHistory> {
                             
 
                              Visibility(
-                              visible: (records.pulseRate > 36 || records.pulseRate < 0) ? true : false,
+                              visible: (records.pulseRate < 183 && records.pulseRate > 142 || records.pulseRate > 183 || records.pulseRate < 60) ? true : false,
                               child: Container(
                                 width: 70,
                                 decoration: BoxDecoration(
-                                  color: (records.pulseRate > 36) 
-                                          ? Colors.red 
-                                          : (records.pulseRate < 0) 
+                                  color: (records.pulseRate > 183) 
+                                          ? Color(0xFFD30E00) 
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Color(0xFFFF5100)
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
                                           ? Colors.orange
-                                          : Colors.green,
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Color(0xFF00DF0B)
+                                          : Color(0xFFFBFF00),
                                   borderRadius: BorderRadius.circular(100.0),
                                 ),
                                 padding: EdgeInsets.all(5.0),
@@ -208,14 +212,40 @@ class _PulseHistoryState extends State<PulseHistory> {
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.warning_amber, color: Colors.white, size: 15.0,),
+                                    Icon(
+                                      
+                                       records.pulseRate > 183 
+                                          ? Icons.warning_amber
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Icons.arrow_drop_up
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? Icons.trending_up
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Icons.check
+                                          : Icons.trending_down,
+                                      
+                                      size: 15.0,
+                                    ),
                                     SizedBox(width: 5),
-                                    Text(records.pulseRate > 36
-                                          ? 'Fever'
-                                          : records.pulseRate < 0
-                                          ? 'Error'
-                                          : '', style: GoogleFonts.poppins(
-                                      color: Colors.white,
+                                    Text(records.pulseRate > 183 
+                                          ? 'Danger'
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? 'Maximum'
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? 'Healthy'
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? 'Average'
+                                          : 'Lower'
+                                          , style: GoogleFonts.poppins(
+                                      color: (records.pulseRate > 183) 
+                                          ? Color(0xFFFFFFFF) 
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Color(0xFFFFFFFF)
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? Color(0xFF000000)
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Color(0xFF000000)
+                                          : Color(0xFF000000),
                                       fontSize: 12.0
                                     ),),
                                   ],
@@ -230,17 +260,27 @@ class _PulseHistoryState extends State<PulseHistory> {
                               padding: EdgeInsets.all(5.0),
                               width: 60,
                               decoration: BoxDecoration(
-                                color: (records.pulseRate > 36) 
-                                        ? Colors.red 
-                                        : (records.pulseRate < 0) 
-                                        ? Colors.orange
-                                        : (records.pulseRate < 26) 
-                                        ? Colors.red.shade900
-                                        : Colors.green,
+                                color: (records.pulseRate > 183) 
+                                          ? Color(0xFFD30E00) 
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Color(0xFFFF5100)
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? Colors.orange
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Color(0xFF00DF0B)
+                                          : Color(0xFFFBFF00),
                                 borderRadius: BorderRadius.circular(100.0),
                               ),
                               child: Text("${records.pulseRate.toString()} BPM", style: GoogleFonts.poppins(
-                                color: Colors.white,
+                                color: (records.pulseRate > 183) 
+                                          ? Color(0xFFFFFFFF) 
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Color(0xFFFFFFFF)
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? Color(0xFF000000)
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Color(0xFF000000)
+                                          : Color(0xFF000000),
                                 fontSize: 12.0
                               ), textAlign: TextAlign.center,),
                             ),
