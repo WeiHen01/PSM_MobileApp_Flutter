@@ -15,6 +15,7 @@ class TempHistory extends StatefulWidget {
 class _TempHistoryState extends State<TempHistory> {
 
   late List<Temperature> temperatures = [];
+  late List<Temperature> filteredTemperatures = []; // To hold filtered temperatures
   Future<void> getAllTempRecords() async {
     try {
       // Assuming 'MongoDatabase' instance is accessible here
@@ -24,7 +25,7 @@ class _TempHistoryState extends State<TempHistory> {
       if(temp.isNotEmpty){
         setState((){
           temperatures = temp.map((json) => Temperature.fromJson(json)).toList();
-
+          filteredTemperatures = List.from(temperatures); // Initialize filtered temperatures to all records
         });
       }
 
@@ -34,6 +35,21 @@ class _TempHistoryState extends State<TempHistory> {
       // Handle the exception as needed, for example, show an error message to the user
     }
 
+  }
+
+  void filterTemperaturesByDate(DateTime? date) {
+    setState(() {
+      if (date != null) {
+        filteredTemperatures = temperatures.where((record) {
+          final recordDate = DateTime.parse(record.measureDate.toString());
+          return recordDate.year == date.year &&
+                 recordDate.month == date.month &&
+                 recordDate.day == date.day;
+        }).toList();
+      } else {
+        filteredTemperatures = List.from(temperatures); // Reset to all records if no date is selected
+      }
+    });
   }
 
   @override
@@ -185,12 +201,14 @@ class _TempHistoryState extends State<TempHistory> {
                         if (date_result != null) {
                           setState(() {
                             selectedDate = date_result.last; // Update selected date to the first (and only) selected date
+                            filterTemperaturesByDate(selectedDate);
                           });
                           print("Selected Date: ${selectedDate.toString()}"); // Print the selected date
                           
                         }
                         else{
                           selectedDate = null;
+                          filterTemperaturesByDate(null);
                         }
                         
                       },
@@ -217,9 +235,9 @@ class _TempHistoryState extends State<TempHistory> {
                     return SizedBox(height: 15); // Adjust the height as needed
                   },
                   reverse: false,
-                  itemCount: temperatures.length,
+                  itemCount: filteredTemperatures.length,
                   itemBuilder: (context, index){
-                    final records = temperatures[index];
+                    final records = filteredTemperatures[index];
 
                     return Card(
                     
@@ -232,7 +250,7 @@ class _TempHistoryState extends State<TempHistory> {
                               "${formatDate(records.measureTime.toString())}",
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontSize: 13.0,
+                                fontSize: 13.0, fontWeight: FontWeight.bold
                               ),
                             ),
                                                 

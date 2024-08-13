@@ -47,40 +47,231 @@ class _PulseDashboardState extends State<PulseDashboard> {
   }
 
   Future<void> getAllPulseRecordsByToday() async {
-    setState(() {
-      graphTitle = "Today records";
-    });
+    // Get today's date
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day);
 
-    try {
-      var pulseRecord = await MongoDatabase().getByQuery("Heart_Pulse", {
-        "PatientID": 'P-${widget.id}',
-        "MeasureDate": {
-          "\$gte": today,
-          "\$lt": today.add(Duration(days: 1)),
-        }
-      });
 
-      if (pulseRecord.isNotEmpty) {
-        setState(() {
+    try {
+      // Assuming 'MongoDatabase' instance is accessible here
+      var pulseRecord = await MongoDatabase().getByQuery("Heart_Pulse", 
+        {
+          "PatientID" : 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": today, //change to today
+            "\$lt": today.add(Duration(days: 1)),
+          }
+        }
+      );
+      print("All Temperature: $pulseRecord");
+      print("Total: ${pulseRecord.length}");
+      
+      if(pulseRecord.isNotEmpty){
+        setState((){
           pulses = pulseRecord.map((json) => Pulse.fromJson(json)).toList();
           pulsesData = pulses.map((rate) =>
               GraphData(day: formatTime(rate.MeasureTime.toString()), value: rate.pulseRate.toDouble())
           ).toList();
         });
-      } else {
-        setState(() {
-          pulses = [];
-          pulsesData = [];
+      }
+      else{
+        setState((){
+          pulses = pulseRecord.map((json) => Pulse.fromJson(json)).toList();
+          pulsesData = pulses.map((rate) =>
+              GraphData(day: formatTime(rate.MeasureTime.toString()), value: rate.pulseRate.toDouble())
+          ).toList();
         });
       }
+
+    } catch (e, printStack) {
+      print('Error fetching other doctors : $e');
+      print(printStack);
+      // Handle the exception as needed, for example, show an error message to the user
+    }
+
+  }
+
+   Future<void> getPulseRecordsByDateRange(DateTime startDate, DateTime endDate) async {
+    try {
+      var pulseRecords = await MongoDatabase().getByQuery(
+        "Heart_Pulse",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": startDate,
+            "\$lt": endDate.add(Duration(days: 1)),
+          }
+        },
+      );
+
+      setState(() {
+        pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+
+        print("Records between ${startDate} and ${endDate}: ${pulses}");
+        pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
+      });
     } catch (e, printStack) {
       print('Error fetching pulse records: $e');
       print(printStack);
     }
   }
 
+
+  Future<void> getHighestPulseRecordsForRecentDays() async {
+    setState(() {
+      graphTitle = "Highest Pulse records for Recent 5 days";
+    });
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime fiveDaysAgo = today.subtract(Duration(days: 5));
+
+    try {
+      var pulseRecords = await MongoDatabase().getByQuery(
+        "Heart_Pulse",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": fiveDaysAgo,
+            "\$lt": today.add(Duration(days: 1)),
+          }
+        },
+      );
+
+      List<Pulse> rates = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+      Map<DateTime, Pulse> highestRates = {};
+
+      for (var rate in rates) {
+        DateTime date = DateTime(rate.MeasureDate!.year, rate.MeasureDate!.month, rate.MeasureDate!.day);
+        if (!highestRates.containsKey(date) || highestRates[date]!.pulseRate < rate.pulseRate) {
+          highestRates[date] = rate;
+
+          print("Highest: ${highestRates[date]}");
+        }
+      }
+
+      setState(() {
+        pulses = highestRates.values.toList();
+        pulsesData = pulses.map((rate) => GraphData(day: formatDate(rate.MeasureDate.toString()), value: rate.pulseRate.toDouble())).toList();
+      });
+    } catch (e, printStack) {
+      print('Error fetching temperature records: $e');
+      print(printStack);
+    }
+  }
+
+  String? avg, max, min;
+  // Get records for a specific date and calculate the average, minimum, and maximum pulse rates
+  Future<void> getPulseRecordsBySpecificDate(DateTime date) async {
+    setState(() {
+      graphTitle = "Records for ${date.day} ${monthNames[date.month - 1]} ${date.year}";
+    });
+    try {
+      var pulseRecords = await MongoDatabase().getByQuery(
+        "Heart_Pulse",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": DateTime(date.year, date.month, date.day),
+            "\$lt": DateTime(date.year, date.month, date.day).add(Duration(days: 1)),
+          }
+        },
+      );
+
+      if (pulseRecords.isNotEmpty) {
+        // Map records to Pulse objects
+        pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+
+        // Calculate average, minimum, and maximum pulse rates
+        double totalPulseRate = pulses.fold(0.0, (sum, rate) => sum + rate.pulseRate.toDouble());
+        double averagePulseRate = totalPulseRate / pulses.length;
+        double minPulseRate = pulses.map((rate) => rate.pulseRate.toDouble()).reduce((a, b) => a < b ? a : b);
+        double maxPulseRate = pulses.map((rate) => rate.pulseRate.toDouble()).reduce((a, b) => a > b ? a : b);
+
+        // Update the graph data
+        pulsesData = pulses.map((rate) => 
+          GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())
+        ).toList();
+
+        print("Average Pulse Rate: $averagePulseRate");
+        print("Minimum Pulse Rate: $minPulseRate");
+        print("Maximum Pulse Rate: $maxPulseRate");
+
+        setState(() {
+          
+
+          avg = "${averagePulseRate.toStringAsFixed(2)}";
+          max = "${minPulseRate.toStringAsFixed(2)}";
+          min = "${maxPulseRate.toStringAsFixed(2)}";
+        });
+      } else {
+        print("No pulse records found for the selected date.");
+        // Handle the case where no records are found
+      }
+    } catch (e, printStack) {
+      print('Error fetching pulse records for specific date: $e');
+      print(printStack);
+    }
+  }
+
+
+  Future<void> getPulseRecordsForWeek(DateTime date) async {
+    DateTime startOfWeek = date.subtract(Duration(days: date.weekday - 1)); // Start of the week (Monday)
+    DateTime endOfWeek = startOfWeek.add(Duration(days: 6)); // End of the week (Sunday)
+
+    try {
+      var pulseRecords = await MongoDatabase().getByQuery(
+        "Heart_Pulse",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": startOfWeek,
+            "\$lt": endOfWeek.add(Duration(days: 1)),
+          }
+        },
+      );
+
+      setState(() {
+        pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+        pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
+        graphTitle = "Pulse Records for Week of ${formatDate(startOfWeek.toString())} to ${formatDate(endOfWeek.toString())}";
+      });
+    } catch (e, printStack) {
+      print('Error fetching pulse records for the week: $e');
+      print(printStack);
+    }
+  }
+
+  Future<void> getPulseRecordsForMonth(DateTime date) async {
+    DateTime startOfMonth = DateTime(date.year, date.month, 1); // Start of the month
+    DateTime endOfMonth = DateTime(date.year, date.month + 1, 0); // End of the month
+
+    try {
+      var pulseRecords = await MongoDatabase().getByQuery(
+        "Heart_Pulse",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": startOfMonth,
+            "\$lt": endOfMonth.add(Duration(days: 1)),
+          }
+        },
+      );
+
+      setState(() {
+        pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+        pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
+        graphTitle = "Pulse Records for ${monthNames[date.month - 1]} ${date.year}";
+      });
+    } catch (e, printStack) {
+      print('Error fetching pulse records for the month: $e');
+      print(printStack);
+    }
+  }
+
+
+
+
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -188,6 +379,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                       if (date_result != null) {
                         setState(() {
                           selectedDate = date_result.last; // Update selected date to the first (and only) selected date
+                          getPulseRecordsBySpecificDate(selectedDate!);
                         });
                         print("Selected Date: ${selectedDate.toString()}"); // Print the selected date
                         
@@ -223,10 +415,17 @@ class _PulseDashboardState extends State<PulseDashboard> {
                         ),
                         child: Column(
                           children: [
-                            Text("Average", style: GoogleFonts.poppins(
+                            Text("Average BPM", style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 12.0
+                            ),),
+
+                            Spacer(),
+
+                            Text("${avg == null ? "-" : avg}", style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 25.0
                             ),),
                           ],
                         ),
@@ -244,10 +443,17 @@ class _PulseDashboardState extends State<PulseDashboard> {
                         ),
                         child: Column(
                           children: [
-                            Text("Minimum", style: GoogleFonts.poppins(
+                            Text("Minimum BPM", style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 12.0
+                            ),),
+
+                            Spacer(),
+
+                            Text("${min == null ? "-" : min}", style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 25.0
                             ),),
                           ],
                         ),
@@ -266,10 +472,17 @@ class _PulseDashboardState extends State<PulseDashboard> {
                         
                         child: Column(
                           children: [
-                            Text("Maximum", style: GoogleFonts.poppins(
+                            Text("Maximum BPM", style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 12.0
+                            ),),
+
+                            Spacer(),
+
+                            Text("${max == null ? "-" : max}", style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 25.0
                             ),),
                           ],
                         ),
@@ -291,6 +504,13 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           // The button that is tapped is set to true, and the others to false.
                           for (int i = 0; i < _selectedDays.length; i++) {
                             _selectedDays[i] = i == index;
+                          }
+                          if (_selectedDays[0]) {
+                            getPulseRecordsBySpecificDate(selectedDate!);
+                          } else if (_selectedDays[1]) {
+                            getPulseRecordsForWeek(selectedDate!);
+                          } else if (_selectedDays[2]) {
+                            getPulseRecordsForMonth(selectedDate!);
                           }
                         });
                       },
@@ -325,141 +545,128 @@ class _PulseDashboardState extends State<PulseDashboard> {
           
                 SizedBox(height: 40),
           
-                Container(
-                  height: 200,
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
                   child: SfCartesianChart(
-                        // Initialize category axis
-                        plotAreaBorderWidth: 0.0,
-                        primaryXAxis: CategoryAxis(
-                          // For days view
-                          labelStyle: GoogleFonts.poppins(
-                              color: Color(0xFFFFFFFF),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10.0),
-                          /* title: AxisTitle(
-                            text: 'Day',
-                            textStyle: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15.0),
-                          ), */
-                        ),
-                    
-                        primaryYAxis: NumericAxis(
-                          labelStyle: GoogleFonts.poppins(
-                            color: Color(0xFFFFFFFF), fontWeight: FontWeight.w600,
-                            fontSize: 15.0
-                          ),
-                          title: AxisTitle(
-                            text: 'Pulse(BPM)', // Set the label for X axis
-                            textStyle:  GoogleFonts.poppins(
-                              color: Colors.white, fontWeight: FontWeight.w600,
-                              fontSize: 15.0
-                            ),
-                          ),
-                          /* title: AxisTitle(
-                            text: 'Celsius', // Set the label for X axis
-                            textStyle:  GoogleFonts.poppins(
-                              color: Colors.black, fontWeight: FontWeight.w600,
-                              fontSize: 15.0
-                            ),
-                          ), */
-                        ),
-                    
-                    
-                        
-                    
-                        series: <CartesianSeries>[
-                    
-                          /*  
-                            ColumnSeries: Displays data as vertical columns, with height representing the data value.
-                            BarSeries: Similar to ColumnSeries, but the columns are horizontal.
-                            AreaSeries: Displays data as a filled area, with the area under the curve filled with color.
-                            SplineSeries: Similar to LineSeries, but the curve is smoothed out.
-                            ScatterSeries: Represents individual data points as symbols without connecting them.
-                            BubbleSeries: Represents data points as bubbles, with the size of the bubble representing the data value.
-                            PieSeries: Displays data as slices of a pie, with each slice representing a category and its size representing the data value.
-                            DoughnutSeries: Similar to PieSeries, but with a hole in the center. 
-                          */
-                    
-                          pulsesData.length > 1
-                          // Temperature Series
-                          ? SplineSeries<GraphData, String>(
-                            xAxisName: "BPM",
-                            yAxisName: "Month",
-                            color: Color(0xFFFFFFFF),
-                            dataSource: pulsesData,
-                            xValueMapper: (GraphData value, _) => value.day,
-                            yValueMapper: (GraphData value, _) => value.value,
-                            enableTooltip: true,
-                            name: 'Heart rate (BPM)', // Name of the series
-                            /* dataLabelSettings: DataLabelSettings(
-                              isVisible: true, textStyle:  GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 8.0
-                            ),) */
-                          )
-                          
-                          : ColumnSeries<GraphData, String>(
-                            
-                            color: Color(0xFFFFFFFF),
-                            dataSource: pulsesData,
-                            xValueMapper: (GraphData value, _) => value.day,
-                            yValueMapper: (GraphData value, _) => value.value,
-                            enableTooltip: true,
-                            name: 'Heart rate (BPM)', // Name of the series
-                            dataLabelSettings: DataLabelSettings(
-                              isVisible: true, textStyle:  GoogleFonts.poppins(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: 8.0
-                            ),)
-                          ),
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                        ],
-                        // Enable legend
-                    
-                        // Custom legend position
-                        legend: Legend(
-                          isVisible: false,
-                          position: LegendPosition.auto, // Adjust the position here
-                          textStyle:  GoogleFonts.poppins(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 10.0
-                          ),
-                        ),
-                    
-                        // Enable zooming and panning
-                        zoomPanBehavior: ZoomPanBehavior(
-                          enableSelectionZooming: true,
-                          enableMouseWheelZooming: true,
-                          enablePanning: true,
-                          enablePinching: true,
-                          zoomMode: ZoomMode.x,
-                        ),
-                    
-                        // Add tooltip
-                        tooltipBehavior: TooltipBehavior(
-                          textStyle:  GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 8.0
-                          ),
-                          enable: true,
-                    
-                        ),
-                    
-                    
+                    // Initialize category axis
+                    primaryXAxis: CategoryAxis(
+                      // For days view
+                      labelStyle: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10.0),
+                      /* title: AxisTitle(
+                        text: 'Day',
+                        textStyle: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.0),
+                      ), */
                     ),
+                
+                    primaryYAxis: NumericAxis(
+                      labelStyle: GoogleFonts.poppins(
+                        color: Colors.white, fontWeight: FontWeight.w600,
+                        fontSize: 15.0
+                      ),
+                      /* title: AxisTitle(
+                        text: 'Celsius', // Set the label for X axis
+                        textStyle:  GoogleFonts.poppins(
+                          color: Colors.black, fontWeight: FontWeight.w600,
+                          fontSize: 15.0
+                        ),
+                      ), */
+                    ),
+                
+                
+                    title: ChartTitle(
+                      text: '${graphTitle}',
+                      textStyle:  GoogleFonts.poppins(
+                        color: Colors.white, fontWeight: FontWeight.w600,
+                        fontSize: 15.0
+                      ),
+                    ),
+                
+                    series: <CartesianSeries>[
+                
+                      /*  
+                        ColumnSeries: Displays data as vertical columns, with height representing the data value.
+                        BarSeries: Similar to ColumnSeries, but the columns are horizontal.
+                        AreaSeries: Displays data as a filled area, with the area under the curve filled with color.
+                        SplineSeries: Similar to LineSeries, but the curve is smoothed out.
+                        ScatterSeries: Represents individual data points as symbols without connecting them.
+                        BubbleSeries: Represents data points as bubbles, with the size of the bubble representing the data value.
+                        PieSeries: Displays data as slices of a pie, with each slice representing a category and its size representing the data value.
+                        DoughnutSeries: Similar to PieSeries, but with a hole in the center. 
+                      */
+                
+                      pulsesData.length > 1
+                      // Temperature Series
+                      ? SplineSeries<GraphData, String>(
+                        color: Color(0xFFFF4081),
+                        dataSource: pulsesData,
+                        xValueMapper: (GraphData value, _) => value.day,
+                        yValueMapper: (GraphData value, _) => value.value,
+                        enableTooltip: true,
+                        name: 'Heart rate (BPM)', // Name of the series
+                        /* dataLabelSettings: DataLabelSettings(
+                          isVisible: true, textStyle:  GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 8.0
+                        ),) */
+                      )
+                      
+                      : ColumnSeries<GraphData, String>(
+                        color: Color(0xFFFF4081),
+                        dataSource: pulsesData,
+                        xValueMapper: (GraphData value, _) => value.day,
+                        yValueMapper: (GraphData value, _) => value.value,
+                        enableTooltip: true,
+                        name: 'Heart rate (BPM)', // Name of the series
+                        /* dataLabelSettings: DataLabelSettings(
+                          isVisible: true, textStyle:  GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 8.0
+                        ),) */
+                      ),
+                
+                
+                    ],
+                    // Enable legend
+                
+                    // Custom legend position
+                    legend: Legend(
+                      isVisible: true,
+                      position: LegendPosition.auto, // Adjust the position here
+                      textStyle:  GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 10.0
+                      ),
+                    ),
+                
+                    // Enable zooming and panning
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enableSelectionZooming: true,
+                      enableMouseWheelZooming: true,
+                      enablePanning: true,
+                      enablePinching: true,
+                      zoomMode: ZoomMode.x,
+                    ),
+                
+                    // Add tooltip
+                    tooltipBehavior: TooltipBehavior(
+                      textStyle:  GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 8.0
+                      ),
+                      enable: true,
+                
+                    ),
+                
+                
+                  ),
                 ),
-          
-          
-          
-                SizedBox(height: 20),
+                
           
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -495,6 +702,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 setState(() {
                                   graphTitle = "Today Pulse";
                                   dateRange = null;
+                                  selectedDate = DateTime.now();
                                 });
                               }, 
                               child: Card(
@@ -564,9 +772,12 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 // If results are not null and contain at least one date, update the selected date
                                 if (date_result != null) {
                                   setState(() {
+
                                     startRange = date_result.first; // Update selected date to the first (and only) selected date
                                     endRange = date_result.last;
+                                    getPulseRecordsByDateRange(startRange!, endRange!);
                                     dateRange = "Date Selected: ${startRange!.day} ${monthNames[startRange!.month - 1]} ${startRange!.year} - ${endRange!.day} ${monthNames[endRange!.month - 1]} ${endRange!.year} ";
+                                    graphTitle = "Pulse records between ${startRange!.day} ${monthNames[startRange!.month - 1]} ${startRange!.year} and ${endRange!.day} ${monthNames[endRange!.month - 1]} ${endRange!.year} ";
                                   });
                                   
                                   
@@ -610,6 +821,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                         
                             InkWell(
                               onTap: (){
+                                getHighestPulseRecordsForRecentDays();
                                 setState(() {
                                   graphTitle = "Highest pulse records for Recent 5 days";
                                 });

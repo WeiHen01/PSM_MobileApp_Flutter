@@ -16,6 +16,7 @@ class PulseHistory extends StatefulWidget {
 class _PulseHistoryState extends State<PulseHistory> {
 
   late List<Pulse> pulses = [];
+  late List<Pulse> filteredPulses = []; // Added filtered pulses list
   Future<void> getAllPulseRecords() async {
     try {
       // Assuming 'MongoDatabase' instance is accessible here
@@ -25,6 +26,7 @@ class _PulseHistoryState extends State<PulseHistory> {
       if(pulse.isNotEmpty){
         setState((){
           pulses = pulse.map((json) => Pulse.fromJson(json)).toList();
+          filteredPulses = List.from(pulses);
         });
       }
 
@@ -34,6 +36,23 @@ class _PulseHistoryState extends State<PulseHistory> {
       // Handle the exception as needed, for example, show an error message to the user
     }
 
+  }
+
+
+  // add function to display list based on certain day
+  void filterPulsesByDate(DateTime? date) {
+    setState(() {
+      if (date != null) {
+        filteredPulses = pulses.where((record) {
+          final recordDate = DateTime.parse(record.MeasureDate.toString());
+          return recordDate.year == date.year &&
+                 recordDate.month == date.month &&
+                 recordDate.day == date.day;
+        }).toList();
+      } else {
+        filteredPulses = List.from(pulses); // Reset to all records if no date is selected
+      }
+    });
   }
 
   @override
@@ -184,7 +203,9 @@ class _PulseHistoryState extends State<PulseHistory> {
                         // If results are not null and contain at least one date, update the selected date
                         if (date_result != null) {
                           setState(() {
+                            
                             selectedDate = date_result.last; // Update selected date to the first (and only) selected date
+                            filterPulsesByDate(selectedDate!);
                           });
                           print("Selected Date: ${selectedDate.toString()}"); // Print the selected date
                           
@@ -218,10 +239,10 @@ class _PulseHistoryState extends State<PulseHistory> {
                     return SizedBox(height: 15); // Adjust the height as needed
                   },
                   reverse: false,
-                  itemCount: pulses.length,
+                  itemCount: filteredPulses.length,
                   itemBuilder: (context, index){
 
-                    final records = pulses[index];
+                    final records = filteredPulses[index];
 
                     return Card(
                     
@@ -234,7 +255,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                               "${formatDate(records.MeasureDate.toString())}",
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontSize: 13.0,
+                                fontSize: 13.0, fontWeight: FontWeight.bold,
                               ),
                             ),
                                                 

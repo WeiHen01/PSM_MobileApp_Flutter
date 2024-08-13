@@ -64,9 +64,7 @@ class _TempDashboardState extends State<TempDashboard> {
 
   // get today records
   Future<void> getAllTempRecordsByToday() async {
-    setState(() {
-      graphTitle = "Today records";
-    });
+    
     // Get today's date
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day);
@@ -104,7 +102,7 @@ class _TempDashboardState extends State<TempDashboard> {
   }
 
 
-  // Get records for a specific date
+  /* // Get records for a specific date
   Future<void> getTempRecordsByDate(DateTime selectedDate) async {
     setState(() {
       graphTitle = "Records for ${selectedDate.day} ${monthNames[selectedDate.month - 1]} ${selectedDate.year}";
@@ -130,7 +128,62 @@ class _TempDashboardState extends State<TempDashboard> {
       print('Error fetching temperature records for the specific date: $e');
       print(printStack);
     }
+  } */
+
+  String? avg, fahren;
+
+  // Get records for a specific date and calculate the average temperature
+  Future<void> getTempRecordsByDate(DateTime selectedDate) async {
+    setState(() {
+      graphTitle = "Records for ${selectedDate.day} ${monthNames[selectedDate.month - 1]} ${selectedDate.year}";
+    });
+
+    try {
+      var tempRecords = await MongoDatabase().getByQuery(
+        "Temperature",
+        {
+          "PatientID": 'P-${widget.id}',
+          "MeasureDate": {
+            "\$gte": DateTime(selectedDate.year, selectedDate.month, selectedDate.day),
+            "\$lt": DateTime(selectedDate.year, selectedDate.month, selectedDate.day).add(Duration(days: 1)),
+          }
+        },
+      );
+
+      if (tempRecords.isNotEmpty) {
+        // Map records to Temperature objects
+        temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
+
+        // Calculate the average temperature
+        double totalTemperature = temperatures.fold(0.0, (sum, temp) => sum + temp.temperature.toDouble());
+        double averageTemperature = totalTemperature / temperatures.length;
+
+        double avgFahrenheit = (averageTemperature * 9 / 5) + 32;
+
+        // Update the graph data
+        temperatureData = temperatures.map((temp) => 
+          GraphData(day: formatTime(temp.measureTime.toString()), value: temp.temperature.toDouble())
+        ).toList();
+
+        print("Average Temperature: $averageTemperature");
+
+        setState(() {
+          // You can update the UI with the average temperature here if needed
+          // For example, you could display it in a widget or add it to the graphTitle
+          avg = "${averageTemperature.toStringAsFixed(2)}";
+          fahren = "${avgFahrenheit.toStringAsFixed(2)}";
+
+        });
+      } else {
+        print("No records found for the selected date.");
+        // Handle the case where no records are found
+      }
+    } catch (e, printStack) {
+      print('Error fetching temperature records for the specific date: $e');
+      print(printStack);
+    }
   }
+
 
 
 
@@ -205,9 +258,7 @@ class _TempDashboardState extends State<TempDashboard> {
 
   // Get records for the week based on the specific date
   Future<void> getTempRecordsForWeek(DateTime selectedDate) async {
-    setState(() {
-      graphTitle = "Records for the week of ${selectedDate.day} ${monthNames[selectedDate.month - 1]} ${selectedDate.year}";
-    });
+    
 
     DateTime startOfWeek = selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
     DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
@@ -227,6 +278,7 @@ class _TempDashboardState extends State<TempDashboard> {
       setState(() {
         temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
         temperatureData = temperatures.map((temp) => GraphData(day: formatDate(temp.measureDate.toString()), value: temp.temperature.toDouble())).toList();
+        graphTitle = "Temperature Records for Week of ${formatDate(startOfWeek.toString())} to ${formatDate(endOfWeek.toString())}";
       });
     } catch (e, printStack) {
       print('Error fetching temperature records for the week: $e');
@@ -410,6 +462,13 @@ class _TempDashboardState extends State<TempDashboard> {
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0
                             ),),
+
+                            Spacer(),
+
+                            Text("${avg == null ? "-" : avg}", style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 35.0
+                            ),),
                           ],
                         ),
                       ),
@@ -434,6 +493,15 @@ class _TempDashboardState extends State<TempDashboard> {
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0
                             ),),
+
+                            Spacer(),
+
+                            Text("${fahren == null ? "-" : fahren}", style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 35.0
+                            ),),
+
+                            
                           ],
                         ),
                       ),
@@ -660,9 +728,10 @@ class _TempDashboardState extends State<TempDashboard> {
           
                             InkWell(
                               onTap: (){
+                                getAllTempRecordsByToday();
                                 setState(() {
+                                  graphTitle = "Today Temperature";
                                   dateRange = null;
-                                  getAllTempRecordsByToday();
                                   selectedDate = DateTime.now();
                                 });
                               }, 
