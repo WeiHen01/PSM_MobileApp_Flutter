@@ -1,4 +1,5 @@
 import 'dart:convert'; //json encode/decode
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
@@ -647,6 +648,13 @@ class _BodyHomeState extends State<BodyHome> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 180,
+                    decoration: BoxDecoration(
+                     border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 4.0, // Border width
+                    ),
+                        
+                    ),
                     child: Stack(
                       children: [
                         Container(
@@ -687,6 +695,12 @@ class _BodyHomeState extends State<BodyHome> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
                         height: MediaQuery.of(context).size.width / 2,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black, // Border color
+                            width: 4.0, // Border width
+                          ),
+                        ),
                         child: Stack(
                           children: [
                             Container(
@@ -763,6 +777,12 @@ class _BodyHomeState extends State<BodyHome> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
                         height: MediaQuery.of(context).size.width / 2,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black, // Border color
+                            width: 4.0, // Border width
+                          ),
+                        ),
                         child: Stack(
                           children: [
                             Container(

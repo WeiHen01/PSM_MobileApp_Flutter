@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       // 192.168.101.212
       // 10.0.2.2
       // 192.168.8.119
-      await prefs.setString("localhost", "192.168.115.212");
+      await prefs.setString("localhost", "192.168.0.8");
       //IP based on NodeMCU
       await prefs.setString("nodeMCU", "192.168.115.65");
       int? userID = await prefs.getInt("loggedUserId");

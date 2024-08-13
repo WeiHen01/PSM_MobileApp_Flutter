@@ -1,3 +1,4 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -84,6 +85,15 @@ class _PulseHistoryState extends State<PulseHistory> {
     }
   }
 
+  DateTime? selectedDate;
+
+   // List of month names
+  final List<String> monthNames = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+
   
   @override
   Widget build(BuildContext context) {
@@ -135,10 +145,70 @@ class _PulseHistoryState extends State<PulseHistory> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("History", style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold, color: Colors.white,
-                  fontSize: 20.0
-                ),),
+                child: Row(
+                  children: [
+                    Text("History", style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold, color: Colors.white,
+                      fontSize: 20.0
+                    ),),
+
+                    Spacer(),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: ()async{
+                        var date_result = await showCalendarDatePicker2Dialog(
+                          context: context,
+                          config: CalendarDatePicker2WithActionButtonsConfig(
+                            controlsTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
+                            weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
+                            lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                            nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+                            selectedDayHighlightColor: Color(0xFFFF4081),
+                            dayTextStyle: GoogleFonts.poppins(color: Colors.black),
+                            monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
+                            yearTextStyle: GoogleFonts.poppins(color: Colors.black),
+                            okButtonTextStyle: GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+                            selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
+                            selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                            cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+
+                          ),
+                          dialogSize: const Size(325, 400),
+                          value: [selectedDate],
+                          borderRadius: BorderRadius.circular(15),
+                          
+                        );
+
+                        // If results are not null and contain at least one date, update the selected date
+                        if (date_result != null) {
+                          setState(() {
+                            selectedDate = date_result.last; // Update selected date to the first (and only) selected date
+                          });
+                          print("Selected Date: ${selectedDate.toString()}"); // Print the selected date
+                          
+                        }
+                        else{
+                          selectedDate = null;
+                        }
+                        
+                      },
+                      child: Row(
+                        children: [
+                          Text("${selectedDate == null ? "-" : "${selectedDate!.day.toString()} ${monthNames[selectedDate!.month - 1]} ${selectedDate!.year.toString()}"} ", style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0
+                          ),),
+
+                          Icon(Icons.arrow_drop_down_sharp, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+                  ],
+                ),
               ),
 
               Expanded(

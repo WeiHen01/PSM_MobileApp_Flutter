@@ -1,3 +1,4 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,6 +82,29 @@ class _PulseDashboardState extends State<PulseDashboard> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Initialize with today's date
+    selectedDate = DateTime.now();
+  }
+
+  DateTime? selectedDate;
+
+  DateTime today = DateTime.now();
+
+  // List of month names
+  final List<String> monthNames = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+
+  DateTime? startRange, endRange;
+
+  String? dateRange;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
@@ -132,11 +156,55 @@ class _PulseDashboardState extends State<PulseDashboard> {
                 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("Today", style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0
-                  ),),
+                  child: InkWell(
+                    onTap: ()async{
+                      var date_result = await showCalendarDatePicker2Dialog(
+                        context: context,
+                        config: CalendarDatePicker2WithActionButtonsConfig(
+                          controlsTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
+                          weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
+                          lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                          nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+
+                          dayTextStyle: GoogleFonts.poppins(color: Colors.black),
+                          monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
+                          yearTextStyle: GoogleFonts.poppins(color: Colors.black),
+                          okButtonTextStyle: GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+                          selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
+                          selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                          selectedDayHighlightColor: Color(0xFFFF4081),
+
+                          cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+                          
+
+                        ),
+                        dialogSize: const Size(325, 400),
+                        value: [selectedDate],
+                        borderRadius: BorderRadius.circular(15),
+                        
+                      );
+
+                      // If results are not null and contain at least one date, update the selected date
+                      if (date_result != null) {
+                        setState(() {
+                          selectedDate = date_result.last; // Update selected date to the first (and only) selected date
+                        });
+                        print("Selected Date: ${selectedDate.toString()}"); // Print the selected date
+                        
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Text("${selectedDate == today ? "Today" : "${selectedDate!.day.toString()} ${monthNames[selectedDate!.month - 1]} ${selectedDate!.year.toString()}"} ", style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0
+                        ),),
+
+                        Icon(Icons.arrow_drop_down_sharp, color: Colors.white),
+                      ],
+                    ),
+                  ),
                 ),
           
                 SizedBox(height: 10),
@@ -393,11 +461,18 @@ class _PulseDashboardState extends State<PulseDashboard> {
           
                 SizedBox(height: 20),
           
-               
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("${dateRange == null ? "" : dateRange}", style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 13.0,
+                  ), textAlign: TextAlign.center),
+                ),
+          
           
                 Container(
                   alignment: Alignment.center,
-                    height: 160,
+                    height: 200,
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
@@ -419,6 +494,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                 getAllPulseRecordsByToday();
                                 setState(() {
                                   graphTitle = "Today Pulse";
+                                  dateRange = null;
                                 });
                               }, 
                               child: Card(
@@ -459,8 +535,42 @@ class _PulseDashboardState extends State<PulseDashboard> {
                         
                         
                             InkWell(
-                              onTap: (){
-                                        
+                              onTap: () async{
+                                 var date_result = await showCalendarDatePicker2Dialog(
+                                  context: context,
+                                  config: CalendarDatePicker2WithActionButtonsConfig(
+                                    controlsTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
+                                    selectedDayHighlightColor: Color(0xFFFF4081),
+                                    weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
+                                    lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                                    nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+
+                                    dayTextStyle: GoogleFonts.poppins(color: Colors.black),
+                                    monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
+                                    yearTextStyle: GoogleFonts.poppins(color: Colors.black),
+                                    okButtonTextStyle: GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+                                    selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
+                                    selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                                    calendarType: CalendarDatePicker2Type.range,
+                                    cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
+
+                                  ),
+                                  dialogSize: const Size(325, 400),
+                                  value: [startRange, endRange],
+                                  borderRadius: BorderRadius.circular(15),
+                                  
+                                );
+
+                                // If results are not null and contain at least one date, update the selected date
+                                if (date_result != null) {
+                                  setState(() {
+                                    startRange = date_result.first; // Update selected date to the first (and only) selected date
+                                    endRange = date_result.last;
+                                    dateRange = "Date Selected: ${startRange!.day} ${monthNames[startRange!.month - 1]} ${startRange!.year} - ${endRange!.day} ${monthNames[endRange!.month - 1]} ${endRange!.year} ";
+                                  });
+                                  
+                                  
+                                }       
                               }, 
                               child: Card(
                                 elevation: 3,
