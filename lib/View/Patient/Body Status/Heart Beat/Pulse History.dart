@@ -212,6 +212,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                         }
                         else{
                           selectedDate = null;
+                          filterPulsesByDate(null);
                         }
                         
                       },
