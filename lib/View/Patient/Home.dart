@@ -773,9 +773,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
                                 children: [
                                   Image.asset("images/call.png", height: MediaQuery.of(context).size.width * 0.25),
                                   GradientText(
-                                    "Emergency Call",
+                                    "Emergency",
                                     style: GoogleFonts.poppins(
-                                        fontSize: 13.0, fontWeight: FontWeight.w600
+                                        fontSize: 18.0, fontWeight: FontWeight.w600
                                     ),
                                     colors: [
                                         Color(0xFF301847), Color(0xFFC10214)

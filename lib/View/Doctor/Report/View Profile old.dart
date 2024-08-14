@@ -51,6 +51,25 @@ class _ViewProfileState extends State<ViewProfile> {
    
   }
   
+  // Function to format DateTime to string
+  String formatDate(String date) {
+    // Parse the date string
+    final dateTime = DateTime.parse(date).toLocal();
+    // Format the DateTime into a desired string format
+    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
+  }
+
+  // Function to format Time to string in 12-hour system and convert to local time
+  String formatTime(String time) {
+    final dateTime = DateTime.parse(time).toLocal(); // Convert to local time
+    final hour = dateTime.hour;
+    final minute = dateTime.minute.toString().padLeft(2, '0'); // Add leading zero if necessary
+    final second = dateTime.second.toString().padLeft(2, '0'); // Add leading zero if necessary
+    final period = hour < 12 ? 'AM' : 'PM';
+    final hour12 = hour % 12 == 0 ? 12 : hour % 12;
+    return '$hour12:$minute:$second $period';
+  }
+
  
 
   String imageUrl = "images/Profile_2.png";
@@ -76,8 +95,6 @@ class _ViewProfileState extends State<ViewProfile> {
 
   late List<Temperature> temperatures = [];
   late List<Pulse> pulses = [];
-   int _rowsPulsePerPage = 5; // Default rows per page
-   int _rowsTempPerPage = 5; // Default rows per page
 
   Future<void> getAllTempRecordsByToday() async {
 
@@ -308,8 +325,7 @@ class _ViewProfileState extends State<ViewProfile> {
                 
                       const SizedBox(height: 20.0),
 
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                     Container(
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
@@ -320,8 +336,57 @@ class _ViewProfileState extends State<ViewProfile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                 
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Temperature", style: GoogleFonts.poppins(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold
+                                )
+                              ),
+                            ),
                 
-                             buildPaginatedTemperatureTable(),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF301847), Color(0xFFC10214)
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(width: 2.0),
+                                  ),
+                                  headingRowHeight: 30,
+                                  columnSpacing: MediaQuery.sizeOf(context).width * 0.06,
+                                  
+                                  headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
+                                  headingTextStyle: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 12.0
+                                  ),
+                                  dataTextStyle: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 12.0
+                                  ),
+                                  dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
+                                  columns: [
+                                    DataColumn(label: Container(width: 50, padding: EdgeInsets.zero, child: Text('Date'))),
+                                    DataColumn(label: Text('Time')),
+                                    DataColumn(label: Text('Temperature')),
+                                  ],
+                                  rows: temperatures.map((user) {
+                                    return DataRow(cells: [
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatDate(user.measureDate.toString())}"))),
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatTime(user.measureTime.toString())}"))),
+                                      DataCell(Text("${user.temperature}")),
+                                    ]);
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
                 
                             const SizedBox(height: 20.0),
                 
@@ -334,7 +399,6 @@ class _ViewProfileState extends State<ViewProfile> {
               
               
                       Container(
-                         width: MediaQuery.of(context).size.width * 0.8,
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
@@ -345,8 +409,56 @@ class _ViewProfileState extends State<ViewProfile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                 
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Heart Pulse", style: GoogleFonts.poppins(
+                                  fontSize: 15.0, fontWeight: FontWeight.bold
+                                )
+                              ),
+                            ),
                       
-                           buildPaginatedPulseTable(),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF301847), Color(0xFFC10214)
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(width: 2.0),
+                                  ),
+                                  headingRowHeight: 30,
+                                  columnSpacing: MediaQuery.sizeOf(context).width * 0.1,
+                                  headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
+                                  headingTextStyle: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 12.0
+                                  ),
+                                  dataTextStyle: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 12.0
+                                  ),
+                                  dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
+                                  columns: [
+                                    DataColumn(label: Container(width: 50, padding: EdgeInsets.zero, child: Text('Date'))),
+                                    DataColumn(label: Container(child: Text('Time'))),
+                                    DataColumn(label: Container(child: Text('Pulse'))),
+                                  ],
+                                  rows: pulses.map((user) {
+                                    return DataRow(cells: [
+                                      DataCell(Container(width: 50, padding: EdgeInsets.zero, child: Text("${formatDate(user.MeasureDate.toString())}"))),
+                                      DataCell(Container(width: 50, child: Text("${formatTime(user.MeasureTime.toString())}"))),
+                                      DataCell(Text("${user.pulseRate}")),
+                                    ]);
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
 
                             SizedBox(height: 30),
 
@@ -372,159 +484,4 @@ class _ViewProfileState extends State<ViewProfile> {
       )
     );
   }
-
-  Widget buildPaginatedTemperatureTable() {
-    return Column(
-       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PaginatedDataTable(
-          header: Text('Temperature Records', style: GoogleFonts.poppins(fontSize: 15.0, fontWeight: FontWeight.bold)),
-          columns: [
-            DataColumn(label: Text('Date', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-            DataColumn(label: Text('Time', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-            DataColumn(label: Text('Temperature', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-          ],
-          source: TemperatureDataSource(temperatures, formatDate, formatTime),
-          rowsPerPage: _rowsTempPerPage,
-          columnSpacing: 20,
-          headingRowColor: WidgetStateProperty.all(Colors.pink),
-          actions: [
-            DropdownButton<int>(
-              value: _rowsTempPerPage,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _rowsTempPerPage = value;
-                  });
-                }
-              },
-              items: [5, 10]
-                  .map((e) => DropdownMenuItem<int>(
-                        value: e,
-                        child: Text("$e rows per page", style: GoogleFonts.poppins(
-                          fontSize: 13
-                        )),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildPaginatedPulseTable() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PaginatedDataTable(
-          header: Text('Pulse Records', style: GoogleFonts.poppins(fontSize: 15.0, fontWeight: FontWeight.bold)),
-          columns: [
-            DataColumn(label: Text('Date', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-            DataColumn(label: Text('Time', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-            DataColumn(label: Text('Pulse Rate', style: GoogleFonts.poppins(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white,))),
-          ],
-          headingRowColor: WidgetStateProperty.all(Colors.pink),
-          source: PulseDataSource(pulses, formatDate, formatTime),
-          rowsPerPage: _rowsPulsePerPage,
-          columnSpacing: 20,
-          actions: [
-            DropdownButton<int>(
-              value: _rowsPulsePerPage,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _rowsPulsePerPage = value;
-                  });
-                }
-              },
-              items: [5, 10]
-                  .map((e) => DropdownMenuItem<int>(
-                        value: e,
-                        child: Text("$e rows per page", style: GoogleFonts.poppins(
-                          fontSize: 13
-                        )),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  // Function to format DateTime to string
-  String formatDate(String date) {
-    final dateTime = DateTime.parse(date).toLocal();
-    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
-  }
-
-  // Function to format Time to string in 12-hour system and convert to local time
-  String formatTime(String time) {
-    final dateTime = DateTime.parse(time).toLocal();
-    final hour = dateTime.hour;
-    final minute = dateTime.minute.toString().padLeft(2, '0');
-    final second = dateTime.second.toString().padLeft(2, '0');
-    final period = hour < 12 ? 'AM' : 'PM';
-    final hour12 = hour % 12 == 0 ? 12 : hour % 12;
-    return '$hour12:$minute:$second $period';
-  }
-}
-
-class TemperatureDataSource extends DataTableSource {
-  final List<Temperature> temperatures;
-  final Function formatDate;
-  final Function formatTime;
-
-  TemperatureDataSource(this.temperatures, this.formatDate, this.formatTime);
-
-  @override
-  DataRow? getRow(int index) {
-    if (index >= temperatures.length) return null;
-
-    final temperature = temperatures[index];
-    return DataRow(cells: [
-      DataCell(Text("${formatDate(temperature.measureDate.toString())}", style: GoogleFonts.poppins(fontSize: 12.0))),
-      DataCell(Text("${formatTime(temperature.measureTime.toString())}", style: GoogleFonts.poppins(fontSize: 12.0))),
-      DataCell(Text(temperature.temperature.toString(), style: GoogleFonts.poppins(fontSize: 12.0))),
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => temperatures.length;
-
-  @override
-  int get selectedRowCount => 0;
-}
-
-class PulseDataSource extends DataTableSource {
-  final List<Pulse> pulses;
-  final Function formatDate;
-  final Function formatTime;
-
-  PulseDataSource(this.pulses, this.formatDate, this.formatTime);
-
-  @override
-  DataRow? getRow(int index) {
-    if (index >= pulses.length) return null;
-
-    final pulse = pulses[index];
-    return DataRow(cells: [
-      DataCell(Text("${formatDate(pulse.MeasureDate.toString())}", style: GoogleFonts.poppins(fontSize: 12.0))),
-      DataCell(Text("${formatTime(pulse.MeasureTime.toString())}", style: GoogleFonts.poppins(fontSize: 12.0))),
-      DataCell(Text(pulse.pulseRate.toString())),
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => pulses.length;
-
-  @override
-  int get selectedRowCount => 0;
 }

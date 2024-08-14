@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'View Profile.dart';
 
 import '../../../Controller/MongoDBController.dart';
@@ -95,7 +94,6 @@ class _ReportState extends State<Report> {
   }
 
   int? totalPatients;
-  int _rowsPerPage = 5; // Default rows per page
   List<Patient> allPatients = [];
   Future<void> getTotalPatients() async {
     
@@ -337,16 +335,106 @@ class _ReportState extends State<Report> {
             
                       SizedBox(height: 20),
             
-                      
-                      _buildPaginatedTable(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("All Patients", style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.black,
+                          fontSize: 20.0
+                        ),),
+                      ),
 
-                        
-                      
+
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFF301847), Color(0xFFC10214)
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(width: 2.0),
+                            ),
+                            headingRowColor: MaterialStateColor.resolveWith((states) => Colors.pink),
+                            headingTextStyle: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700, color: Colors.white,
+                              fontSize: 15.0
+                            ),
+                            dataTextStyle: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 12.0
+                            ),
+                            dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white), // Set background color for data rows
+                            columns: [
+                              DataColumn(label: Container(child: Text('Patient'),)),
+                              DataColumn(label: Container(width: 50, child: Text('Action'))),
+                            ],
+                            rows: allPatients.map((user) {
+                              return DataRow(cells: [
+                                DataCell(Container(width: MediaQuery.of(context).size.width * 1/2, child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(user.patientName, style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 15.0, fontWeight: FontWeight.w600
+                                    )),
+                                    Text(user.patientEmail),
+                                  ],
+                                ))),
+                                DataCell(Container(child: IconButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ViewProfile(
+                                      id: user.patientID
+                                    )
+                                   )
+                                  );
+                                }, icon: Icon(Icons.account_box)))),
+                              ]);
+                            }).toList(),
+                          ),
+
+
+                        ),
+                      ),
 
                       SizedBox(height: 20),
                       
 
-                      
+                      /* Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              //_createPdf();
+                              
+                            },
+                            child: Card(
+                              elevation: 3,
+                              child: Container(
+                                width: 100,
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF301847), Color(0xFFC10214)
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Center(
+                                  child: Text('Print', style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, color: Colors.white,
+                                    fontSize: 15.0
+                                  ),),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ) */
 
 
                     ]
@@ -363,123 +451,5 @@ class _ReportState extends State<Report> {
       )
 
     );
-
-    
   }
-
-  Widget _buildPaginatedTable() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PaginatedDataTable(
-          header: GradientText(
-            colors: [
-              Color(0xFF301847), Color(0xFFC10214)
-            ],
-            "All Patients",
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold,
-              fontSize: 18, color: Colors.white,
-            ),
-          ),
-          headingRowColor: WidgetStatePropertyAll(Colors.pink),
-          columns: [
-            DataColumn(label: Text("Patient", style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold, color: Colors.white,
-              fontSize: 18,
-            ),)),
-            DataColumn(label: Text("Profile", style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold, color: Colors.white,
-              fontSize: 18,
-            ),)),
-          ],
-          source: PatientDataSource(allPatients, context),
-          rowsPerPage: _rowsPerPage,
-          columnSpacing: 20,
-          horizontalMargin: 10,
-          showCheckboxColumn: false,
-          actions: [
-            DropdownButton<int>(
-              value: _rowsPerPage,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _rowsPerPage = value;
-                  });
-                }
-              },
-              items: [5, 10]
-                  .map((e) => DropdownMenuItem<int>(
-                        value: e,
-                        child: Text("$e rows per page", style: GoogleFonts.poppins(
-                          fontSize: 13
-                        )),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-  
-
-
-
-
-class PatientDataSource extends DataTableSource {
-  final List<Patient> patients;
-  final BuildContext context;
-
-  PatientDataSource(this.patients, this.context);
-
-  @override
-  DataRow getRow(int index) {
-    final patient = patients[index];
-    return DataRow(cells: [
-      DataCell(Container(
-        width: MediaQuery.of(context).size.width * 0.5,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              patient.patientName,
-              style: GoogleFonts.poppins(
-                color: Colors.black,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(patient.patientEmail, style: GoogleFonts.poppins(
-                color: Colors.black,
-                fontSize: 12.0, 
-              ),
-            ),
-          ],
-        ),
-      )),
-      DataCell(IconButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ViewProfile(id: patient.patientID),
-            ),
-          );
-        },
-        icon: Icon(Icons.account_box),
-      )),
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => patients.length;
-
-  @override
-  int get selectedRowCount => 0;
 }
