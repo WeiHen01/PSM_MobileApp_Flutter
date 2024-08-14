@@ -204,7 +204,69 @@ class _DoctorRegisterState extends State<DoctorRegister> {
 
     } */
     
-  
+  List<String>? _emailErrors;
+  List<String>? _passwordErrors;
+
+  void _validateEmail(String value) {
+    setState(() {
+      _emailErrors = [];
+      
+      const emailPattern = r'^[^\s@]+@[^\s@]+\.[^\s@]+$';
+      final emailRegex = RegExp(emailPattern);
+      
+      if (value.isEmpty) {
+        _emailErrors?.add('Please enter an email');
+      } else {
+        if (!emailRegex.hasMatch(value)) {
+          _emailErrors?.add('Enter a valid email address');
+        }
+        if (!value.endsWith('.com')) {
+          _emailErrors?.add('Email must end with .com');
+        }
+      }
+
+      if (_emailErrors?.isEmpty ?? true) {
+        _emailErrors = null;
+      }
+    });
+  }
+
+  void _validatePassword(String value) {
+    setState(() {
+      _passwordErrors = [];
+
+      if (value.isEmpty) {
+        _passwordErrors?.add('Please enter a password');
+      } else {
+        if (value.length < 8) {
+          _passwordErrors?.add('Password must be at least 8 characters long');
+        }
+        if (!RegExp(r'\d').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 number');
+        }
+        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>_]').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 special character');
+        }
+      }
+
+      if (_passwordErrors?.isEmpty ?? true) {
+        _passwordErrors = null;
+      }
+    });
+  }
+
+  String? _passwordMatchError;
+
+  void _validatePasswordsMatch(String value) {
+    setState(() {
+      if (conPasswordCtrl != null && passwordCtrl.text != conPasswordCtrl.text) {
+        _passwordMatchError = 'Passwords do not match';
+      } else {
+        _passwordMatchError = null;
+      }
+    });
+  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -292,6 +354,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                               return null;
                             },
                             controller: emailCtrl,
+                            onChanged: _validateEmail,
                             keyboardType: TextInputType.emailAddress,
                             style: GoogleFonts.poppins(
                               color: Colors.white,
@@ -302,11 +365,12 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                               prefixIcon: const Icon(Icons.email, color: Colors.white,),
                               filled: true,
                               fillColor: Colors.transparent,
+                               errorText: _emailErrors?.join('\n'),
                               border: const OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             ),
                             
@@ -507,16 +571,20 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                               }
                               return null;
                             },
+                            
                             obscureText: !_password,
                             style: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
                             controller: passwordCtrl,
+                            onChanged: _validatePassword,
                             decoration: InputDecoration(
+                              errorText: _passwordErrors?.join('\n'),
                               labelStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
                               hintText: 'Password',
+                              
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -536,7 +604,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                                 borderSide: BorderSide.none,
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -599,10 +667,12 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                               border: const OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
                               ),
+                              errorText: _passwordMatchError,
                             ),
+                            onChanged: _validatePasswordsMatch,
                           ),
                         ),
                   

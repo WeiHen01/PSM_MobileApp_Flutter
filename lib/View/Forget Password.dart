@@ -204,6 +204,33 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     }
   } */
 
+  List<String>? _emailErrors;
+  List<String>? _passwordErrors;
+
+  void _validateEmail(String value) {
+    setState(() {
+      _emailErrors = [];
+      
+      const emailPattern = r'^[^\s@]+@[^\s@]+\.[^\s@]+$';
+      final emailRegex = RegExp(emailPattern);
+      
+      if (value.isEmpty) {
+        _emailErrors?.add('Please enter an email');
+      } else {
+        if (!emailRegex.hasMatch(value)) {
+          _emailErrors?.add('Enter a valid email address');
+        }
+        if (!value.endsWith('.com')) {
+          _emailErrors?.add('Email must end with .com');
+        }
+      }
+
+      if (_emailErrors?.isEmpty ?? true) {
+        _emailErrors = null;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -289,12 +316,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             }
                             return null;
                           },
+                          
                           keyboardType: TextInputType.emailAddress,
+                           onChanged: _validateEmail,
                           decoration: InputDecoration(
                             //errorText: 'Please enter a valid value',
                               prefixIcon: Icon(Icons.mail, color: Colors.white),
                               filled: true,
                               fillColor: Colors.transparent,
+                               errorText: _emailErrors?.join('\n'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: BorderSide.none,
@@ -308,7 +338,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                   color: Colors.white,
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             
                           ),

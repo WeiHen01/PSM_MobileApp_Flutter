@@ -235,6 +235,69 @@ class _UserRegisterState extends State<UserRegister> {
     
   } */
 
+  List<String>? _emailErrors;
+  List<String>? _passwordErrors;
+
+  void _validateEmail(String value) {
+    setState(() {
+      _emailErrors = [];
+      
+      const emailPattern = r'^[^\s@]+@[^\s@]+\.[^\s@]+$';
+      final emailRegex = RegExp(emailPattern);
+      
+      if (value.isEmpty) {
+        _emailErrors?.add('Please enter an email');
+      } else {
+        if (!emailRegex.hasMatch(value)) {
+          _emailErrors?.add('Enter a valid email address');
+        }
+        if (!value.endsWith('.com')) {
+          _emailErrors?.add('Email must end with .com');
+        }
+      }
+
+      if (_emailErrors?.isEmpty ?? true) {
+        _emailErrors = null;
+      }
+    });
+  }
+
+  void _validatePassword(String value) {
+    setState(() {
+      _passwordErrors = [];
+
+      if (value.isEmpty) {
+        _passwordErrors?.add('Please enter a password');
+      } else {
+        if (value.length < 8) {
+          _passwordErrors?.add('Password must be at least 8 characters long');
+        }
+        if (!RegExp(r'\d').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 number');
+        }
+        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>_]').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 special character');
+        }
+      }
+
+      if (_passwordErrors?.isEmpty ?? true) {
+        _passwordErrors = null;
+      }
+    });
+  }
+  
+  String? _passwordMatchError;
+
+  void _validatePasswordsMatch(String value) {
+    setState(() {
+      if (conPasswordCtrl != null && passwordCtrl.text != conPasswordCtrl.text) {
+        _passwordMatchError = 'Passwords do not match';
+      } else {
+        _passwordMatchError = null;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -322,6 +385,7 @@ class _UserRegisterState extends State<UserRegister> {
                             },
                             controller: emailCtrl,
                             keyboardType: TextInputType.emailAddress,
+                            onChanged: _validateEmail,
                             style: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
@@ -330,12 +394,13 @@ class _UserRegisterState extends State<UserRegister> {
                               hintStyle: GoogleFonts.poppins( color: Colors.white,),
                               prefixIcon: const Icon(Icons.email, color: Colors.white,),
                               filled: true,
+                              errorText: _emailErrors?.join('\n'),
                               fillColor: Colors.transparent,
                               border: const OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             ),
                             
@@ -391,7 +456,7 @@ class _UserRegisterState extends State<UserRegister> {
                                 borderSide: BorderSide.none,
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -452,135 +517,7 @@ class _UserRegisterState extends State<UserRegister> {
                           ),
                         ),
 
-                        const SizedBox(height: 15),
-          
-                        // Add TextFormFields and ElevatedButton here.
-                        Container(
-                          decoration: BoxDecoration(
-                            
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF301847), Color(0xFFC10214)
-                              ],
-                            ),
-              
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.white,
-                            ),
                         
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0)
-                            )
-                          ),
-                          child: TextFormField(
-                            // The validator receives the text that the user has entered.
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter password';
-                              }
-                              return null;
-                            },
-                            obscureText: !_password,
-                            keyboardType: TextInputType.visiblePassword,
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                            ),
-                            controller: passwordCtrl,
-                            decoration: InputDecoration(
-                              labelStyle: GoogleFonts.poppins(
-                                color: Colors.white,
-                              ),
-                              hintText: 'Password',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Colors.white,
-                              ),
-                              prefixIcon: const Icon(Icons.lock, color: Colors.white),
-                              suffixIcon: Tooltip(
-                                message: _password ? 'Hide Password' : 'Show Password',
-                                child: IconButton(
-                                  onPressed: togglePassword,
-                                  icon: Icon(_password
-                                      ? Icons.visibility_off
-                                      : Icons.visibility, color: Colors.white,),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.transparent,
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-          
-                        const SizedBox(height: 15),
-          
-                        // Add TextFormFields and ElevatedButton here.
-                        Container(
-                          decoration: BoxDecoration(
-                            
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF301847), Color(0xFFC10214)
-                              ],
-                            ),
-              
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.white,
-                            ),
-                        
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0)
-                            )
-                          ),
-                          child: TextFormField(
-                            // The validator receives the text that the user has entered.
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter confirm password';
-                              }
-                              return null;
-                            },
-                            obscureText: !_confirmPass,
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                            ),
-                            controller: conPasswordCtrl,
-                            decoration: InputDecoration(
-                              labelStyle: GoogleFonts.poppins(
-                                color: Colors.white,
-                              ),
-                              hintText: 'Confirm Password',
-                              hintStyle: GoogleFonts.poppins(
-                                color: Colors.white,
-                              ),
-                              prefixIcon: const Icon(Icons.lock, color: Colors.white),
-                              suffixIcon: Tooltip(
-                                message: _confirmPass ? 'Hide Password' : 'Show Password',
-                                child: IconButton(
-                                  onPressed: toggleconfirmPassword,
-                                  icon: Icon(_confirmPass
-                                      ? Icons.visibility_off
-                                      : Icons.visibility, color: Colors.white,),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.transparent,
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-
                         const SizedBox(height: 15),
 
                         // Add TextFormFields and ElevatedButton here.
@@ -670,7 +607,7 @@ class _UserRegisterState extends State<UserRegister> {
                               ),
                               prefixIcon: Icon(FontAwesomeIcons.genderless, color: Colors.white),
                               errorStyle:  GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                               // Add more decoration..
                             ),
@@ -727,6 +664,141 @@ class _UserRegisterState extends State<UserRegister> {
                             ),
                           ),
                         ),
+
+                        const SizedBox(height: 15),
+          
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter password';
+                              }
+                              return null;
+                            },
+                            obscureText: !_password,
+                            keyboardType: TextInputType.visiblePassword,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: passwordCtrl,
+                            onChanged: _validatePassword,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Password',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(Icons.lock, color: Colors.white),
+                              suffixIcon: Tooltip(
+                                message: _password ? 'Hide Password' : 'Show Password',
+                                child: IconButton(
+                                  onPressed: togglePassword,
+                                  icon: Icon(_password
+                                      ? Icons.visibility_off
+                                      : Icons.visibility, color: Colors.white,),
+                                ),
+                              ),
+                              errorText: _passwordErrors?.join('\n'),
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                             
+                            ),
+                          ),
+                        ),
+          
+                        const SizedBox(height: 15),
+          
+                        // Add TextFormFields and ElevatedButton here.
+                        Container(
+                          decoration: BoxDecoration(
+                            
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF301847), Color(0xFFC10214)
+                              ],
+                            ),
+              
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                        
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0)
+                            )
+                          ),
+                          child: TextFormField(
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter confirm password';
+                              }
+                              return null;
+                            },
+                            obscureText: !_confirmPass,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            controller: conPasswordCtrl,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              hintText: 'Confirm Password',
+                              hintStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              prefixIcon: const Icon(Icons.lock, color: Colors.white),
+                              suffixIcon: Tooltip(
+                                message: _confirmPass ? 'Hide Password' : 'Show Password',
+                                child: IconButton(
+                                  onPressed: toggleconfirmPassword,
+                                  icon: Icon(_confirmPass
+                                      ? Icons.visibility_off
+                                      : Icons.visibility, color: Colors.white,),
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              errorText: _passwordMatchError,
+                            ),
+                            onChanged: _validatePasswordsMatch,
+                          ),
+                        ),
+
 
 
 

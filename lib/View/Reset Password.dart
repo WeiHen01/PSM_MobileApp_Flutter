@@ -26,6 +26,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   bool _password = false;
   bool _confirmPass = false;
+  String? _passwordMatchError;
 
   void togglePassword()
   {
@@ -40,6 +41,43 @@ class _ResetPasswordState extends State<ResetPassword> {
       _confirmPass = !_confirmPass;
     });
   }
+
+  List<String>? _passwordErrors;
+
+  void _validatePassword(String value) {
+    setState(() {
+      _passwordErrors = [];
+
+      if (value.isEmpty) {
+        _passwordErrors?.add('Please enter a password');
+      } else {
+        if (value.length < 8) {
+          _passwordErrors?.add('Password must be at least 8 characters long');
+        }
+        if (!RegExp(r'\d').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 number');
+        }
+        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>_]').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 special character');
+        }
+      }
+
+      if (_passwordErrors?.isEmpty ?? true) {
+        _passwordErrors = null;
+      }
+    });
+  }
+
+  void _validatePasswordsMatch(String value) {
+    setState(() {
+      if (conPasswordCtrl != null && passwordCtrl.text != conPasswordCtrl.text) {
+        _passwordMatchError = 'Passwords do not match';
+      } else {
+        _passwordMatchError = null;
+      }
+    });
+  }
+
 
   Future<void> resetPassword() async {
     
@@ -320,8 +358,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                           },
                           controller: passwordCtrl,
                           keyboardType: TextInputType.emailAddress,
+                          onChanged: _validatePassword,
                           decoration: InputDecoration(
-                            //errorText: 'Please enter a valid value',
+                              errorText: _passwordErrors?.join('\n'),
                               prefixIcon: const Icon(Icons.lock, color: Colors.white),
                               filled: true,
                               fillColor: Colors.transparent,
@@ -347,7 +386,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                               ),
                               errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             
                           ),
@@ -385,6 +424,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           },
                           controller: conPasswordCtrl,
                           keyboardType: TextInputType.emailAddress,
+                          
                           decoration: InputDecoration(
                             //errorText: 'Please enter a valid value',
                               prefixIcon: const Icon(Icons.lock, color: Colors.white),
@@ -411,14 +451,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                               labelStyle: GoogleFonts.poppins(
                                   color: Colors.white,
                               ),
-                              errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
-                                color: Colors.red,
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
                               ),
+                              errorText: _passwordMatchError,
                             
                           ),
                           style: GoogleFonts.poppins(
                               fontSize: 15, color: Colors.white
                           ),
+                          onChanged: _validatePasswordsMatch,
                         ),
                       ),
           

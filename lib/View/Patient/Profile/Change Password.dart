@@ -134,6 +134,45 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     }
   }  */
 
+  List<String>? _passwordErrors;
+
+  void _validatePassword(String value) {
+    setState(() {
+      _passwordErrors = [];
+
+      if (value.isEmpty) {
+        _passwordErrors?.add('Please enter a password');
+      } else {
+        if (value.length < 8) {
+          _passwordErrors?.add('Password must be at least 8 characters long.');
+        }
+        if (!RegExp(r'\d').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 number.');
+        }
+        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>_]').hasMatch(value)) {
+          _passwordErrors?.add('Password must contain at least 1 special character.');
+        }
+      }
+
+      if (_passwordErrors?.isEmpty ?? true) {
+        _passwordErrors = null;
+      }
+    });
+  }
+
+  String? _passwordMatchError;
+
+  void _validatePasswordsMatch(String value) {
+    setState(() {
+      if (conPasswordCtrl != null && passwordCtrl.text != conPasswordCtrl.text) {
+        _passwordMatchError = 'Passwords do not match.';
+      } else {
+        _passwordMatchError = null;
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,8 +249,9 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                           }
                                           return null;
                                         },
-                                         obscureText: !_password,
+                                        obscureText: !_password,
                                         controller: passwordCtrl,
+                                        onChanged: _validatePassword,
                                         decoration: InputDecoration(
                                           hintText: 'New Password',
                                           hintStyle: GoogleFonts.poppins(),
@@ -227,6 +267,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                           ),
                                           filled: true,
                                           fillColor: Color(0xFFF0F0F0),
+                                          errorStyle: GoogleFonts.poppins(
+                                            color: Colors.red,
+                                          ),
+                                          errorText: _passwordErrors?.join('\n'),
+                                          errorMaxLines:5
                                         ),
                                         style: GoogleFonts.poppins(
                                             fontSize: 15
@@ -253,6 +298,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                         decoration: InputDecoration(
                                           hintText: 'Confirm Password',
                                           hintStyle: GoogleFonts.poppins(),
+                                          errorStyle: GoogleFonts.poppins(
+                                            color: Colors.red,
+                                          ),
+                                          errorText: _passwordMatchError,
                                           prefixIcon: Icon(Icons.lock),
                                           suffixIcon: Tooltip(
                                             message: _confirmPass ? 'Hide Password' : 'Show Password',
@@ -269,6 +318,45 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 15
                                         ),
+                                        onChanged: _validatePasswordsMatch,
+                                      ),
+
+                                      SizedBox(height: 30),
+
+                                      Center(
+                                        child: Text("Password settings", style: GoogleFonts.poppins(
+                                            fontSize: 18.0, color: Colors.black,
+                                            fontWeight: FontWeight.w600
+                                          ), textAlign: TextAlign.center,
+                                        ),
+                                      ),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children:[
+                                          
+
+                                          Divider(
+                                            color: Colors.black
+                                          ),
+
+                                          Text("1. Password must be at least 8 characters long.", style: GoogleFonts.poppins(
+                                              fontSize: 13.0, color: Colors.black,
+                                            ), textAlign: TextAlign.justify,
+                                          ),
+
+                                          Text("2. Password must contain at least 1 number.", style: GoogleFonts.poppins(
+                                              fontSize: 13.0, color: Colors.black,
+                                            ), textAlign: TextAlign.justify,
+                                          ),
+
+                                          Text("3. Password must contain at least 1 special character.", style: GoogleFonts.poppins(
+                                              fontSize: 13.0, color: Colors.black,
+                                            ), textAlign: TextAlign.justify,
+                                          ),
+
+                                          
+                                        ]
                                       ),
 
 
