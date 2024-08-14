@@ -139,13 +139,13 @@ class _PulseHistoryState extends State<PulseHistory> {
           fontSize: 20.0
         ),),
 
-        actions: [
+        /* actions: [
           IconButton(
             onPressed: (){},
             icon: Icon(Icons.add, color: Colors.white),
             
           )
-        ],
+        ], */
 
         
 
