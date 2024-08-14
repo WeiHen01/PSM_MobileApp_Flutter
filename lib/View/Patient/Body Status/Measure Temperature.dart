@@ -436,7 +436,7 @@ class _TempMeasureState extends State<TempMeasure> {
                                     ),
                         ),
                         child: Center(
-                          child: Text("Measure Temp", style: GoogleFonts.poppins(
+                          child: Text("Measure Temperature", style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold, color: Colors.white,
                             fontSize: 15.0,  
                             shadows: [
