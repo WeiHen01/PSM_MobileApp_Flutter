@@ -139,10 +139,17 @@ class _PulseHistoryState extends State<PulseHistory> {
           fontSize: 20.0
         ),),
 
+        actions: [
+          IconButton(
+            onPressed: (){},
+            icon: Icon(Icons.add, color: Colors.white),
+            
+          )
+        ],
+
         
 
       ),
-
       body: RefreshIndicator(
         color: Colors.orange,
         onRefresh: ()async {

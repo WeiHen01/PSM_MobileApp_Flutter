@@ -125,6 +125,14 @@ class _TempHistoryState extends State<TempHistory> {
           ),
         ),
 
+        actions: [
+          IconButton(
+            onPressed: (){},
+            icon: Icon(Icons.add, color: Colors.white),
+            
+          )
+        ],
+
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: ()=>Navigator.pop(context),
