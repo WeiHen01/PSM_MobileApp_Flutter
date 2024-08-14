@@ -200,8 +200,8 @@ class _PulseDashboardState extends State<PulseDashboard> {
           
 
           avg = "${averagePulseRate.toStringAsFixed(2)}";
-          max = "${minPulseRate.toStringAsFixed(2)}";
-          min = "${maxPulseRate.toStringAsFixed(2)}";
+          max = "${maxPulseRate.toStringAsFixed(2)}";
+          min = "${minPulseRate.toStringAsFixed(2)}";
         });
       } else {
         print("No pulse records found for the selected date.");
@@ -277,7 +277,8 @@ class _PulseDashboardState extends State<PulseDashboard> {
     // TODO: implement initState
     super.initState();
     // Initialize with today's date
-    selectedDate = DateTime.now();
+    selectedDate = today;
+    getAllPulseRecordsByToday();
   }
 
   DateTime? selectedDate;

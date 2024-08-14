@@ -350,7 +350,7 @@ class _PulseHistoryState extends State<PulseHistory> {
 
                             Container(
                               padding: EdgeInsets.all(5.0),
-                              width: 60,
+                              width: 70,
                               decoration: BoxDecoration(
                                 color: (records.pulseRate > 183) 
                                           ? Color(0xFFD30E00) 

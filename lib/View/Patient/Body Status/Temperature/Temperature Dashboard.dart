@@ -323,7 +323,7 @@ class _TempDashboardState extends State<TempDashboard> {
     // TODO: implement initState
     super.initState();
     // Initialize with today's date
-    selectedDate = DateTime.now();
+    selectedDate = today;
     getAllTempRecordsByToday();
   }
 
