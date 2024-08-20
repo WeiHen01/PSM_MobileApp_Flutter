@@ -82,18 +82,34 @@ class _EmergencyCallState extends State<EmergencyCall> {
     }
   }
 
+  
+
   Widget inputField() {
+    // Create a global key that uniquely identifies the Form widget
+    // and allows validation of the form.
+   
     return Container(
       color: Colors.white,
       height: 50,
       alignment: Alignment.bottomCenter,
       child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please input the contact number';
+          }
+          return null;
+        },
         textAlign: TextAlign.center,
         style: GoogleFonts.poppins(fontSize: 30, fontWeight: FontWeight.bold),
         controller: textfield,
-        maxLength: 15,
+        maxLength: 11,
         
-        decoration: const InputDecoration(border: InputBorder.none),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          errorStyle: GoogleFonts.poppins( // Set the text style for validation error message
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }
@@ -225,7 +241,19 @@ class _EmergencyCallState extends State<EmergencyCall> {
 
   Widget dialField() {
     return GestureDetector(
-      onTap: () => CallContact(),
+      onTap: (){
+         
+         // Validate returns true if the form is valid, or false otherwise.
+        if (_formKey.currentState!.validate()) {
+          // If the form is valid, display a snackbar. In the real world,
+          // you'd often call a server or save the information in a database.
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Processing Data'), duration: Duration(seconds: 2),),
+          );
+
+         CallContact();
+        }
+      },
       child: Container(
         height: 40,
         width: 40,
@@ -257,6 +285,10 @@ class _EmergencyCallState extends State<EmergencyCall> {
       ),
     );
   }
+
+   // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -307,7 +339,15 @@ class _EmergencyCallState extends State<EmergencyCall> {
                 SafeArea(
                   child: Container(
                     color: Colors.white,
-                    child: Column(children: [inputField(), gridView()]),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          inputField(), 
+                          gridView()
+                        ]
+                      ),
+                    ),
                   ),
                 ),
 
