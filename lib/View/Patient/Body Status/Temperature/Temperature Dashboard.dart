@@ -394,7 +394,7 @@ class _TempDashboardState extends State<TempDashboard> {
                         context: context,
                         config: CalendarDatePicker2WithActionButtonsConfig(
                           firstDate: DateTime(2000, 1, 1),
-                          lastDate: DateTime(2099, 12, 31),
+                          lastDate: today,
                           currentDate: today,
                           controlsTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
                           weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
@@ -402,10 +402,11 @@ class _TempDashboardState extends State<TempDashboard> {
                           nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
 
                           dayTextStyle: GoogleFonts.poppins(color: Colors.black),
-                          monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
+                          monthTextStyle: GoogleFonts.poppins(color: Colors.black),
                           yearTextStyle: GoogleFonts.poppins(color: Colors.black),
                           okButtonTextStyle: GoogleFonts.poppins(color: Colors.orange, fontWeight: FontWeight.bold),
                           selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
+                          selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                           selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
 
 
@@ -776,6 +777,9 @@ class _TempDashboardState extends State<TempDashboard> {
                                 var date_result = await showCalendarDatePicker2Dialog(
                                   context: context,
                                   config: CalendarDatePicker2WithActionButtonsConfig(
+                                    lastDate: today,
+                                    currentDate: today,
+                                    firstDate: DateTime(2000, 1, 1),
                                     controlsTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13),
                                     weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                                     lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
@@ -787,6 +791,7 @@ class _TempDashboardState extends State<TempDashboard> {
                                     okButtonTextStyle: GoogleFonts.poppins(color: Colors.orange, fontWeight: FontWeight.bold),
                                     selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
                                     selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                                    selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                                     calendarType: CalendarDatePicker2Type.range,
                                     cancelButtonTextStyle:  GoogleFonts.poppins(color: Colors.orange, fontWeight: FontWeight.bold),
 

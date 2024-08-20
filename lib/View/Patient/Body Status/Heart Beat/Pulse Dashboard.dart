@@ -357,7 +357,9 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                           lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
                           nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-
+                          lastDate: today,
+                          currentDate: today,
+                          firstDate: DateTime(2000, 1, 1),
                           dayTextStyle: GoogleFonts.poppins(color: Colors.black),
                           monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
                           yearTextStyle: GoogleFonts.poppins(color: Colors.black),
@@ -365,7 +367,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
                           selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
                           selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
                           selectedDayHighlightColor: Color(0xFFFF4081),
-
+                          selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                           cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
                           
 
@@ -753,13 +755,16 @@ class _PulseDashboardState extends State<PulseDashboard> {
                                     weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                                     lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
                                     nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-
+                                    firstDate: DateTime(2000, 1, 1),
+                                    lastDate: today,
+                                    currentDate: today,
                                     dayTextStyle: GoogleFonts.poppins(color: Colors.black),
                                     monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
                                     yearTextStyle: GoogleFonts.poppins(color: Colors.black),
                                     okButtonTextStyle: GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
                                     selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
                                     selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                                    selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                                     calendarType: CalendarDatePicker2Type.range,
                                     cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
 

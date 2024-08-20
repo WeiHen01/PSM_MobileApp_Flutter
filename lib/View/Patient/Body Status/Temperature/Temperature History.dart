@@ -189,13 +189,16 @@ class _TempHistoryState extends State<TempHistory> {
                             weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                             lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
                             nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
-
+                            firstDate: DateTime(2000, 1, 1),
+                            lastDate: DateTime.now(),
+                            currentDate: DateTime.now(),
                             dayTextStyle: GoogleFonts.poppins(color: Colors.black),
                             monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
                             yearTextStyle: GoogleFonts.poppins(color: Colors.black),
                             okButtonTextStyle: GoogleFonts.poppins(color: Colors.orange, fontWeight: FontWeight.bold),
                             selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
                             selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                            selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                             cancelButtonTextStyle:  GoogleFonts.poppins(color: Colors.orange, fontWeight: FontWeight.bold),
 
                           ),

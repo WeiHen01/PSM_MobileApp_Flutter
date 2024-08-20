@@ -191,6 +191,9 @@ class _PulseHistoryState extends State<PulseHistory> {
                             weekdayLabelTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                             lastMonthIcon: Icon(Icons.arrow_back_ios, color: Colors.black),
                             nextMonthIcon: Icon(Icons.arrow_forward_ios, color: Colors.black),
+                            firstDate: DateTime(2000, 1, 1),
+                            lastDate: DateTime.now(),
+                            currentDate: DateTime.now(),
                             selectedDayHighlightColor: Color(0xFFFF4081),
                             dayTextStyle: GoogleFonts.poppins(color: Colors.black),
                             monthTextStyle: GoogleFonts.poppins(color: Color(0xFF000000)),
@@ -198,6 +201,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                             okButtonTextStyle: GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
                             selectedMonthTextStyle: GoogleFonts.poppins(color: Colors.white),
                             selectedDayTextStyle: GoogleFonts.poppins(color: Colors.white),
+                            selectedYearTextStyle: GoogleFonts.poppins(color: Colors.white),
                             cancelButtonTextStyle:  GoogleFonts.poppins(color: Color(0xFFFF4081), fontWeight: FontWeight.bold),
 
                           ),
@@ -291,9 +295,9 @@ class _PulseHistoryState extends State<PulseHistory> {
                             
 
                              Visibility(
-                              visible: (records.pulseRate < 183 && records.pulseRate > 142 || records.pulseRate > 183 || records.pulseRate < 60) ? true : false,
+                              visible: (records.pulseRate < 183 && records.pulseRate > 142 || records.pulseRate > 183 || records.pulseRate <= 142 && records.pulseRate > 102 || records.pulseRate < 60) ? true : false,
                               child: Container(
-                                width: 70,
+                                width: 90,
                                 decoration: BoxDecoration(
                                   color: (records.pulseRate > 183) 
                                           ? Color(0xFFD30E00) 
@@ -324,6 +328,16 @@ class _PulseHistoryState extends State<PulseHistory> {
                                           : Icons.trending_down,
                                       
                                       size: 15.0,
+                                      color: 
+                                        records.pulseRate > 183 
+                                          ? Colors.white
+                                          : (records.pulseRate < 183 && records.pulseRate > 142) 
+                                          ? Colors.white
+                                          : (records.pulseRate <= 142 && records.pulseRate > 102) 
+                                          ? Colors.white
+                                          : (records.pulseRate <= 102 && records.pulseRate > 60)
+                                          ? Colors.black
+                                          : Colors.black,
                                     ),
                                     SizedBox(width: 5),
                                     Text(records.pulseRate > 183 
@@ -341,7 +355,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                                           : (records.pulseRate < 183 && records.pulseRate > 142) 
                                           ? Color(0xFFFFFFFF)
                                           : (records.pulseRate <= 142 && records.pulseRate > 102) 
-                                          ? Color(0xFF000000)
+                                          ? Color(0xFFFFFFFF)
                                           : (records.pulseRate <= 102 && records.pulseRate > 60)
                                           ? Color(0xFF000000)
                                           : Color(0xFF000000),
@@ -376,7 +390,7 @@ class _PulseHistoryState extends State<PulseHistory> {
                                           : (records.pulseRate < 183 && records.pulseRate > 142) 
                                           ? Color(0xFFFFFFFF)
                                           : (records.pulseRate <= 142 && records.pulseRate > 102) 
-                                          ? Color(0xFF000000)
+                                          ? Color(0xFFFFFFFF)
                                           : (records.pulseRate <= 102 && records.pulseRate > 60)
                                           ? Color(0xFF000000)
                                           : Color(0xFF000000),
