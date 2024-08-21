@@ -76,11 +76,11 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
           fontSize: 20.0
         ),),
 
-        actions:[
+        /* actions:[
           IconButton(
             onPressed: (){}, icon: Icon(Icons.more_vert, color: Colors.white)
           )
-        ]
+        ] */
 
       ),
 

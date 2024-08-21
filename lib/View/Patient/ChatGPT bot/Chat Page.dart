@@ -76,11 +76,11 @@ class _AIChatPageState extends State<AIChatPage> {
           fontSize: 20.0
         ),),
 
-        actions:[
+        /* actions:[
           IconButton(
             onPressed: (){}, icon: Icon(Icons.more_vert, color: Colors.white)
           )
-        ]
+        ] */
 
       ),
 
