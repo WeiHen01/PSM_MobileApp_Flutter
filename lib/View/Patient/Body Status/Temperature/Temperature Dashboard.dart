@@ -788,8 +788,6 @@ class _TempDashboardState extends State<TempDashboard> {
                             fontSize: 17.0
                           ),),
 
-                        
-          
                         Row(
                          mainAxisAlignment: MainAxisAlignment.center, // Center the row's children
                           crossAxisAlignment: CrossAxisAlignment.start,

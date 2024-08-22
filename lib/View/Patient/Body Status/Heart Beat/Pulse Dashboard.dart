@@ -69,6 +69,23 @@ class _PulseDashboardState extends State<PulseDashboard> {
         setState((){
           pulses = pulseRecord.map((json) => Pulse.fromJson(json)).toList();
                   detectPulsePattern();
+                   // Calculate average, minimum, and maximum pulse rates
+          double totalPulseRate = pulses.fold(0.0, (sum, rate) => sum + rate.pulseRate.toDouble());
+          double averagePulseRate = totalPulseRate / pulses.length;
+          double minPulseRate = pulses.map((rate) => rate.pulseRate.toDouble()).reduce((a, b) => a < b ? a : b);
+          double maxPulseRate = pulses.map((rate) => rate.pulseRate.toDouble()).reduce((a, b) => a > b ? a : b);
+
+          print("Average Pulse Rate: $averagePulseRate");
+          print("Minimum Pulse Rate: $minPulseRate");
+          print("Maximum Pulse Rate: $maxPulseRate");
+
+          setState(() {
+            avg = "${averagePulseRate.toStringAsFixed(2)}";
+            max = "${maxPulseRate.toStringAsFixed(2)}";
+            min = "${minPulseRate.toStringAsFixed(2)}";
+          });
+
+
           pulsesData = pulses.map((rate) =>
               GraphData(day: formatTime(rate.MeasureTime.toString()), value: rate.pulseRate.toDouble())
           ).toList();
@@ -531,7 +548,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
                             Text("${avg == null ? "-" : avg}", style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 25.0
+                              fontSize: 22.0
                             ),),
                           ],
                         ),
@@ -559,7 +576,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
                             Text("${min == null ? "-" : min}", style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 25.0
+                              fontSize: 22.0
                             ),),
                           ],
                         ),
@@ -588,7 +605,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
                             Text("${max == null ? "-" : max}", style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 25.0
+                              fontSize: 22.0
                             ),),
                           ],
                         ),

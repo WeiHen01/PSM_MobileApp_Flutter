@@ -242,7 +242,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 onTap:(){
                   Navigator.push(
                     context, MaterialPageRoute(
-                      builder: (context) => ChatNav(tabIndexes: 0, patientID: widget.id,)
+                      builder: (context) => BodyHome(socket: widget.socket, id: widget.id),
                     )
                   );
                 },
