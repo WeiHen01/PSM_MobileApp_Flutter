@@ -68,6 +68,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
       if(pulseRecord.isNotEmpty){
         setState((){
           pulses = pulseRecord.map((json) => Pulse.fromJson(json)).toList();
+                  detectPulsePattern();
           pulsesData = pulses.map((rate) =>
               GraphData(day: formatTime(rate.MeasureTime.toString()), value: rate.pulseRate.toDouble())
           ).toList();
@@ -76,6 +77,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
       else{
         setState((){
           pulses = pulseRecord.map((json) => Pulse.fromJson(json)).toList();
+                  detectPulsePattern();
           pulsesData = pulses.map((rate) =>
               GraphData(day: formatTime(rate.MeasureTime.toString()), value: rate.pulseRate.toDouble())
           ).toList();
@@ -105,7 +107,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
       setState(() {
         pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
-
+                detectPulsePattern();
         print("Records between ${startDate} and ${endDate}: ${pulses}");
         pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
       });
@@ -150,6 +152,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
       setState(() {
         pulses = highestRates.values.toList();
+                detectPulsePattern();
         pulsesData = pulses.map((rate) => GraphData(day: formatDate(rate.MeasureDate.toString()), value: rate.pulseRate.toDouble())).toList();
       });
     } catch (e, printStack) {
@@ -179,7 +182,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
       if (pulseRecords.isNotEmpty) {
         // Map records to Pulse objects
         pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
-
+        detectPulsePattern();
         // Calculate average, minimum, and maximum pulse rates
         double totalPulseRate = pulses.fold(0.0, (sum, rate) => sum + rate.pulseRate.toDouble());
         double averagePulseRate = totalPulseRate / pulses.length;
@@ -231,6 +234,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
       setState(() {
         pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+         detectPulsePattern();
         pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
         graphTitle = "Pulse Records for Week of ${formatDate(startOfWeek.toString())} to ${formatDate(endOfWeek.toString())}";
       });
@@ -258,6 +262,7 @@ class _PulseDashboardState extends State<PulseDashboard> {
 
       setState(() {
         pulses = pulseRecords.map((json) => Pulse.fromJson(json)).toList();
+        detectPulsePattern();
         pulsesData = pulses.map((rate) => GraphData(day: "${formatDate(rate.MeasureDate.toString())} ${formatTime(rate.MeasureTime.toString())}", value: rate.pulseRate.toDouble())).toList();
         graphTitle = "Pulse Records for ${monthNames[date.month - 1]} ${date.year}";
       });
@@ -267,7 +272,106 @@ class _PulseDashboardState extends State<PulseDashboard> {
     }
   }
 
+  String pulsePatternMessage = "";
+  String suggestion = "";
 
+  void detectPulsePattern() {
+    bool hypokineticPulse = true;
+    bool hyperkineticPulse = true;
+    bool pulsusAlternans = false;
+    bool bigeminalPulse = false;
+    bool waterhammerPulse = false;
+    bool pulsusBisferiens = false;
+
+    double previousPulse = pulses.first.pulseRate.toDouble();
+    double minPulse = double.infinity;
+    double maxPulse = -double.infinity;
+    bool firstPhase = true;
+    bool pulseReturnedToNormal = false;
+
+    for (var pulse in pulses) {
+      double currentPulse = pulse.pulseRate.toDouble();
+
+      // Track the min and max pulse
+      minPulse = currentPulse < minPulse ? currentPulse : minPulse;
+      maxPulse = currentPulse > maxPulse ? currentPulse : maxPulse;
+
+      // Check for Hypokinetic Pulse (B): Weak amplitude, smaller peaks
+      if (currentPulse > 50) {
+        hypokineticPulse = false;
+      }
+
+      // Check for Hyperkinetic Pulse (C): Bounding amplitude, sharp peaks
+      if (currentPulse < 100) {
+        hyperkineticPulse = false;
+      }
+
+      // Check for Pulsus Alternans (E): Alternating strong and weak pulses
+      if ((currentPulse > previousPulse && previousPulse < currentPulse) ||
+          (currentPulse < previousPulse && previousPulse > currentPulse)) {
+        pulsusAlternans = true;
+      }
+
+      // Check for Bigeminal Pulse (D): Pairs of beats with a pause after each pair
+      if (bigeminalPulse == false && (currentPulse - previousPulse).abs() < 5 && (previousPulse - currentPulse).abs() > 10) {
+        bigeminalPulse = true;
+      }
+
+      // Check for Waterhammer Pulse (F): Sharp, rapid rise followed by a sudden drop
+      if (previousPulse - currentPulse > 20 && currentPulse - previousPulse > 20) {
+        waterhammerPulse = true;
+      }
+
+      // Check for Pulsus Bisferiens (G): Two peaks per pulse cycle, a double bump
+      if (firstPhase && currentPulse > previousPulse) {
+        pulseReturnedToNormal = true;
+      } else if (pulseReturnedToNormal && currentPulse < previousPulse) {
+        pulsusBisferiens = true;
+      }
+
+      previousPulse = currentPulse;
+    }
+
+    if (pulsusBisferiens) {
+      setState((){
+        pulsePatternMessage = "Pulsus Bisferiens pattern detected.";
+        suggestion = "Suggestion: This may be indicative of aortic regurgitation or other cardiac conditions. Consulting a healthcare provider for a comprehensive assessment and treatment plan is recommended.";
+      });
+    } else if (waterhammerPulse) {
+      setState((){
+        pulsePatternMessage = "Waterhammer pulse pattern detected.";
+        suggestion = "Suggestion: This pattern is often associated with aortic regurgitation or other conditions affecting the aortic valve. A healthcare provider should evaluate this pattern to determine the underlying cause and appropriate management, which may include medication or surgical interventions.";
+      });
+    } else if (bigeminalPulse) {
+      setState((){
+        pulsePatternMessage = "Bigeminal pulse pattern detected.";
+        suggestion = "Suggestion: This can be a sign of underlying heart rhythm issues, such as ventricular extrasystoles or other arrhythmias. A healthcare provider should assess this pattern to determine the appropriate treatment or management strategy.";
+      });
+    } else if (pulsusAlternans) {
+      setState((){
+        pulsePatternMessage = "Pulsus Alternans pattern detected.";
+        suggestion = "Suggestion: This pattern can be indicative of left ventricular dysfunction or heart failure. It's essential to seek medical attention for a thorough evaluation and potential treatment, which might include medications or other interventions.";
+      });
+    } else if (hyperkineticPulse) {
+      setState((){
+         pulsePatternMessage = "Hyperkinetic pulse pattern detected.";
+         suggestion = "Suggestion: This may indicate conditions such as fever, anemia, or hyperthyroidism. Consulting a healthcare provider to determine the underlying cause is crucial. Management might involve addressing the underlying condition or adjusting medications.";
+      });
+     
+    } else if (hypokineticPulse) {
+      setState((){
+         pulsePatternMessage = "Hypokinetic pulse pattern detected.";
+         suggestion = "Suggestion: This could suggest low cardiac output or heart failure. It's important to consult a healthcare provider for further evaluation. Lifestyle changes, medication adjustments, or treatments may be necessary based on the underlying cause.";
+      });
+    } else {
+      setState((){
+        pulsePatternMessage = "No specific pulse pattern detected.";
+        suggestion = "Continue monitoring and consult with a doctor in the app if needed.";
+      });
+    }
+
+    print(pulsePatternMessage); // Optionally print the detected pattern message
+  }
 
 
   
@@ -668,14 +772,30 @@ class _PulseDashboardState extends State<PulseDashboard> {
                 
                   ),
                 ),
-                
-          
+
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(left: 8.0, bottom: 2.0),
                   child: Text("${dateRange == null ? "" : dateRange}", style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 13.0,
                   ), textAlign: TextAlign.center),
+                ),
+                
+          
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0, bottom: 2.0),
+                  child: Text("${pulsePatternMessage == null ? "" : pulsePatternMessage}", style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 13.0, fontWeight: FontWeight.w600,
+                  ), textAlign: TextAlign.center),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                  child: Text("${suggestion == null ? "" : suggestion}", style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 13.0,
+                  ), textAlign: TextAlign.justify),
                 ),
           
           

@@ -98,65 +98,56 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
                   ],
                 )
             ),
-            child: RefreshIndicator(
-              color: Colors.orange,
-              edgeOffset: 50,
-              onRefresh: ()async {
-                // Simulate a time-consuming task
-                await Future.delayed(Duration(seconds: 1));
-              },
-              child: Column(
-                children: [
-
-              
-                  Expanded(
-                    child: Container(
-                      height: double.infinity,
-                      child: ListView.builder(
-                        itemCount: _chatHistory.length,
-                        shrinkWrap: false,
-                        controller: _scrollController,
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemBuilder: (context, index){
+            child: Column(
+              children: [
+            
+            
+                Expanded(
+                  child: Container(
+                    height: double.infinity,
+                    child: ListView.builder(
+                      itemCount: _chatHistory.length,
+                      shrinkWrap: false,
+                      controller: _scrollController,
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index){
+                        
+                        return Container(
                           
-                          return Container(
-                            
-                            padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
-                            child: Align(
-                              alignment: (_chatHistory[index]["isSender"]
-                              ? Alignment.topRight : Alignment.topLeft),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                  color: (_chatHistory[index]["isSender"]?Color(0xFFFF7F50):Colors.white),
-                                ),
-                                padding: EdgeInsets.all(16),
-                                child: Text(_chatHistory[index]["message"], style: GoogleFonts.poppins(fontSize: 15, color: _chatHistory[index]["isSender"]?Colors.white:Colors.black)),
+                          padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
+                          child: Align(
+                            alignment: (_chatHistory[index]["isSender"]
+                            ? Alignment.topRight : Alignment.topLeft),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                                color: (_chatHistory[index]["isSender"]?Color(0xFFFF7F50):Colors.white),
                               ),
+                              padding: EdgeInsets.all(16),
+                              child: Text(_chatHistory[index]["message"], style: GoogleFonts.poppins(fontSize: 15, color: _chatHistory[index]["isSender"]?Colors.white:Colors.black)),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-
-                  SizedBox(height: 30),
-
-
-
-
-              
-                ],
-              ),
+                ),
+            
+            
+            
+            
+            
+            
+              ],
             )
 
           ),

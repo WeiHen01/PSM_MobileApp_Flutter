@@ -87,6 +87,7 @@ class _TempDashboardState extends State<TempDashboard> {
       if(temp.isNotEmpty){
         setState((){
           temperatures = temp.map((json) => Temperature.fromJson(json)).toList();
+          detectFeverPattern();
           temperatureData = temperatures.map((temp) =>
               GraphData(day: formatTime(temp.measureTime.toString()), value: temp.temperature.toDouble())
           ).toList();
@@ -153,7 +154,7 @@ class _TempDashboardState extends State<TempDashboard> {
       if (tempRecords.isNotEmpty) {
         // Map records to Temperature objects
         temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
-
+        detectFeverPattern();
         // Calculate the average temperature
         double totalTemperature = temperatures.fold(0.0, (sum, temp) => sum + temp.temperature.toDouble());
         double averageTemperature = totalTemperature / temperatures.length;
@@ -246,7 +247,7 @@ class _TempDashboardState extends State<TempDashboard> {
 
       setState(() {
         temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
-
+        detectFeverPattern();
         print("Records between ${startDate} and ${endDate}: ${temperatures}");
         temperatureData = temperatures.map((temp) => GraphData(day: "${formatDate(temp.measureDate.toString())} ${formatTime(temp.measureTime.toString())}", value: temp.temperature.toDouble())).toList();
       });
@@ -277,6 +278,7 @@ class _TempDashboardState extends State<TempDashboard> {
 
       setState(() {
         temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
+        detectFeverPattern();
         temperatureData = temperatures.map((temp) => GraphData(day: formatDate(temp.measureDate.toString()), value: temp.temperature.toDouble())).toList();
         graphTitle = "Temperature Records for Week of ${formatDate(startOfWeek.toString())} to ${formatDate(endOfWeek.toString())}";
       });
@@ -309,6 +311,7 @@ class _TempDashboardState extends State<TempDashboard> {
 
       setState(() {
         temperatures = tempRecords.map((json) => Temperature.fromJson(json)).toList();
+        detectFeverPattern();
         temperatureData = temperatures.map((temp) => GraphData(day: formatDate(temp.measureDate.toString()), value: temp.temperature.toDouble())).toList();
       });
     } catch (e, printStack) {
@@ -327,7 +330,8 @@ class _TempDashboardState extends State<TempDashboard> {
     getAllTempRecordsByToday();
   }
 
-  
+  String feverPatternMessage = "";
+  String suggestion = "";
   // Function to detect possible fever pattern based on temperature records
   void detectFeverPattern() {
     const double feverThreshold = 38.0;
@@ -366,16 +370,18 @@ class _TempDashboardState extends State<TempDashboard> {
       }
     }
 
-    String feverPatternMessage = "";
-
     if (biphasicFever) {
       feverPatternMessage = "Biphasic fever pattern detected.";
+      suggestion = "Consider seeking medical advice as this may indicate an infection or illness with fluctuating fever.";
     } else if (remittentFever) {
       feverPatternMessage = "Remittent fever pattern detected.";
+      suggestion = "Monitor symptoms and consult a healthcare provider if the fever persists.";
     } else if (continuousFever) {
       feverPatternMessage = "Continuous fever pattern detected.";
+      suggestion = "Continuous fever pattern detected. Persistent fever may indicate an underlying infection or illness. Consider seeing a healthcare provider for evaluation.";
     } else {
       feverPatternMessage = "No specific fever pattern detected.";
+      suggestion = "Continue monitoring and consult with a doctor in the app if needed.";
     }
   }
   
@@ -745,15 +751,30 @@ class _TempDashboardState extends State<TempDashboard> {
 
           
           
-          
-                SizedBox(height: 20),
+
           
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(left: 8.0, bottom: 1.0),
                   child: Text("${dateRange == null ? "" : dateRange}", style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 13.0,
                   ), textAlign: TextAlign.center),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0, bottom: 1.0),
+                  child: Text("${feverPatternMessage == null ? "" : feverPatternMessage}", style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 13.0, fontWeight: FontWeight.w600,
+                  ), textAlign: TextAlign.center),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                  child: Text("${suggestion == null ? "" : suggestion}", style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 13.0,
+                  ), textAlign: TextAlign.justify),
                 ),
           
                 Container(
