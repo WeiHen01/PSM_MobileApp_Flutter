@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 
 class AIChatPage extends StatefulWidget {
@@ -18,31 +19,70 @@ class _AIChatPageState extends State<AIChatPage> {
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _chatHistory = [];
 
-  void getAnswer() async {
-    final url = "https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=AIzaSyC-Aagit-06TgTjB_6sX99djS0MwCtZtdE";
-    final uri = Uri.parse(url);
-    List<Map<String,String>> msg = [];
-    for (var i = 0; i < _chatHistory.length; i++) {
-      msg.add({"content": _chatHistory[i]["message"]});
+  late final GenerativeModel _model;
+  late final GenerativeModel _visionModel;
+  late final ChatSession _chat;
+
+  @override
+  void initState() {
+    _model = GenerativeModel(
+    model: 'gemini-pro', apiKey: 'AIzaSyAAj-gKvAv7lPRTiUYl4Sgr0ChYNdeY1HQ');
+    _visionModel = GenerativeModel(
+    model: 'gemini-pro-vision', apiKey: 'AIzaSyAAj-gKvAv7lPRTiUYl4Sgr0ChYNdeY1HQ');
+    _chat = _model.startChat();
+    super.initState();
+  }
+
+  /* void getAnswer(text) async {
+    try{
+      final url = "https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=AIzaSyAAj-gKvAv7lPRTiUYl4Sgr0ChYNdeY1HQ";
+      
+      final uri = Uri.parse(url);
+      List<Map<String,String>> msg = [];
+      for (var i = 0; i < _chatHistory.length; i++) {
+        msg.add({"content": _chatHistory[i]["message"]});
+      }
+
+      Map<String, dynamic> request = {
+        "prompt": {
+          "messages": [msg]
+        },
+        "temperature": 0.25,
+        "candidateCount": 1,
+        "topP": 1,
+        "topK": 1
+      };
+
+      final response = await http.post(uri, body: jsonEncode(request));
+
+      setState((){
+        _chatHistory.add({
+          "time": DateTime.now(),
+          "message": json.decode(response.body)["candidates"][0]["content"],
+          "isSender": false,
+        });
+      });
+
+      _scrollController.jumpTo(
+        _scrollController.position.maxScrollExtent,
+      );
     }
+    catch(e, printStack){
+      print('Error retrieve response : $e');
+      print(printStack);
+    }
+  } */
 
-    Map<String, dynamic> request = {
-      "prompt": {
-        "messages": [msg]
-      },
-      "temperature": 0.25,
-      "candidateCount": 1,
-      "topP": 1,
-      "topK": 1
-    };
-
-    final response = await http.post(uri, body: jsonEncode(request));
-
+  void getAnswer(text) async {
+    late final response;
+    var content = Content.text(text.toString());
+    response = await _chat.sendMessage(content);
     setState(() {
       _chatHistory.add({
         "time": DateTime.now(),
-        "message": json.decode(response.body)["candidates"][0]["content"],
+        "message": response.text,
         "isSender": false,
+        "isImage": false
       });
     });
 
@@ -203,13 +243,13 @@ class _AIChatPageState extends State<AIChatPage> {
                     IconButton(
                       onPressed: (){
                         setState(() {
-                          if(chatController.text.isNotEmpty){
+                          if(chatController.text.trim().isNotEmpty){
                             _chatHistory.add({
                               "time": DateTime.now(),
                               "message": chatController.text,
                               "isSender": true,
                             });
-                            chatController.clear();
+                           
 
                           }
                         });
@@ -217,7 +257,8 @@ class _AIChatPageState extends State<AIChatPage> {
                           _scrollController.position.maxScrollExtent,
                         );
 
-                        getAnswer();
+                        getAnswer(chatController.text);
+                        chatController.clear();
                       },
                       icon: Icon(Icons.send, color: Colors.white,)
                     )

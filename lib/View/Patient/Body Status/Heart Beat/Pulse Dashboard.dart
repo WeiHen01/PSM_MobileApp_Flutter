@@ -23,7 +23,6 @@ class PulseDashboard extends StatefulWidget {
 class _PulseDashboardState extends State<PulseDashboard> {
 
 
-
   final List<bool> _selectedDays = <bool>[true, false, false];
   bool vertical = false;
 

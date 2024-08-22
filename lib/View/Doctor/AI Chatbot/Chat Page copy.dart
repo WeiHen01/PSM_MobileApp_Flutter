@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 
 class DocAIChatPage extends StatefulWidget {
@@ -15,35 +14,35 @@ class DocAIChatPage extends StatefulWidget {
 class _DocAIChatPageState extends State<DocAIChatPage> {
 
 
-  
   TextEditingController chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _chatHistory = [];
 
-  late final GenerativeModel _model;
-  late final GenerativeModel _visionModel;
-  late final ChatSession _chat;
+  void getAnswer() async {
+    final url = "https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=AIzaSyC-Aagit-06TgTjB_6sX99djS0MwCtZtdE";
+    final uri = Uri.parse(url);
+    List<Map<String,String>> msg = [];
+    for (var i = 0; i < _chatHistory.length; i++) {
+      msg.add({"content": _chatHistory[i]["message"]});
+    }
 
-  @override
-  void initState() {
-    _model = GenerativeModel(
-    model: 'gemini-pro', apiKey: 'AIzaSyAAj-gKvAv7lPRTiUYl4Sgr0ChYNdeY1HQ');
-    _visionModel = GenerativeModel(
-    model: 'gemini-pro-vision', apiKey: 'AIzaSyAAj-gKvAv7lPRTiUYl4Sgr0ChYNdeY1HQ');
-    _chat = _model.startChat();
-    super.initState();
-  }
+    Map<String, dynamic> request = {
+      "prompt": {
+        "messages": [msg]
+      },
+      "temperature": 0.25,
+      "candidateCount": 1,
+      "topP": 1,
+      "topK": 1
+    };
 
-   void getAnswer(text) async {
-    late final response;
-    var content = Content.text(text.toString());
-    response = await _chat.sendMessage(content);
+    final response = await http.post(uri, body: jsonEncode(request));
+
     setState(() {
       _chatHistory.add({
         "time": DateTime.now(),
-        "message": response.text,
+        "message": json.decode(response.body)["candidates"][0]["content"],
         "isSender": false,
-        "isImage": false
       });
     });
 
@@ -211,7 +210,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
                               "message": chatController.text,
                               "isSender": true,
                             });
-                           
+                            chatController.clear();
                     
                           }
                         });
@@ -219,8 +218,7 @@ class _DocAIChatPageState extends State<DocAIChatPage> {
                           _scrollController.position.maxScrollExtent,
                         );
                     
-                        getAnswer(chatController.text);
-                        chatController.clear();
+                        getAnswer();
                       },
                       icon: Icon(Icons.send, color: Colors.white,)
                     )

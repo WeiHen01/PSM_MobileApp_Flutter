@@ -328,6 +328,56 @@ class _TempDashboardState extends State<TempDashboard> {
   }
 
   
+  // Function to detect possible fever pattern based on temperature records
+  void detectFeverPattern() {
+    const double feverThreshold = 38.0;
+
+    bool continuousFever = true;
+    bool remittentFever = false;
+    bool biphasicFever = false;
+
+    double minTemp = double.infinity;
+    double maxTemp = -double.infinity;
+    bool firstPhase = true;
+    bool tempReturnedToNormal = false;
+
+    for (var temp in temperatures) {
+      double currentTemp = temp.temperature.toDouble();
+
+      // Track the min and max temperature
+      minTemp = currentTemp < minTemp ? currentTemp : minTemp;
+      maxTemp = currentTemp > maxTemp ? currentTemp : maxTemp;
+
+      // Check for continuous fever
+      if (currentTemp < feverThreshold) {
+        continuousFever = false;
+      }
+
+      // Check for remittent fever
+      if ((maxTemp - minTemp) > 1.0 && minTemp >= feverThreshold) {
+        remittentFever = true;
+      }
+
+      // Check for biphasic fever
+      if (firstPhase && currentTemp < feverThreshold) {
+        tempReturnedToNormal = true;
+      } else if (tempReturnedToNormal && currentTemp >= feverThreshold) {
+        biphasicFever = true;
+      }
+    }
+
+    String feverPatternMessage = "";
+
+    if (biphasicFever) {
+      feverPatternMessage = "Biphasic fever pattern detected.";
+    } else if (remittentFever) {
+      feverPatternMessage = "Remittent fever pattern detected.";
+    } else if (continuousFever) {
+      feverPatternMessage = "Continuous fever pattern detected.";
+    } else {
+      feverPatternMessage = "No specific fever pattern detected.";
+    }
+  }
   
   
   @override
