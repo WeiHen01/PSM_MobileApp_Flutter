@@ -629,8 +629,12 @@ class _SocialChatRoomState extends State<SocialChatRoom> {
                         if (value == null || value.isEmpty) {
                           return 'Empty message to be sent';
                         }
+                        else if(value.length > 300){
+                          return 'The message can be only within 300 characters';
+                        }
                         return null;
                       },
+                      maxLength: 300,
                       controller: msgCtrl,
                       decoration: InputDecoration(
                         hintText: 'Message',

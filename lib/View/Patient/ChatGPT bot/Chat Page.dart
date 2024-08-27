@@ -91,6 +91,8 @@ class _AIChatPageState extends State<AIChatPage> {
     );
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -215,55 +217,71 @@ class _AIChatPageState extends State<AIChatPage> {
                       ],
                     )
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: chatController,
-                        decoration: InputDecoration(
-                          hintText: 'Message',
-                          hintStyle: GoogleFonts.poppins(
-                            color: Colors.white,
-                          ),
-
-                          prefixIcon: Icon(Icons.message, color: Colors.white,),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
+                child: Form(
+                  key: _formKey,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          // The validator receives the text that the user has entered.
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Empty message to be sent';
+                            }
+                            else if(value.length > 300){
+                              return 'The message can be only within 300 characters';
+                            }
+                            return null;
+                          },
+                          controller: chatController,
+                          decoration: InputDecoration(
+                            hintText: 'Message',
+                            hintStyle: GoogleFonts.poppins(
                               color: Colors.white,
                             ),
-                            borderRadius: BorderRadius.circular(100),
-                          )
-                        ),
-                        style: GoogleFonts.poppins(
-                          color: Colors.white
+                  
+                            prefixIcon: Icon(Icons.message, color: Colors.white,),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            )
+                          ),
+                          style: GoogleFonts.poppins(
+                            color: Colors.white
+                          ),
                         ),
                       ),
-                    ),
-
-                    IconButton(
-                      onPressed: (){
-                        setState(() {
-                          if(chatController.text.trim().isNotEmpty){
-                            _chatHistory.add({
-                              "time": DateTime.now(),
-                              "message": chatController.text,
-                              "isSender": true,
+                  
+                      IconButton(
+                        onPressed: (){
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              if(chatController.text.trim().isNotEmpty){
+                                _chatHistory.add({
+                                  "time": DateTime.now(),
+                                  "message": chatController.text,
+                                  "isSender": true,
+                                });
+                              
+                    
+                              }
                             });
-                           
-
+                            _scrollController.jumpTo(
+                              _scrollController.position.maxScrollExtent,
+                            );
+                    
+                            getAnswer(chatController.text);
+                            chatController.clear();
                           }
-                        });
-                        _scrollController.jumpTo(
-                          _scrollController.position.maxScrollExtent,
-                        );
-
-                        getAnswer(chatController.text);
-                        chatController.clear();
-                      },
-                      icon: Icon(Icons.send, color: Colors.white,)
-                    )
-
-                  ],
+                          
+                        },
+                        icon: Icon(Icons.send, color: Colors.white,)
+                      )
+                  
+                    ],
+                  ),
                 ),
               ),
             ),

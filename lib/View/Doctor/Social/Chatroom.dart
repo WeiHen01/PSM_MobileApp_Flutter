@@ -635,6 +635,7 @@ class _DoctorChatRoomState extends State<DoctorChatRoom> {
                         }
                         return null;
                       },
+                      maxLength: 300,
                       controller: msgCtrl,
                       decoration: InputDecoration(
                         hintText: 'Message',

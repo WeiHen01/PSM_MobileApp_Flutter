@@ -97,6 +97,9 @@ class _EmergencyCallState extends State<EmergencyCall> {
           if (value == null || value.isEmpty) {
             return 'Please input the contact number';
           }
+          else if(value.length < 11 || value.length == 0){
+            return 'The number must be exactly 11 digits long';
+          }
           return null;
         },
         textAlign: TextAlign.center,
